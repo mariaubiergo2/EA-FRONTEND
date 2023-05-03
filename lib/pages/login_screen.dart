@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
+import 'package:ea_frontend/pages/initial_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -90,14 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () async {
                       try {
                         var response = await Dio().post(
-                            "http://127.0.0.1:3002/auth/login",
+                            "http://127.0.0.1:3002/user/token",
                             // "http://192.168.56.1:3002/auth/login",
                             data: {
                               "email": emailController.text,
                               "password": passwordController.text
                             });
                         if (response.statusCode == 200) {
-                          Navigator.pushNamed(context, '/list_screen');
+                          Navigator.pushNamed(context, '/initial_screen');
                           //final idUserSaved=Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){return new ListScreen(idUser);}));
                         } else if (response.statusCode == 403) {
                           ScaffoldMessenger.of(context).showSnackBar(

@@ -1,3 +1,4 @@
+import 'package:ea_frontend/pages/initial_screen.dart';
 import 'package:ea_frontend/pages/login_screen.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
 import 'package:ea_frontend/pages/splash_screen.dart';
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
             /*case '/profile_screen':
               return MaterialPageRoute(builder: (context) => ProfileScreen());
             */
+             case '/initial_screen':
+              return MaterialPageRoute(builder: (context) => InitialScreen());
             default:
               return MaterialPageRoute(builder: (context) => LoginScreen());
           }
