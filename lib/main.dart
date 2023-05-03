@@ -1,5 +1,6 @@
 import 'package:ea_frontend/pages/login_screen.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
+import 'package:ea_frontend/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material Login',
-        home: LoginScreen(),
+        home: SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
