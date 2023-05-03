@@ -18,10 +18,31 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
 
+  Widget inputField(String hint) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 8),
+      child: SizedBox(
+        height: 50,
+        child: TextField(
+          textAlignVertical: TextAlignVertical.bottom,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            hintText: hint,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 156, 216, 242),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
           children: <Widget>[
@@ -31,22 +52,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 const CircleAvatar(
                   radius: 100.0,
                   backgroundColor: Colors.transparent,
-                  //backgroundImage: AssetImage('images/logo.png'),
+                  backgroundImage: AssetImage('images/logo.png'),
                 ),
-                const Text('Login',
+                const Text('EETACgo',
                     style: TextStyle(fontFamily: 'NerkoOne', fontSize: 50.0)),
-                const Text('Introduce your credentials',
-                    style: TextStyle(fontFamily: 'NerkoOne', fontSize: 20.0)),
+                const Divider(
+                  height: 30,
+                ),
                 const SizedBox(
                   width: 160.0,
                   height: 15.0,
-                  child: Divider(color: Colors.blueGrey),
                 ),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
                       hintText: 'Email',
-                      labelText: 'Email',
+                      labelText: 'Write your email...',
                       suffixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0))),
@@ -55,9 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     print('El email es $_email');
                   },
                 ),
-                const Divider(
-                  height: 18.0,
-                ),
+                SizedBox(height: 10),
                 TextField(
                   controller: passwordController,
                   enableInteractiveSelection: true,
@@ -73,15 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     print('El password es $_password');
                   },
                 ),
-                const Divider(
-                  height: 18.0,
-                ),
+                SizedBox(height: 15),
                 SizedBox(
                     width: double.infinity,
                     child: TextButton(
                       style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Color.fromRGBO(0, 0, 128, 4),
+                          foregroundColor: Color.fromARGB(255, 255, 255, 255),
+                          backgroundColor: Color.fromRGBO(0, 115, 216, 0.988),
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(30.0)),
+                          padding: EdgeInsets.all(16.0),
                           textStyle: const TextStyle(
                             fontFamily: 'NerkoOne',
                             fontSize: 30.0,
@@ -109,13 +130,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           print("Error" + e.toString());
                         }
                       },
-                      child: const Text('Sign in'),
+                      child: const Text('Log in'),
                     )),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Text(
                   "Are you a new user? Create an account!",
                   style: TextStyle(fontFamily: 'NerkoOne', fontSize: 20.0),
                 ),
+                SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/register_screen');
