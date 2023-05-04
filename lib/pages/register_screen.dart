@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 class RegisterScreen extends StatelessWidget {
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
+  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final expController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 156, 216, 242),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
           title: Text('REGISTER'),
           shadowColor: Color.fromRGBO(0, 0, 128, 4),
-          backgroundColor: Color.fromRGBO(0, 0, 128, 4)),
+          backgroundColor: Color.fromRGBO(0, 115, 216, 0.988)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
         children: <Widget>[
@@ -25,7 +27,8 @@ class RegisterScreen extends StatelessWidget {
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(
-                    labelText: 'Name',
+                    hintText: 'Name',
+                    labelText: 'Write your name...',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                 validator: (value) {
@@ -35,13 +38,12 @@ class RegisterScreen extends StatelessWidget {
                   return null;
                 },
               ),
-              const Divider(
-                height: 18.0,
-              ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: surnameController,
                 decoration: InputDecoration(
-                    labelText: 'Surname',
+                    hintText: 'Surname',
+                    labelText: 'Write your surname...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     )),
@@ -52,14 +54,28 @@ class RegisterScreen extends StatelessWidget {
                   return null;
                 },
               ),
-              const Divider(
-                height: 18.0,
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                    hintText: 'Username',
+                    labelText: 'Write your username...',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                validator: (value) {
+                  if (value == "" || value == null) {
+                    return 'Please introduce your username';
+                  }
+                  return null;
+                },
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
+                  hintText: 'Email',
+                    labelText: 'Write your email...',
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -70,14 +86,13 @@ class RegisterScreen extends StatelessWidget {
                   return null;
                 },
               ),
-              const Divider(
-                height: 18.0,
-              ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
+                    hintText: 'Password',
+                    labelText: 'Write your password...',
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
                 obscureText: true,
@@ -88,18 +103,35 @@ class RegisterScreen extends StatelessWidget {
                   return null;
                 },
               ),
-              const Divider(
-                height: 18.0,
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: expController,
+                decoration: InputDecoration(
+                    hintText: 'Experience',
+                    labelText: 'Write your experience...',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                validator: (value) {
+                  if (value == "" || value == null) {
+                    return 'Please introduce your experience';
+                  }
+                  return null;
+                },
               ),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
                   style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromRGBO(0, 0, 128, 4),
-                      textStyle: const TextStyle(
+                        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+                        backgroundColor: Color.fromRGBO(0, 115, 216, 0.988),
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide.none,
+                            borderRadius: BorderRadius.circular(20.0)),
+                        padding: EdgeInsets.all(13.0),
+                        textStyle: const TextStyle(
                         fontFamily: 'NerkoOne',
-                        fontSize: 30.0,
+                        fontSize: 20.0,
                       )),
                   onPressed: () async {
                     var response = await Dio()
@@ -107,8 +139,10 @@ class RegisterScreen extends StatelessWidget {
                       // .post("http://192.168.56.1:3002/auth/register", data: {
                       "name": nameController.text,
                       "surname": surnameController.text,
+                      "username": usernameController.text,
                       "email": emailController.text,
-                      "password": passwordController.text
+                      "password": passwordController.text,
+                      "exp": int.parse(expController.text)
                     });
                     if (response.statusCode == 200) {
                       Navigator.pushNamed(context, '/login_screen');
@@ -116,7 +150,7 @@ class RegisterScreen extends StatelessWidget {
                       print("Drama");
                     }
                   },
-                  child: const Text('REGISTER'),
+                  child: const Text('Accept'),
                 ),
               ),
             ],
