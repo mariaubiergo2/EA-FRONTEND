@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: any
-
+  lit_starfield: ^0.1.1
 
 
   # The following adds the Cupertino Icons font to your application.

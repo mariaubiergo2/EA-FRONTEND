@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
 import 'package:ea_frontend/pages/initial_screen.dart';
+import 'package:lit_starfield/lit_starfield.dart';
 
 class LoginScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -24,10 +25,34 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
-        children: <Widget>[
-          Column(
+      //EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
+      body: Stack(      
+        children: [         
+          LitStarfieldContainer(
+            animated: true,
+            number: 500,
+            velocity: 0.85,
+            depth: 0.9,
+            scale: 4,
+            starColor: Color.fromARGB(255, 255, 197, 7),
+            backgroundDecoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF031936),
+                  Color.fromRGBO(3,10, 90, 6),
+                  //Color.fromARGB(255, 108, 87, 16),
+                  Color.fromARGB(255, 11, 7, 255),
+                  
+                  Color(0xFF031936),
+                  Color.fromARGB(255, 156, 102, 0),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          SizedBox(
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const CircleAvatar(
@@ -36,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 backgroundImage: AssetImage('images/logo.png'),
               ),
               const Text('EETACgo',
-                  style: TextStyle(fontFamily: 'NerkoOne', fontSize: 50.0)
+                  style: TextStyle(fontFamily: 'NerkoOne', fontSize: 50.0, color: Color.fromRGBO(255, 255, 255, 1))
               ),
               const Divider(
                 height: 30,
@@ -45,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 15.0,
               ),
               TextField(
+                style: TextStyle(fontFamily: 'NerkoOne', fontSize: 16.0, color: Color.fromRGBO(255, 255, 255, 1)),
                 controller: emailController,
                 decoration: InputDecoration(
                     hintText: 'Email',
@@ -59,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               TextField(
+                style: TextStyle(fontFamily: 'NerkoOne', fontSize: 16.0, color: Color.fromRGBO(255, 255, 255, 1)),
                 controller: passwordController,
                 enableInteractiveSelection: true,
                 obscureText: true,
@@ -87,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textStyle: const TextStyle(
                           fontFamily: 'NerkoOne',
                           fontSize: 20.0,
+                          color: Color.fromRGBO(255, 255, 255, 1),
                         )),
                     onPressed: () async {
                       try {
@@ -115,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )),
               const SizedBox(height: 20),
               const Text("Are you a new user? Create an account!",
-                style: TextStyle(fontFamily: 'NerkoOne', fontSize: 18.0),
+                style: TextStyle(fontFamily: 'NerkoOne', fontSize: 18.0, color:Color.fromRGBO(255, 255, 255, 1)),
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -137,10 +165,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: const Text("Register",
                             style: TextStyle(fontFamily: 'NerkoOne', fontSize: 20.0),),
-                          ))
+                          )),
               ],
             )
-          ]),
+    )]),
     );
+        
   }
 }
