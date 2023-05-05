@@ -16,7 +16,8 @@ class InitialScreen extends StatefulWidget {
 class _InitialScreenState extends State<InitialScreen> {
 
   final panelController = PanelController();
-
+  
+  @override
   Widget build(BuildContext context){
     //en que porcentage de la pantalla se inicia el panel deslizante
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.1;

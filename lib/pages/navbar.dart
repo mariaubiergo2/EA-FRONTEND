@@ -6,7 +6,8 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: 
+      ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
