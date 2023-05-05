@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class RegisterScreen extends StatelessWidget {
   final nameController = TextEditingController();
@@ -134,21 +135,42 @@ class RegisterScreen extends StatelessWidget {
                         fontSize: 20.0,
                       )),
                   onPressed: () async {
-                    var response = await Dio()
-                        .post("http://127.0.0.1:3002/auth/register", data: {
-                      // .post("http://192.168.56.1:3002/auth/register", data: {
-                      "name": nameController.text,
-                      "surname": surnameController.text,
-                      "username": usernameController.text,
-                      "email": emailController.text,
-                      "password": passwordController.text,
-                      "exp": int.parse(expController.text)
-                    });
-                    if (response.statusCode == 200) {
-                      Navigator.pushNamed(context, '/login_screen');
-                    } else {
-                      print("Drama");
-                    }
+                    try {
+                      var response = await Dio().post(
+                        "http://127.0.0.1:3002/auth/register", 
+                        // "http://192.168.56.1:3002/auth/register", data: {
+                        data: {
+                          "name": nameController.text,
+                          "surname": surnameController.text,
+                          "username": usernameController.text,
+                          "email": emailController.text,
+                          "password": passwordController.text,
+                          "exp": int.parse(expController.text)
+                        });
+                      if (response.statusCode == 200) {
+                        Navigator.pushNamed(context, '/login_screen');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Drama Pau!'),
+                              ),
+                            );
+                      }
+                    } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            /// need to set following properties for best effect of awesome_snackbar_content
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Unable!',
+                              message:
+                                  'Please, try other values',
+                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                              contentType: ContentType.failure,
+                            ),));
+                      }
                   },
                   child: const Text('Accept'),
                 ),
