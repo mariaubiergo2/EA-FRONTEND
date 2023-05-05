@@ -25,7 +25,7 @@ class _InitialScreenState extends State<InitialScreen> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        title: Text('My App'),
+        title: Text('EETAC -  GO'),
       ),
       body: Stack(
         alignment: Alignment.topCenter,
