@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widget/maps_widget.dart';
 import '../widget/panel_widget.dart';
+import 'package:ea_frontend/pages/navbar.dart';
 
 class InitialScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -22,6 +23,10 @@ class _InitialScreenState extends State<InitialScreen> {
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
     return Scaffold(
+      drawer: NavBar(),
+      appBar: AppBar(
+        title: Text('My App'),
+      ),
       body: Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
