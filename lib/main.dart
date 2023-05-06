@@ -1,3 +1,4 @@
+import 'package:ea_frontend/pages/friends_screen.dart';
 import 'package:ea_frontend/pages/initial_screen.dart';
 import 'package:ea_frontend/pages/login_screen.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material Login',
-        home: SplashScreen(),
+        home: const SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
@@ -26,10 +27,15 @@ class MyApp extends StatelessWidget {
             /*case '/profile_screen':
               return MaterialPageRoute(builder: (context) => ProfileScreen());
             */
-             case '/initial_screen':
-              return MaterialPageRoute(builder: (context) => InitialScreen());
+            case '/friends_screen':
+              return MaterialPageRoute(builder: (context) => FriendsScreen());
+
+            case '/initial_screen':
+              return MaterialPageRoute(
+                  builder: (context) => const InitialScreen());
             default:
-              return MaterialPageRoute(builder: (context) => LoginScreen());
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreen());
           }
         });
   }
