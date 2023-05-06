@@ -3,6 +3,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widget/maps_widget.dart';
 import '../widget/panel_widget.dart';
 import 'package:ea_frontend/pages/navbar.dart';
+import 'package:dio/dio.dart';
+
 
 class InitialScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -42,22 +44,4 @@ class _InitialScreenState extends State<InitialScreen> {
           )
         ]));
   }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 130, 164, 51),
-      body: Center(
-        child: 
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushNamed(context, '/login_screen');
-            },
-          ),
-      ),
-    );
-  }*/
 }

@@ -32,6 +32,9 @@ dependencies:
     sdk: flutter
   http: any
   sliding_up_panel: ^2.0.0+1
+  lit_starfield: ^0.1.1
+  awesome_snackbar_content: 
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
