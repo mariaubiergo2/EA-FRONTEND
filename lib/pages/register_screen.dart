@@ -147,14 +147,24 @@ class RegisterScreen extends StatelessWidget {
                           "password": passwordController.text,
                           "exp": int.parse(expController.text)
                         });
+                        print("Error debug: "+response.statusCode.toString());
                       if (response.statusCode == 200) {
                         Navigator.pushNamed(context, '/login_screen');
-                      } else {
+                      } 
+                      if (response.statusCode == 400) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Drama Pau!'),
-                              ),
-                            );
+                          SnackBar(
+                            /// need to set following properties for best effect of awesome_snackbar_content
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Unable!',
+                              message:
+                                  'Drama pau',
+                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                              contentType: ContentType.failure,
+                            ),));
                       }
                     } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
