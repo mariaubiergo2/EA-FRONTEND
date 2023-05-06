@@ -1,5 +1,6 @@
-
 import 'dart:convert';
+
+import 'package:ea_frontend/models/user.dart';
 
 List<Challenge> subjectFromJson(String str) => List<Challenge>.from(json.decode(str).map((x) => Challenge.fromJson(x)));
 
@@ -34,37 +35,5 @@ class Challenge {
         "descr": descr,
         "exp": exp,
         "users": List<dynamic>.from(users.map((x) => x.toJson())),
-    };
-}
-
-class User {
-    User({
-        required this.id,
-        required this.name,
-        required this.surname,
-        required this.email,
-        required this.password,
-    });
-
-    final String id;
-    final String name;
-    final String surname;
-    final String email;
-    final String password;
-
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["_id"],
-        name: json["name"],
-        surname: json["surname"],
-        email: json["email"],
-        password: json["password"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "surname": surname,
-        "email": email,
-        "password": password,
     };
 }

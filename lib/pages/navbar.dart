@@ -1,7 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class NavBar extends StatelessWidget {
-  const NavBar({super.key});
+class NavBar extends StatefulWidget {
+  @override
+  _NavBarState createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> {
+  // Algunos datos de ejemplo
+  String? _idUser = "";
+  String? _name = "";
+  String? _surname = "";
+  String? _username = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  Future getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      this._idUser = prefs.getString('idUser'); 
+      this._name = prefs.getString('name');
+      this._surname = prefs.getString('surname');
+      this._username = prefs.getString('username');
+    });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +37,9 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("pau garcia"),
-            accountEmail: Text("paugarcia32@gmail.com"),
+            accountName: Text(this._name.toString()+ ' '+this._surname.toString()),
+            accountEmail: Text(this._username.toString()),
+            
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(
@@ -55,4 +82,4 @@ class NavBar extends StatelessWidget {
       )
     );
   }
-}
+}  

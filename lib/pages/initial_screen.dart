@@ -24,7 +24,7 @@ class _InitialScreenState extends State<InitialScreen> {
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
     return Scaffold(
-        drawer: const NavBar(),
+        drawer: NavBar(),
         appBar: AppBar(
           title: const Text('EETAC -  GO'),
         ),

@@ -8,7 +8,7 @@ class FriendsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavBar(),
+      drawer: NavBar(),
       appBar: AppBar(
         title: const Text('EETAC -  GO'),
       ),

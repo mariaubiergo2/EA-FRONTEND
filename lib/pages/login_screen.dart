@@ -5,6 +5,10 @@ import 'package:ea_frontend/pages/register_screen.dart';
 import 'package:ea_frontend/pages/initial_screen.dart';
 import 'package:lit_starfield/lit_starfield.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/user.dart';
 
 class LoginScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -141,6 +145,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                               print(response.statusCode);
                               if (response.statusCode == 200) {
+                                Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
+                                print('Token destoken:'+payload.toString());
+
+                                User u = User.fromJson(payload);
+                                print('Username: '+u.username);
+
+                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setString('idUser', u.idUser);
+                                prefs.setString('name', u.name);
+                                prefs.setString('surname', u.surname);
+                                prefs.setString('username', u.username);
+
                                 Navigator.pushNamed(context, '/initial_screen');
                               } else {
                                 print(response.statusCode);
