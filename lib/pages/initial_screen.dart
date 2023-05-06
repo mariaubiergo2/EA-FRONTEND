@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widget/maps_widget.dart';
 import '../widget/panel_widget.dart';
@@ -14,48 +13,35 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
-
   final panelController = PanelController();
-  
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     //en que porcentage de la pantalla se inicia el panel deslizante
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.1;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.07;
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
     return Scaffold(
-      drawer: NavBar(),
-      appBar: AppBar(
-        title: Text('EETAC -  GO'),
-      ),
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-        SlidingUpPanel(
-        controller: panelController,
-        maxHeight: panelHeightOpen,
-        minHeight: panelHeightClosed,
-        parallaxEnabled: true,
-        parallaxOffset: .5,
-        body: MapsWidget(),
-        panelBuilder: (controller) => PanelWidget(
-          controller: controller,
-          panelController: panelController,
+        drawer: const NavBar(),
+        appBar: AppBar(
+          title: const Text('EETAC -  GO'),
         ),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-      )
-        ]
-      )
-      
-      
-      
-    );
+        body: Stack(alignment: Alignment.topCenter, children: <Widget>[
+          SlidingUpPanel(
+            controller: panelController,
+            maxHeight: panelHeightOpen,
+            minHeight: panelHeightClosed,
+            parallaxEnabled: true,
+            parallaxOffset: .5,
+            body: const MapsWidget(),
+            panelBuilder: (controller) => PanelWidget(
+              controller: controller,
+              panelController: panelController,
+            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+          )
+        ]));
   }
-
-
-
-
-
 
 /*
   @override
