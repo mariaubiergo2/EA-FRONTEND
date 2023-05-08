@@ -13,8 +13,8 @@ class RegisterScreen extends StatelessWidget {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final expController = TextEditingController();
-  var salt = '\$2b\$12\$0O5iZrh9JNnOgBP/NprFBe2SS5scgrLsA.Dx6DsmhL3VLQpN/q4Uy';
+  final passControllerVerify = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,15 +110,16 @@ class RegisterScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                controller: expController,
+                controller: passControllerVerify,
                 decoration: InputDecoration(
-                    hintText: 'Experience',
-                    labelText: 'Write your experience...',
+                    hintText: 'Confirm Password',
+                    labelText: 'Please confirm your password',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0))),
+                obscureText: true,
                 validator: (value) {
-                  if (value == "" || value == null) {
-                    return 'Please introduce your experience';
+                  if (value == "" || value != passwordController.text) {
+                    return 'Please confirm your password';
                   }
                   return null;
                 },
@@ -140,23 +141,9 @@ class RegisterScreen extends StatelessWidget {
                       )),
                   onPressed: () async {
                     try {
-                      var response = await Dio()
-                          .post("http://127.0.0.1:3002/auth/register", data: {
-                        "name": nameController.text,
-                        "surname": surnameController.text,
-                        "username": usernameController.text,
-                        "email": emailController.text,
-                        "password": passwordController.text,
-                        // "password": await DBCrypt()
-                        //     .hashpw(passwordController.text, salt),
-                        "exp": int.parse(expController.text)
-                      });
-                      print("Error debug: " + response.statusCode.toString());
-                      if (response.statusCode == 200) {
-                        Navigator.pushNamed(context, '/login_screen');
-                      }
-                      if (response.statusCode == 400) {
-                        print(response.statusMessage);
+                      if (passControllerVerify.text !=
+                              passwordController.text &&
+                          passwordController.text != "") {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           /// need to set following properties for best effect of awesome_snackbar_content
                           elevation: 0,
@@ -164,12 +151,44 @@ class RegisterScreen extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           content: AwesomeSnackbarContent(
                             title: 'Unable!',
-                            message: 'Drama pau',
+                            message: 'Passwords don\'t match',
 
                             /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                             contentType: ContentType.failure,
                           ),
                         ));
+                      } else {
+                        var response = await Dio()
+                            .post("http://127.0.0.1:3002/auth/register", data: {
+                          "name": nameController.text,
+                          "surname": surnameController.text,
+                          "username": usernameController.text,
+                          "email": emailController.text,
+                          "password": passwordController.text,
+                          "passwordVerify": passControllerVerify.text
+                          // "password": await DBCrypt()
+                          //     .hashpw(passwordController.text, salt),
+                        });
+                        print("Error debug: " + response.statusCode.toString());
+                        if (response.statusCode == 200) {
+                          Navigator.pushNamed(context, '/login_screen');
+                        }
+                        if (response.statusCode == 400) {
+                          print(response.statusMessage);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            /// need to set following properties for best effect of awesome_snackbar_content
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Unable!',
+                              message: 'Drama pau',
+
+                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                              contentType: ContentType.failure,
+                            ),
+                          ));
+                        }
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
