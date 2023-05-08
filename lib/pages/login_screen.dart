@@ -10,6 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 
+import 'package:ea_frontend/widget/black_textfield_email.dart';
+import 'package:ea_frontend/widget/black_textfield_password.dart';
+
 import '../models/user.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -31,33 +34,35 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      //EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
-      body: Stack(children: <Widget>[
-        const LitStarfieldContainer(
-          animated: true,
-          number: 500,
-          velocity: 0.85,
-          depth: 0.9,
-          scale: 4,
-          starColor: Color.fromARGB(255, 255, 247, 0),
-          backgroundDecoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF031936),
-                Color.fromRGBO(9, 21, 155, 0.98),
-                //Color.fromARGB(255, 108, 87, 16),
-                //Color.fromARGB(255, 11, 7, 255),
-                //Color.fromARGB(255, 43, 46, 255),
-                //Color.fromARGB(255, 209, 0, 146),
-                //Color.fromARGB(255, 156, 102, 0),
-                Color(0xFF031936),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-        ),
+      backgroundColor: const Color.fromARGB(255, 255, 207, 5),
+      body: SafeArea(
+          child: Center(
+              child: Column(children: <Widget>[
+        SizedBox(height: 75),
+        // const LitStarfieldContainer(
+        //   animated: true,
+        //   number: 500,
+        //   velocity: 0.85,
+        //   depth: 0.9,
+        //   scale: 4,
+        //   starColor: Color.fromARGB(255, 255, 247, 0),
+        //   backgroundDecoration: BoxDecoration(
+        //     gradient: LinearGradient(
+        //       colors: [
+        //         Color(0xFF031936),
+        //         Color.fromRGBO(9, 21, 155, 0.98),
+        //         //Color.fromARGB(255, 108, 87, 16),
+        //         //Color.fromARGB(255, 11, 7, 255),
+        //         //Color.fromARGB(255, 43, 46, 255),
+        //         //Color.fromARGB(255, 209, 0, 146),
+        //         //Color.fromARGB(255, 156, 102, 0),
+        //         Color(0xFF031936),
+        //       ],
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomCenter,
+        //     ),
+        //   ),
+        // ),
         Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -66,13 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const CircleAvatar(
                   radius: 100.0,
                   backgroundColor: Colors.transparent,
-                  backgroundImage: AssetImage('images/logo.png'),
+                  backgroundImage: AssetImage('images/logoApp.png'),
                 ),
                 const Text('EETACgo',
-                    style: TextStyle(
-                        fontFamily: 'NerkoOne',
-                        fontSize: 50.0,
-                        color: Color.fromRGBO(255, 255, 255, 1))),
+                    style: TextStyle(fontSize: 75, fontWeight: FontWeight.bold)),
                 const Divider(
                   height: 30,
                 ),
@@ -80,52 +82,63 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 15.0,
                 ),
                 TextField(
-                  style: const TextStyle(
-                      fontFamily: 'NerkoOne',
-                      fontSize: 16.0,
-                      color: Color.fromRGBO(255, 255, 255, 1)),
                   controller: emailController,
-                  decoration: InputDecoration(
-                      hintText: 'Email',
-                      labelText: 'Write your email...',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1)),
-                      hintStyle: const TextStyle(
-                        color: Color.fromRGBO(0, 115, 216, 0.988),
+                  cursorColor: Color.fromARGB(255, 222, 66, 66),
+                  style: TextStyle(color: Color.fromARGB(255, 239, 239, 239), fontSize: 17),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(25, 25, 25, 25),
+                    hintText: 'Email',
+                    labelText: 'Write your email...',
+                    labelStyle: TextStyle(color: Color.fromARGB(255, 67, 67, 67), fontSize: 17),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    fillColor: Color.fromARGB(255, 25, 25, 25),
+                    filled: true,
+                      // labelStyle: const TextStyle(
+                      //     color: Color.fromRGBO(255, 255, 255, 1)),
+                      // hintStyle: const TextStyle(
+                      //   color: Color.fromRGBO(0, 115, 216, 0.988),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 222, 66, 66), width: 3),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),                  
+                      suffixIcon: const Icon(Icons.email, color: Color.fromARGB(255, 222, 66, 66),),
                       ),
-                      suffixIcon: const Icon(Icons.email),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0))),
                   onSubmitted: (valor) {
                     _email = valor;
                     print('El email es $_email');
-                    print('això es una priba');
-                    print("object");
                   },
                 ),
                 const SizedBox(height: 10),
                 TextField(
-                  style: const TextStyle(
-                      fontFamily: 'NerkoOne',
-                      fontSize: 16.0,
-                      color: Color.fromRGBO(255, 255, 255, 1)),
                   controller: passwordController,
-                  enableInteractiveSelection: true,
+                  cursorColor: Color.fromARGB(255, 222, 66, 66),
+                  style: TextStyle(color: Color.fromARGB(255, 239, 239, 239), fontSize: 17),
                   obscureText: true,
-                  decoration: InputDecoration(
-                      hintText: 'Password',
-                      labelText: 'Write your password...',
-                      labelStyle: const TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1)),
-                      hintStyle: const TextStyle(
-                        color: Color.fromRGBO(0, 115, 216, 0.988),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(25, 25, 25, 25),
+                    hintText: 'Password',
+                    labelText: 'Write your password...',
+                    labelStyle: TextStyle(color: Color.fromARGB(255, 67, 67, 67), fontSize: 17),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    fillColor: Color.fromARGB(255, 25, 25, 25),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 222, 66, 66), width: 3),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),                  
+                      suffixIcon: const Icon(Icons.lock_outline, color: Color.fromARGB(255, 222, 66, 66),),
                       ),
-                      suffixIcon: const Icon(Icons.lock_outline),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0))),
                   onSubmitted: (valor) {
                     _password = valor;
-                    print('El password es $_password');
+                    print('El email es $_password');
                   },
                 ),
                 const SizedBox(height: 15),
@@ -282,6 +295,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             )),
       ]),
+    ),
+      ),
     );
+
   }
 }
