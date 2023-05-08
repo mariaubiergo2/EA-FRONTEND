@@ -100,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _email = valor;
                     print('El email es $_email');
                     print('això es una priba');
+                    print("object");
                   },
                 ),
                 const SizedBox(height: 10),
