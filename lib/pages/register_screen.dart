@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:email_validator/email_validator.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class RegisterScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passControllerVerify = TextEditingController();
+  bool mailIsValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +143,8 @@ class RegisterScreen extends StatelessWidget {
                       )),
                   onPressed: () async {
                     try {
+                      mailIsValid =
+                          EmailValidator.validate(emailController.text);
                       if (passControllerVerify.text !=
                               passwordController.text &&
                           passwordController.text != "") {
@@ -152,6 +156,20 @@ class RegisterScreen extends StatelessWidget {
                           content: AwesomeSnackbarContent(
                             title: 'Unable!',
                             message: 'Passwords don\'t match',
+
+                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                            contentType: ContentType.failure,
+                          ),
+                        ));
+                      } else if (!mailIsValid) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          /// need to set following properties for best effect of awesome_snackbar_content
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Unable!',
+                            message: 'Check your mail 👉👈',
 
                             /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                             contentType: ContentType.failure,
