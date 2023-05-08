@@ -64,7 +64,7 @@ dev_dependencies:
 
 fluter_native_splash:
   color: "#0B5DAE"
-  image: "images/logo.png"
+  image: "images/logoApp.png"
 
 # The following section is specific to Flutter packages.
 flutter:
