@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bcrypt/bcrypt.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -75,8 +76,8 @@ class RegisterScreen extends StatelessWidget {
                 controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'Email',
-                    labelText: 'Write your email...',
-                    border: OutlineInputBorder(
+                  labelText: 'Write your email...',
+                  border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -91,9 +92,9 @@ class RegisterScreen extends StatelessWidget {
               TextFormField(
                 controller: passwordController,
                 decoration: InputDecoration(
-                    hintText: 'Password',
-                    labelText: 'Write your password...',
-                    border: OutlineInputBorder(
+                  hintText: 'Password',
+                  labelText: 'Write your password...',
+                  border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
                 obscureText: true,
@@ -124,63 +125,65 @@ class RegisterScreen extends StatelessWidget {
                 width: double.infinity,
                 child: TextButton(
                   style: TextButton.styleFrom(
-                        foregroundColor: Color.fromARGB(255, 255, 255, 255),
-                        backgroundColor: Color.fromRGBO(0, 115, 216, 0.988),
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide.none,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        padding: EdgeInsets.all(13.0),
-                        textStyle: const TextStyle(
+                      foregroundColor: Color.fromARGB(255, 255, 255, 255),
+                      backgroundColor: Color.fromRGBO(0, 115, 216, 0.988),
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      padding: EdgeInsets.all(13.0),
+                      textStyle: const TextStyle(
                         fontFamily: 'NerkoOne',
                         fontSize: 20.0,
                       )),
                   onPressed: () async {
                     try {
-                      var response = await Dio().post(
-                        "http://127.0.0.1:3002/auth/register", 
-                        // "http://192.168.56.1:3002/auth/register", data: {
-                        data: {
-                          "name": nameController.text,
-                          "surname": surnameController.text,
-                          "username": usernameController.text,
-                          "email": emailController.text,
-                          "password": passwordController.text,
-                          "exp": int.parse(expController.text)
-                        });
-                        print("Error debug: "+response.statusCode.toString());
+                      var response = await Dio()
+                          .post("http://127.0.0.1:3002/auth/register", data: {
+                        "name": nameController.text,
+                        "surname": surnameController.text,
+                        "username": usernameController.text,
+                        "email": emailController.text,
+                        // "password": passwordController.text,
+                        // "password": BCrypt.hashpw(passwordController.text, "8"),
+                        "password": BCrypt.hashpw(
+                            passwordController.text, BCrypt.gensalt()),
+                        "exp": int.parse(expController.text)
+                      });
+                      print("Error debug: " + response.statusCode.toString());
                       if (response.statusCode == 200) {
                         Navigator.pushNamed(context, '/login_screen');
-                      } 
+                      }
                       if (response.statusCode == 400) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            /// need to set following properties for best effect of awesome_snackbar_content
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Unable!',
-                              message:
-                                  'Drama pau',
-                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                              contentType: ContentType.failure,
-                            ),));
+                        print(response.statusMessage);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          /// need to set following properties for best effect of awesome_snackbar_content
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Unable!',
+                            message: 'Drama pau',
+
+                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                            contentType: ContentType.failure,
+                          ),
+                        ));
                       }
                     } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            /// need to set following properties for best effect of awesome_snackbar_content
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Unable!',
-                              message:
-                                  'Please, try other values',
-                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                              contentType: ContentType.failure,
-                            ),));
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        /// need to set following properties for best effect of awesome_snackbar_content
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'Unable!',
+                          message: 'Please, try other values',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                          contentType: ContentType.failure,
+                        ),
+                      ));
+                    }
                   },
                   child: const Text('Accept'),
                 ),
