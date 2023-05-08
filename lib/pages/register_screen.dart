@@ -2,18 +2,24 @@ import 'dart:convert';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
-import 'package:email_validator/email_validator.dart';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {  
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool _isChecked = false;
   final passControllerVerify = TextEditingController();
   bool mailIsValid = false;
 
@@ -28,6 +34,7 @@ class RegisterScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 90.0),
         children: <Widget>[
+          
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -126,6 +133,22 @@ class RegisterScreen extends StatelessWidget {
                   return null;
                 },
               ),
+              Row(
+                children: [
+                    Checkbox(
+                      value: _isChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          _isChecked = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Accept the privacy policy',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                ],
+              ),              
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
@@ -142,6 +165,20 @@ class RegisterScreen extends StatelessWidget {
                         fontSize: 20.0,
                       )),
                   onPressed: () async {
+                    if (!_isChecked){
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          /// need to set following properties for best effect of awesome_snackbar_content
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Unable!',
+                            message: 'Accept the privacy policy',
+                            contentType: ContentType.failure,
+                          ),
+                        ));
+                    }
+                    else{
                     try {
                       mailIsValid =
                           EmailValidator.validate(emailController.text);
@@ -222,7 +259,7 @@ class RegisterScreen extends StatelessWidget {
                           contentType: ContentType.failure,
                         ),
                       ));
-                    }
+                    }}
                   },
                   child: const Text('Accept'),
                 ),
@@ -250,4 +287,18 @@ class RegisterScreen extends StatelessWidget {
       return false;
     }
   }
+  
+  
+}
+
+Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return Colors.red;
 }
