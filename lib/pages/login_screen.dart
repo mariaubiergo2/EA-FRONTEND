@@ -9,8 +9,10 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/user.dart';
+import '../models/token.dart';
 
 class LoginScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -26,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late String _password;
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
+  // Create storage
+  final storage = new FlutterSecureStorage();
   var salt = '\$2b\$12\$0O5iZrh9JNnOgBP/NprFBe2SS5scgrLsA.Dx6DsmhL3VLQpN/q4Uy';
 
   @override
@@ -166,10 +170,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               print('Token destoken:' + payload.toString());
 
                               User u = User.fromJson(payload);
-                              print('Username: ' + u.username);
-
+                              var data = json.decode(response.toString());
+                              print(data['token']);
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                              prefs.setString('token', data['token']);
                               prefs.setString('idUser', u.idUser);
                               prefs.setString('name', u.name);
                               prefs.setString('surname', u.surname);
