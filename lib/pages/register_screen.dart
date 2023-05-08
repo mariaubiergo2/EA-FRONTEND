@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:bcrypt/bcrypt.dart';
+import 'package:flutter_bcrypt/flutter_bcrypt.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class RegisterScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final expController = TextEditingController();
+  var salt = '\$2b\$12\$0O5iZrh9JNnOgBP/NprFBe2SS5scgrLsA.Dx6DsmhL3VLQpN/q4Uy';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,9 +147,12 @@ class RegisterScreen extends StatelessWidget {
                         "username": usernameController.text,
                         "email": emailController.text,
                         // "password": passwordController.text,
-                        // "password": BCrypt.hashpw(passwordController.text, "8"),
-                        "password": BCrypt.hashpw(
-                            passwordController.text, BCrypt.gensalt()),
+                        // "password": await FlutterBcrypt.hashPw(
+                        //     password: passwordController.text, salt: salt),
+                        "password": await DBCrypt()
+                            .hashpw(passwordController.text, salt),
+                        // "password": BCrypt.hashpw(
+                        //     passwordController.text, BCrypt.gensalt()),
                         "exp": int.parse(expController.text)
                       });
                       print("Error debug: " + response.statusCode.toString());

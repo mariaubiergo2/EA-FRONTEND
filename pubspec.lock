@@ -105,6 +105,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dbcrypt:
+    dependency: "direct main"
+    description:
+      name: dbcrypt
+      sha256: b32a786486509ddc31b1fa97932a2fc9a3838bbed5d82e43bd636604c96b031e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   dio:
     dependency: "direct main"
     description:
@@ -142,6 +150,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bcrypt:
+    dependency: "direct main"
+    description:
+      name: flutter_bcrypt
+      sha256: "47dd6d864732ec0e19f950ba7e67b5b245bcdbe8bada288689de4b6c405c2d37"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   flutter_lints:
     dependency: "direct dev"
     description:

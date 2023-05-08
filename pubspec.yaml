@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   http: any
   bcrypt: ^1.1.3
+  flutter_bcrypt: ^1.0.8
+  dbcrypt: ^2.0.0
   sliding_up_panel: ^2.0.0+1
   lit_starfield: ^0.1.1
   awesome_snackbar_content: 

@@ -8,6 +8,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bcrypt/bcrypt.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 
 import '../models/user.dart';
 
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late String _password;
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
+  var salt = '\$2b\$12\$0O5iZrh9JNnOgBP/NprFBe2SS5scgrLsA.Dx6DsmhL3VLQpN/q4Uy';
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     data: {
                                   "email": emailController.text,
                                   // "password": passwordController.text
-                                  "password": BCrypt.hashpw(
-                                      passwordController.text, BCrypt.gensalt())
+                                  // "password": BCrypt.hashpw(
+                                  //     passwordController.text, salt),
+                                  "password": await DBCrypt()
+                                      .hashpw(passwordController.text, salt)
+                                  // "password": BCrypt.hashpw(
+                                  //     passwordController.text, BCrypt.gensalt())
                                 });
                             print(response.statusCode);
                             if (response.statusCode == 200) {
