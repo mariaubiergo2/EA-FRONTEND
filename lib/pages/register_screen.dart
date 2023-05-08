@@ -146,13 +146,9 @@ class RegisterScreen extends StatelessWidget {
                         "surname": surnameController.text,
                         "username": usernameController.text,
                         "email": emailController.text,
-                        // "password": passwordController.text,
-                        // "password": await FlutterBcrypt.hashPw(
-                        //     password: passwordController.text, salt: salt),
-                        "password": await DBCrypt()
-                            .hashpw(passwordController.text, salt),
-                        // "password": BCrypt.hashpw(
-                        //     passwordController.text, BCrypt.gensalt()),
+                        "password": passwordController.text,
+                        // "password": await DBCrypt()
+                        //     .hashpw(passwordController.text, salt),
                         "exp": int.parse(expController.text)
                       });
                       print("Error debug: " + response.statusCode.toString());

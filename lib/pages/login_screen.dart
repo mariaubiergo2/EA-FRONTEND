@@ -154,13 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     // "http://192.168.56.1:3002/auth/login",
                                     data: {
                                   "email": emailController.text,
-                                  // "password": passwordController.text
-                                  // "password": BCrypt.hashpw(
-                                  //     passwordController.text, salt),
-                                  "password": await DBCrypt()
-                                      .hashpw(passwordController.text, salt)
-                                  // "password": BCrypt.hashpw(
-                                  //     passwordController.text, BCrypt.gensalt())
+                                  "password": passwordController.text
+                                  // "password": await DBCrypt()
+                                  //     .hashpw(passwordController.text, salt)
                                 });
                             print(response.statusCode);
                             if (response.statusCode == 200) {
