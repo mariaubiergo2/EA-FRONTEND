@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>{
           CircleAvatar(
                 radius: 100.0,
                 backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage('images/logo.png'),
+                backgroundImage: AssetImage('images/logoApp.png'),
               ),
           Center(
             child: Text('Welcome to EETACgo!',
