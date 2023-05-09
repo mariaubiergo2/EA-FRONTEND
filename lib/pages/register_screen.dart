@@ -103,13 +103,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: passwordController,
+                obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Password',
                   labelText: 'Write your password...',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
-                obscureText: true,
                 validator: (value) {
                   if (value == "") {
                     return 'Please introduce a password';
