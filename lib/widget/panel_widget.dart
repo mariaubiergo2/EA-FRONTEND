@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/widget/card_widget.dart';
@@ -32,9 +33,15 @@ class _PanelWidgetState extends State<PanelWidget> {
   }
 
   Future getSubjects() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
     //http://IP_PC:3000/subject/all
     String path = 'http://127.0.0.1:3002/challenge/get/all';
-    var response = await Dio().get(path);
+    var response = await Dio().get(path,
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        }));
     var registros = response.data as List;
     for (var sub in registros) {
       challengeList.add(Challenge.fromJson(sub));
