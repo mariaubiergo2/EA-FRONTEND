@@ -15,6 +15,7 @@ import 'package:dbcrypt/dbcrypt.dart';
 
 import '../models/user.dart';
 import '../models/token.dart';
+import '../widget/alert_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -27,12 +28,13 @@ class LoginScreen extends StatelessWidget {
     late String _password;
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 207, 5),
       body: SafeArea(
           child: Center(
             child: Column(children: <Widget>[
-            SizedBox(height: 75),
+            SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -59,23 +61,9 @@ class LoginScreen extends StatelessWidget {
                         width: double.infinity,
                         child: TextButton(
                           style: myButtonStyle,
-                          // style: TextButton.styleFrom(
-                          //     foregroundColor:
-                          //         const Color.fromARGB(255, 255, 255, 255),
-                          //     backgroundColor:
-                          //         const Color.fromRGBO(0, 115, 216, 0.988),
-                          //     shape: RoundedRectangleBorder(
-                          //         side: BorderSide.none,
-                          //         borderRadius: BorderRadius.circular(20.0)),
-                          //     padding: EdgeInsets.all(13.0),
-                          //     textStyle: const TextStyle(
-                          //       fontFamily: 'NerkoOne',
-                          //       fontSize: 20.0,
-                          //       color: Color.fromRGBO(255, 255, 255, 1),
-                          //     )),
                           onPressed: () async {
-                            if ((emailController.text != ' ') &&
-                                (passwordController.text != ' ')) {
+                            if ((emailController.text != '') &&
+                                (passwordController.text != '')) {
                               try {
                                 var response = await Dio()
                                     .post("http://127.0.0.1:3002/auth/login",
@@ -121,58 +109,43 @@ class LoginScreen extends StatelessWidget {
                                   ));
                                 }
                               } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  elevation: 0,
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.transparent,
-                                  content: AwesomeSnackbarContent(
-                                    title: 'Wrong credentials!',
-                                    message: 'Please, try again',
-
-                                    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                    contentType: ContentType.failure,
-                                  ),
-                                ));
-                                //   SnackBar(
-                                //     behavior: SnackBarBehavior.floating,
-                                //     backgroundColor: Colors.transparent,
-                                //     elevation: 0,
-                                //     content: Container(
-                                //       padding: EdgeInsets.all(16),
-                                //       height: 90,
-                                //       decoration: BoxDecoration(
-                                //         color: Colors.red,
-                                //         borderRaColor.fromARGB(0, 137, 75, 75).all(Radius.circular(20)),
-                                //       ),
-                                //       child: Row(
-                                //         children: [
-                                //           const SizedBox(width: 40),
-                                //           Expanded(
-                                //             child: Column(
-                                //             crossAxisAlignment: CrossAxisAlignment.start,
-                                //             children: [
-                                //               Text(
-                                //                 'Wrong credentials!',
-                                //                 style: TextStyle(fontSize: 18, color:Colors.white),
-                                //                 ),
-                                //               Text(
-                                //                 'Error: '+e.toString(),
-                                //                 style: TextStyle(fontSize: 12, color:Colors.white),
-                                //                 maxLines: 2,
-                                //                 overflow: TextOverflow.ellipsis,
-                                //                 ),
-                                //               ],
-                                //               )
-                                //         ),
-                                //         ],
-                                //       ),
-                                //   ),
-                                // ));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Wrong credentials!',
+                                          message: 'Please, try again',
+                                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                          contentType: ContentType.failure,
+                                        ),
+                                      ),);
                               }
-                            }
-                          },
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Atention!',
+                                          message: 'Empty credentials. Please, try again.',
+                                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                          contentType: ContentType.failure,
+                                        ),
+                                      ),);
+                            //   showDialog(
+                            //      context: context,
+                            //     builder: (BuildContext context) {
+                            //        return CustomAlertDialog(
+                            //          title: 'Atention!',
+                            //         message: 'There are empty fields. Please, try again...',
+                            // );},);
+                          }},
                           child: const Text('Log in'),
-                        )),
+                        ),
+                      ),
                     const SizedBox(height: 20),
                     const Text(
                       "Are you a new user? Create an account!",
@@ -185,19 +158,7 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                            foregroundColor:
-                                const Color.fromARGB(255, 255, 255, 255),
-                            backgroundColor:
-                                const Color.fromRGBO(0, 115, 216, 0.988),
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                                borderRadius: BorderRadius.circular(30.0)),
-                            padding: EdgeInsets.all(13.0),
-                            textStyle: const TextStyle(
-                              fontFamily: 'NerkoOne',
-                              fontSize: 20.0,
-                            )),
+                          style: myButtonStyle,
                         onPressed: () {
                           Navigator.pushNamed(context, '/register_screen');
                         },

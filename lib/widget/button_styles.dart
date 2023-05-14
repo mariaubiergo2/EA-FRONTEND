@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-// Define a common ButtonStyle
 final ButtonStyle myButtonStyle = ButtonStyle(
-  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-    EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-  ),
-  shape: MaterialStateProperty.all<OutlinedBorder>(
-    RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-  ),
+  foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 255, 255, 255),),
+  backgroundColor:  MaterialStateProperty.all<Color>(Color.fromRGBO(0, 115, 216, 0.988),),
+  shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+    side: BorderSide.none,
+    borderRadius: BorderRadius.circular(20.0)),),
+  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(13.0),),
+  textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(
+    fontFamily: 'NerkoOne',
+    fontSize: 20.0,
+    color: Color.fromRGBO(255, 255, 255, 1),),),
 );
