@@ -33,11 +33,9 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (context) => const FriendsScreen());
 
             case '/initial_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const InitialScreen());
+              return MaterialPageRoute(builder: (context) => const InitialScreen());
             default:
-              return MaterialPageRoute(
-                  builder: (context) => const LoginScreen());
+              return MaterialPageRoute(builder: (context) => const LoginScreen());
           }
         });
   }

@@ -47,7 +47,7 @@ dependencies:
   jwt_decode: ^0.3.1
   shared_preferences: ^2.1.0
   email_validator: ^2.1.17
-  flutter_secure_storage: ^8.0.0
+  # flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:
