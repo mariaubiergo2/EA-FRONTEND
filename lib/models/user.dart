@@ -8,6 +8,7 @@ class User {
     required this.username,
     this.email,
     this.password,
+    this.exp,
   });
 
   final String idUser;
@@ -16,6 +17,7 @@ class User {
   final String username;
   final String? email;
   final String? password;
+  final String? exp;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         idUser: json["idUser"],
@@ -26,10 +28,22 @@ class User {
         // password: json["password"],
       );
 
+  factory User.fromJson2(Map<String, dynamic> json) => User(
+        idUser: json["_id"],
+        name: json["name"],
+        surname: json["surname"],
+        username: json["username"],
+        // email: json["email"],
+        // password: json["password"],
+      );
+
+  get foto => null;
+
   Map<String, dynamic> toJson() => {
         "_id": idUser,
         "name": name,
         "surname": surname,
+        "exp": exp,
         // "username": username,
         // "email": email,
         // "password": password,
