@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     //Sign up method
-    void SignUp() {}
+    void signUp() {}
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 25, 25, 25),
@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           //Sign up button
                           CredentialButton(
                             buttonText: "SIGN UP",
-                            onTap: SignUp,
+                            onTap: signUp,
                           ),
 
                           //Already have an account?
