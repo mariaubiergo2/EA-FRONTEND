@@ -1,46 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:ea_frontend/pages/login_screen.dart';
 
-class SplashScreen extends StatefulWidget{
-  //const Splash({ Key? key}) : super(key: key);
-
+class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>{
+class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _navigatetohome();
   }
 
-  _navigatetohome()async{
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+  _navigatetohome() async {
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
     Navigator.pushNamed(context, '/login_screen');
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Spacer(),
-          CircleAvatar(
-                radius: 100.0,
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage('images/logoApp.png'),
+      backgroundColor: const Color.fromARGB(
+          255, 25, 25, 25), // Agregue el color de fondo aquí
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 100.0),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'images/logo_splash.png',
+                    height: 250,
+                  ),
+                ],
               ),
-          Center(
-            child: Text('Welcome to EETACgo!',
-              style: TextStyle(fontFamily: 'NerkoOne', fontSize: 40.0)
-          )),
-          Spacer(),
-          CircularProgressIndicator(),
-          Spacer(),
-        ],
-      )
+            ),
+            const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Color.fromARGB(255, 222, 66, 66))),
+            const Spacer(),
+          ],
+        ),
+      ),
     );
   }
 }
