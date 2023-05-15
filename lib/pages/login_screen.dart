@@ -155,126 +155,132 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 25, 25, 25),
       body: SafeArea(
         child: Center(
-          child: Column(children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //Logo
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 47.0),
+          child: SizedBox(
+            width: 1080,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          Image.asset(
-                            'images/logo.png',
-                            height: 185,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    //Email address textfield
-                    CredentialTextField(
-                        controller: emailController,
-                        labelText: "Email address",
-                        obscureText: false),
-
-                    const SizedBox(height: 10),
-
-                    //Password textfield
-                    CredentialTextField(
-                        controller: passwordController,
-                        labelText: "Password",
-                        obscureText: true),
-
-                    const SizedBox(height: 20),
-
-                    //Log in button
-                    CredentialButton(
-                      buttonText: "LOG IN",
-                      onTap: logIn,
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    //Or continue with
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromARGB(255, 242, 242, 242),
-                            ),
-                          ),
+                          //Logo
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                              'Or continue with',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
-                                  fontSize: 17),
+                            padding: const EdgeInsets.symmetric(vertical: 47.0),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'images/logo.png',
+                                  height: 185,
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromARGB(255, 242, 242, 242),
+
+                          const SizedBox(height: 5),
+
+                          //Email address textfield
+                          CredentialTextField(
+                              controller: emailController,
+                              labelText: "Email address",
+                              obscureText: false),
+
+                          const SizedBox(height: 10),
+
+                          //Password textfield
+                          CredentialTextField(
+                              controller: passwordController,
+                              labelText: "Password",
+                              obscureText: true),
+
+                          const SizedBox(height: 20),
+
+                          //Log in button
+                          CredentialButton(
+                            buttonText: "LOG IN",
+                            onTap: logIn,
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          //Or continue with
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Row(
+                              children: const [
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Color.fromARGB(255, 242, 242, 242),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 30),
+                                  child: Text(
+                                    'Or continue with',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
+                                        fontSize: 17),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Color.fromARGB(255, 242, 242, 242),
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          //Google
+                          Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.asset(
+                                'images/google.png',
+                                height: 65,
+                              ),
+                            ),
+                          ),
+
+                          //Don't have an account?
+                          const SizedBox(height: 20),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Don't have an account?",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 242, 242, 242),
+                                    fontSize: 17),
+                              ),
+                              const SizedBox(width: 4),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/register_screen');
+                                },
+                                child: const Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 222, 66, 66),
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    //Google
-                    Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
-                          'images/google.png',
-                          height: 65,
-                        ),
-                      ),
-                    ),
-
-                    //Don't have an account?
-                    const SizedBox(height: 20),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Don't have an account?",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 242, 242, 242),
-                              fontSize: 17),
-                        ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/register_screen');
-                          },
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 222, 66, 66),
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
-          ]),
+                      )),
+                ]),
+          ),
         ),
       ),
     );
