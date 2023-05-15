@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MyCard extends StatelessWidget {
   final String name;
@@ -12,32 +13,44 @@ class MyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-          decoration: BoxDecoration(
-            color: Colors.deepPurple[100],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(8.0),
+        child: Slidable(
+          startActionPane: ActionPane(
+            motion: const StretchMotion(),
             children: [
-              Text(
-                name,
-                style: const TextStyle(fontSize: 24),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                descr,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Exp: $exp',
-                style: const TextStyle(fontSize: 16),
-              ),
+              SlidableAction(
+                onPressed: (BuildContext context) {},
+                backgroundColor: Colors.red,
+                icon: Icons.delete,
+              )
             ],
-          )),
-    );
+          ),
+          child: Container(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple[100],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    descr,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Exp: $exp',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              )),
+        ));
   }
 }

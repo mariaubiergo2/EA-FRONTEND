@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/widget/card_widget.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PanelWidget extends StatefulWidget {
   const PanelWidget({
@@ -80,6 +81,7 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
   return SizedBox(
     height:
         MediaQuery.of(context).size.height - 100, // ajustar según sea necesario
+    width: MediaQuery.of(context).size.width,
     child: Viewport(
       axisDirection: AxisDirection.down,
       offset: ViewportOffset.zero(),
