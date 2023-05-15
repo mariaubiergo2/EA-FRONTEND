@@ -22,6 +22,7 @@ class MyCard extends StatelessWidget {
                 onPressed: (BuildContext context) {},
                 backgroundColor: Colors.red,
                 icon: Icons.delete,
+                borderRadius: BorderRadius.circular(12),
               )
             ],
           ),
@@ -30,7 +31,9 @@ class MyCard extends StatelessWidget {
                 color: Colors.deepPurple[100],
                 borderRadius: BorderRadius.circular(12),
               ),
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context)
+                  .size
+                  .width, //para que la card se ajuste al tamaño de la pantalla
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
