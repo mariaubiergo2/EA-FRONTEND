@@ -21,7 +21,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool mailIsValid = false;
   bool _isChecked = false;
 
   @override
@@ -44,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               contentType: ContentType.failure,
             ),
           ));
-        } else if (mailIsValid) {
+        } else if (EmailValidator.validate(emailController.text)) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
