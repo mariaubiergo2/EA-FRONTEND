@@ -28,11 +28,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     //Sign up method
     void signUp() async {
       try {
-        if ((nameController.text != '') &&
-            (surnameController.text != '') &&
-            (usernameController.text != '') &&
-            (emailController.text != '') &&
-            (passwordController.text != '')) {
+        if ((nameController.text == '') ||
+            (surnameController.text == '') ||
+            (usernameController.text == '') ||
+            (emailController.text == '') ||
+            (passwordController.text == '')) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               contentType: ContentType.failure,
             ),
           ));
-        } else if (EmailValidator.validate(emailController.text)) {
+        } else if (!EmailValidator.validate(emailController.text)) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               contentType: ContentType.failure,
             ),
           ));
-        } else if (_isChecked) {
+        } else if (!_isChecked) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -67,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ));
         } else {
           var response =
-              await Dio().post("http://192.168.56.1:3002/auth/register", data: {
+              await Dio().post("http://127.0.0.1:3002/auth/register", data: {
             "name": nameController.text,
             "surname": surnameController.text,
             "username": usernameController.text,
@@ -148,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           CredentialTextField(
                               controller: surnameController,
                               labelText: "Surname",
-                              obscureText: true),
+                              obscureText: false),
 
                           const SizedBox(height: 10),
 
@@ -156,7 +156,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           CredentialTextField(
                               controller: usernameController,
                               labelText: "Username",
-                              obscureText: true),
+                              obscureText: false),
 
                           const SizedBox(height: 10),
 
@@ -164,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           CredentialTextField(
                               controller: emailController,
                               labelText: "Email address",
-                              obscureText: true),
+                              obscureText: false),
 
                           const SizedBox(height: 10),
 
