@@ -13,6 +13,7 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
+//pruebaxd
 class _RegisterScreenState extends State<RegisterScreen> {
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
