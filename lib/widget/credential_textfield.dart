@@ -4,12 +4,14 @@ class CredentialTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final bool obscureText;
+  final Function(String)? function;
 
   const CredentialTextField({
     Key? key,
     required this.controller,
     required this.labelText,
     required this.obscureText,
+    this.function,
   }) : super(key: key);
 
   @override
