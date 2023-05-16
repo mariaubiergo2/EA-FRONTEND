@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBar extends StatefulWidget {
+  const NavBar({super.key});
+
   @override
   _NavBarState createState() => _NavBarState();
 }
@@ -23,11 +25,11 @@ class _NavBarState extends State<NavBar> {
   Future getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      this._token = prefs.getString('token');
-      this._idUser = prefs.getString('idUser');
-      this._name = prefs.getString('name');
-      this._surname = prefs.getString('surname');
-      this._username = prefs.getString('username');
+      _token = prefs.getString('token');
+      _idUser = prefs.getString('idUser');
+      _name = prefs.getString('name');
+      _surname = prefs.getString('surname');
+      _username = prefs.getString('username');
     });
   }
 
@@ -38,9 +40,8 @@ class _NavBarState extends State<NavBar> {
       padding: EdgeInsets.zero,
       children: [
         UserAccountsDrawerHeader(
-          accountName:
-              Text(this._name.toString() + ' ' + this._surname.toString()),
-          accountEmail: Text(this._username.toString()),
+          accountName: Text('$_name $_surname'),
+          accountEmail: Text(_username.toString()),
           currentAccountPicture: CircleAvatar(
             child: ClipOval(
               child: Image.network(
@@ -51,7 +52,7 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
           ),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: Colors.blue,
               image: DecorationImage(
                 image: NetworkImage(
@@ -60,20 +61,19 @@ class _NavBarState extends State<NavBar> {
                 fit: BoxFit.cover,
               )),
         ),
-        ListTile(
+        const ListTile(
           leading: Icon(Icons.favorite),
           title: Text('Favorites'),
-          onTap: () => print(_token),
         ),
         ListTile(
-          leading: Icon(Icons.people),
-          title: Text('Friends'),
+          leading: const Icon(Icons.people),
+          title: const Text('Friends'),
           onTap: () => Navigator.pushNamed(context, '/friends_screen'),
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.exit_to_app),
-          title: Text('Log Out'),
+          leading: const Icon(Icons.exit_to_app),
+          title: const Text('Log Out'),
           onTap: () => Navigator.pushNamed(context, '/login_screen'),
         ),
       ],
