@@ -39,7 +39,7 @@ class LoginScreen extends StatelessWidget {
           if (response.statusCode == 200) {
             Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
 
-            print('Token destoken:' + payload.toString());
+            print('Token:' + payload.toString());
 
             User u = User.fromJson(payload);
             var data = json.decode(response.toString());
@@ -62,8 +62,8 @@ class LoginScreen extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
-                title: 'Wrong credentials!',
-                message: 'Please, try again...',
+                title: 'Attention!',
+                message: 'Wrong credentials. Try again with other values.',
                 contentType: ContentType.failure,
               ),
             ));
@@ -75,8 +75,8 @@ class LoginScreen extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
-                title: 'Wrong credentials!',
-                message: 'Please, try again',
+                title: 'Attention!',
+                message: 'Check that there are no empty fields.',
                 contentType: ContentType.failure,
               ),
             ),

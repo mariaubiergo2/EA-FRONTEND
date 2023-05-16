@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
@@ -20,14 +21,91 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool _isChecked = false;
-  final passControllerVerify = TextEditingController();
   bool mailIsValid = false;
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     //Sign up method
-    void signUp() {}
+    void signUp() async {
+      try {
+        if ((nameController.text != '') &&
+            (surnameController.text != '') &&
+            (usernameController.text != '') &&
+            (emailController.text != '') &&
+            (passwordController.text != '')) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Attention!',
+              message: 'Check that there are no empty fields.',
+              contentType: ContentType.failure,
+            ),
+          ));
+        } else if (mailIsValid) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Attention!',
+              message: 'Invalid email address.',
+              contentType: ContentType.failure,
+            ),
+          ));
+        } else if (_isChecked) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Attention!',
+              message: 'The terms of use and privacy policy must be accepted.',
+              contentType: ContentType.failure,
+            ),
+          ));
+        } else {
+          var response =
+              await Dio().post("http://192.168.56.1:3002/auth/register", data: {
+            "name": nameController.text,
+            "surname": surnameController.text,
+            "username": usernameController.text,
+            "email": emailController.text,
+            "password": passwordController.text,
+          });
+          print("Error debug: " + response.statusCode.toString());
+          if (response.statusCode == 200) {
+            Navigator.pushNamed(context, '/login_screen');
+          }
+          if (response.statusCode == 400) {
+            print(response.statusMessage);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'Unable!',
+                message: 'Check that there are valid values.',
+                contentType: ContentType.failure,
+              ),
+            ));
+          }
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Unable!',
+            message: 'Unable to create an account. Try again later.',
+            contentType: ContentType.failure,
+          ),
+        ));
+      }
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 25, 25, 25),
