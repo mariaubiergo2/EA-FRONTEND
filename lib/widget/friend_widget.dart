@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class MyCard extends StatelessWidget {
-  final String name;
-  final String descr;
+class Friends extends StatelessWidget {
+  final String username;
+  final String foto;
   final String exp;
 
-  const MyCard(
-      {Key? key, required this.name, required this.descr, required this.exp})
+  const Friends(
+      {Key? key, required this.username, required this.foto, required this.exp})
       : super(key: key);
 
   @override
@@ -39,12 +39,12 @@ class MyCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    username,
                     style: const TextStyle(fontSize: 24),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    descr,
+                    foto,
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 8),
