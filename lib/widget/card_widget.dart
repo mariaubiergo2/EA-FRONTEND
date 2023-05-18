@@ -19,9 +19,11 @@ class MyCard extends StatelessWidget {
             motion: const StretchMotion(),
             children: [
               SlidableAction(
-                onPressed: (BuildContext context) {},
+                onPressed: (BuildContext context) {
+                  Navigator.pushNamed(context, '/qr_screen');
+                },
                 backgroundColor: Colors.red,
-                icon: Icons.delete,
+                icon: Icons.qr_code,
                 borderRadius: BorderRadius.circular(12),
               )
             ],
