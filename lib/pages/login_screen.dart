@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'Attention!',
-                message: 'Check that there are no empty fields.',
+                message: 'Wrong credentials. Try again with other values.',
                 contentType: ContentType.failure,
               ),
             ),
