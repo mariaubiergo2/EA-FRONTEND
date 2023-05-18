@@ -23,9 +23,9 @@ class InitialScreen extends StatefulWidget {
   State<InitialScreen> createState() => _InitialScreenState();
 }
 
-const snackBar = SnackBar(
-  content: Text('Marker Clicked'),
-);
+// const snackBar = SnackBar(
+//   content: Text('Marker Clicked'),
+// );
 
 class _InitialScreenState extends State<InitialScreen> {
   final panelController = PanelController();
@@ -66,6 +66,8 @@ class _InitialScreenState extends State<InitialScreen> {
     final newMarkers = challengeList.map((challenge) {
       final lat = double.parse(challenge.lat);
       final long = double.parse(challenge.long);
+      final snackBar =
+          SnackBar(content: Text("Este reto es: " + challenge.name));
       return Marker(
         point: LatLng(lat, long),
         builder: (context) => GestureDetector(
