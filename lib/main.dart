@@ -1,16 +1,12 @@
 import 'package:ea_frontend/pages/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/login_screen.dart';
-import 'package:ea_frontend/pages/home_screen/qr_screen.dart';
-import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/pages/navbar.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
-  await dotenv.load();
+void main() {
   runApp(const MyApp());
 }
 
@@ -23,27 +19,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material Login',
-        home: const SplashScreen(),
+        home: SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const RegisterScreen());
+              return MaterialPageRoute(builder: (context) => RegisterScreen());
+            /*case '/profile_screen':
+              return MaterialPageRoute(builder: (context) => ProfileScreen());
+            */
             case '/friends_screen':
               return MaterialPageRoute(
                   builder: (context) => const FriendsScreen());
 
-            case '/qr_screen':
-              return MaterialPageRoute(builder: (context) => const MyQR());
-
-            case '/makefriends_screen':
+            case '/initial_screen':
               return MaterialPageRoute(
-                  builder: (context) => const MakeFriendsScreen());
-            case '/navbar':
-              return MaterialPageRoute(builder: (context) => const NavBar());
+                  builder: (context) => const HomeScreen());
             default:
-              return MaterialPageRoute(
-                  builder: (context) => const LoginScreen());
+              return MaterialPageRoute(builder: (context) => const NavBar());
+            //Realmente return MaterialPageRoute(builder: (context) => const LoginScreen());
           }
         });
   }

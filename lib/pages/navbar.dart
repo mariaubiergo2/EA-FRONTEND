@@ -4,8 +4,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 //Screens
 import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
+import 'package:ea_frontend/pages/list_screen/list_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/profile_screen.dart';
-import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -20,8 +20,8 @@ int _currentIndex = 0;
 final screens = [
   const HomeScreen(),
   ChatScreen(),
-  const MakeFriendsScreen(),
-  const ProfileScreen(),
+  ListScreen(),
+  ProfileScreen(),
 ];
 
 class _NavBarState extends State<NavBar> {
@@ -33,37 +33,42 @@ class _NavBarState extends State<NavBar> {
         color: const Color.fromARGB(255, 25, 25, 25),
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
         child: GNav(
-            gap: 15,
+            gap: 10,
             backgroundColor: const Color.fromARGB(255, 25, 25, 25),
             color: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
             selectedIndex: _currentIndex,
             onTabChange: (index) => {setState(() => _currentIndex = index)},
-            padding: const EdgeInsets.fromLTRB(14, 8.5, 14, 8.5),
+            padding: const EdgeInsets.all(10),
             tabs: const [
               GButton(
                 icon: Icons.home_filled,
-                iconSize: 25,
                 text: 'Home',
               ),
+              GButton(icon: Icons.chat, text: 'Chat'),
               GButton(
-                  icon: Icons.chat_bubble_rounded, iconSize: 22, text: 'Chat'),
-              GButton(
-                icon: Icons.manage_search_rounded,
-                iconSize: 27,
-                text: 'Discover',
+                icon: Icons.list,
+                text: 'List',
               ),
               GButton(
-                icon: Icons.person_rounded,
-                iconSize: 24,
+                icon: Icons.person,
                 text: 'Profile',
               ),
             ]),
       ),
-      bottomSheet: const Divider(
-        color: Color.fromARGB(255, 52, 52, 52),
-        height: 0.05,
+      bottomSheet: Container(
+        color: const Color.fromARGB(255, 25, 25, 25),
+        child: SizedBox(
+          height: 1.0,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: const Divider(
+              color: Color.fromARGB(255, 41, 41, 41),
+              thickness: 1.0,
+            ),
+          ),
+        ),
       ),
     );
   }

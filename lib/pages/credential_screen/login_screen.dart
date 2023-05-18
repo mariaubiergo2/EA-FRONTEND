@@ -1,26 +1,25 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 import 'package:ea_frontend/widget/credential_textfield.dart';
 import 'package:ea_frontend/widget/credential_button.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:ea_frontend/widget/password_textfield.dart';
+import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
+import 'package:ea_frontend/pages/home_screen/home_screen.dart';
+import 'package:lit_starfield/lit_starfield.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user.dart';
-
-void main() async {
-  await dotenv.load();
-}
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    late String idUser = "";
+    late String _email;
+    late String _password;
+
     //Text editing controllers
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
@@ -29,17 +28,23 @@ class LoginScreen extends StatelessWidget {
     void logIn() async {
       if ((emailController.text != '') && (passwordController.text != '')) {
         try {
-          var response = await Dio()
-              .post('http://${dotenv.env['API_URL']}/auth/login', data: {
-            "email": emailController.text,
-            "password": passwordController.text
-          });
+          var response = await Dio().post("http://127.0.0.1:3002/auth/login",
+              data: {
+                "email": emailController.text,
+                "password": passwordController.text
+              });
+
+          print(response.statusCode);
 
           if (response.statusCode == 200) {
             Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
 
+            print('Token:' + payload.toString());
+
             User u = User.fromJson(payload);
             var data = json.decode(response.toString());
+
+            print(data['token']);
 
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
@@ -49,8 +54,9 @@ class LoginScreen extends StatelessWidget {
             prefs.setString('surname', u.surname);
             prefs.setString('username', u.username);
 
-            Navigator.pushNamed(context, '/navbar');
+            Navigator.pushNamed(context, '/initial_screen');
           } else {
+            print(response.statusCode);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
@@ -70,7 +76,7 @@ class LoginScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'Attention!',
-                message: 'Wrong credentials. Try again with other values.',
+                message: 'Check that there are no empty fields.',
                 contentType: ContentType.failure,
               ),
             ),
@@ -129,7 +135,7 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(height: 10),
 
                           //Password textfield
-                          PasswordTextField(
+                          CredentialTextField(
                               controller: passwordController,
                               labelText: "Password",
                               obscureText: true),
