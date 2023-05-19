@@ -1,11 +1,82 @@
-//import 'dart:html';
+// ignore_for_file: avoid_print
+
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/user.dart' as user_ea;
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+
+import '../pages/initial_screen.dart';
 
 class AuthService {
+  Future<void> logIn(User user) async {
+    try {
+      var response = await Dio().post("http://127.0.0.1:3002/auth/login",
+          data: {"email": user.email, "password": user.uid});
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
+
+        print('Token:' + payload.toString());
+
+        user_ea.User u = user_ea.User.fromJson(payload);
+        var data = json.decode(response.toString());
+
+        print(data['token']);
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', data['token']);
+        prefs.setString('idUser', u.idUser);
+        prefs.setString('name', u.name);
+        prefs.setString('surname', u.surname);
+        prefs.setString('username', u.username);
+      } else {
+        print('Error, status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error login user: $e');
+    }
+  }
+
+  Future<bool> registerUserInAPI(User user) async {
+    final String apiUrl = "http://127.0.0.1:3002/auth/register";
+
+    final Map<String, dynamic> requestData = {
+      'name': user.displayName,
+      'surname': user.displayName,
+      'username': user.email,
+      'password': user.uid, // Generate a secure password for the user
+      'email': user.email,
+    };
+    print(requestData);
+    try {
+      final http.Response response =
+          await http.post(Uri.parse(apiUrl), body: requestData);
+
+      if (response.statusCode == 200) {
+        print('User registration successful');
+        return true;
+      } else {
+        print(
+            'User registration failed with status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error registering user: $e');
+      return false;
+    }
+  }
+
   // SignIn with Google
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
     try {
       // Empezamos el logIn con Google
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -24,12 +95,21 @@ class AuthService {
       final UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
       final User? user = userCredential.user;
-
+      print('-------------User logged in via Google Auth-------------');
       // Print user info
       print('User ID: ${user?.uid}');
       print('Display Name: ${user?.displayName}');
       print('Email: ${user?.email}');
-      print('Photo URL: ${user?.photoURL}');
+
+      //Intentamos login en API
+      final bool registerOK = await registerUserInAPI(user!);
+      await logIn(user);
+      if (registerOK) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => InitialScreen()),
+        );
+      }
 
       return userCredential;
     } catch (e) {
