@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/widget/card_widget.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PanelWidget extends StatefulWidget {
   const PanelWidget({
@@ -55,22 +54,18 @@ class _PanelWidgetState extends State<PanelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: <Widget>[
           const SizedBox(height: 12),
           buildDragHandle(),
-          const SizedBox(height: 18),
-          const Center(
-            child: Text(
-              'Challenges',
-              style: TextStyle(fontWeight: FontWeight.normal),
-            ),
+          const SizedBox(height: 30),
+          //const SizedBox(height: 36),
+          //buildAboutText(),
+          const SizedBox(height: 5),
+          Expanded(
+            child: buildChallenges12(context, challengeList),
           ),
-          const SizedBox(height: 36),
-          buildAboutText(),
-          const SizedBox(height: 24),
-          buildChallenges11(context, challengeList),
         ],
       ),
     );
@@ -86,6 +81,7 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
     child: Viewport(
       axisDirection: AxisDirection.down,
       offset: ViewportOffset.zero(),
+      //clipBehavior: Clip.hardEdge,
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -104,6 +100,29 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
         ),
       ],
     ),
+  );
+}
+
+Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
+  return CustomScrollView(
+    // MediaQuery.of(context).size.height - 100,
+    slivers: [
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return MyCard(
+                name: challengeList[index].name,
+                descr: challengeList[index].descr,
+                exp: challengeList[index].exp.toString(),
+              );
+            },
+            childCount: challengeList.length,
+          ),
+        ),
+      ),
+    ],
   );
 }
 

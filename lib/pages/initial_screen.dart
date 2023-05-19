@@ -18,28 +18,6 @@ class InitialScreen extends StatefulWidget {
   State<InitialScreen> createState() => _InitialScreenState();
 }
 
-// TextStyle getDefaultTextStyle() {
-//   return TextStyle(
-//     fontSize: 20,
-//     backgroundColor: Colors.black,
-//     color: Colors.white,
-//   );
-// }
-
-// Container buildTextWidget(String word) {
-//   return Container(
-//       alignment: Alignment.center,
-//       child: Text(word,
-//           textAlign: TextAlign.center, style: getDefaultTextStyle()));
-// }
-
-// Marker buildMarker(LatLng coordinates, String word) {
-//   return Marker(
-//       point: coordinates,
-//       width: 100,
-//       height: 20,
-//       builder: (context) => buildTextWidget(word));
-// }
 const snackBar = SnackBar(
   content: Text('Marker Clicked'),
 );
@@ -54,81 +32,89 @@ class _InitialScreenState extends State<InitialScreen> {
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
     return Scaffold(
-        drawer: NavBar(),
+        drawer: const NavBar(),
         appBar: AppBar(
           title: const Text('EETAC -  GO'),
         ),
-        body: Stack(alignment: Alignment.topCenter, children: <Widget>[
-          SlidingUpPanel(
-            controller: panelController,
-            maxHeight: panelHeightOpen,
-            minHeight: panelHeightClosed,
-            parallaxEnabled: true,
-            parallaxOffset: .5,
-            body: FlutterMap(
-              options: MapOptions(
-                center: LatLng(41.27561, 1.98722),
-                zoom: 16.0,
-                maxZoom: 18.0,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
-                ),
-                MarkerLayer(
-                  markers: [
-                    // buildMarker(LatLng(41.27460, 1.98489), "Reto 1"),
-                    // buildMarker(LatLng(41.27651, 1.98856), "Reto 2"),
-                    // buildMarker(LatLng(41.27516, 1.98825), "Reto 3")
-                    Marker(
-                        point: LatLng(41.27460, 1.98489),
-                        builder: (content) => GestureDetector(
-                              onTap: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                              child: Image.asset('images/marker.png'),
-                            )),
-                    Marker(
-                        point: LatLng(41.27651, 1.98856),
-                        builder: (content) => GestureDetector(
-                              onTap: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                              child: Image.asset('images/marker.png'),
-                            )),
-                    Marker(
-                        point: LatLng(41.27516, 1.98825),
-                        builder: (content) => GestureDetector(
-                              onTap: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                              child: Image.asset('images/marker.png'),
-                            )),
-                  ],
-                )
-              ],
-              nonRotatedChildren: [
-                RichAttributionWidget(
-                  attributions: [
-                    TextSourceAttribution(
-                      'OpenStreetMap contributors',
-                      onTap: () => launchUrl(
-                          Uri.parse('https://openstreetmap.org/copyright')),
-                    ),
-                  ],
-                ),
-              ],
+        body: SlidingUpPanel(
+          controller: panelController,
+          maxHeight: panelHeightOpen,
+          minHeight: panelHeightClosed,
+          parallaxEnabled: true,
+          parallaxOffset: .5,
+          panelBuilder: (controller) => ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
             ),
-            panelBuilder: (controller) => PanelWidget(
+            child: PanelWidget(
               controller: controller,
               panelController: panelController,
             ),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-          )
-        ]));
+          ),
+          collapsed: const Center(child: Text('Challenges')),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(18),
+            topRight: Radius.circular(18),
+          ),
+          body: FlutterMap(
+            options: MapOptions(
+              center: LatLng(41.27561, 1.98722),
+              zoom: 16.0,
+              maxZoom: 18.0,
+            ),
+            nonRotatedChildren: [
+              RichAttributionWidget(
+                attributions: [
+                  TextSourceAttribution(
+                    'OpenStreetMap contributors',
+                    onTap: () => launchUrl(
+                        Uri.parse('https://openstreetmap.org/copyright')),
+                  ),
+                ],
+              ),
+            ],
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+              ),
+              MarkerLayer(
+                markers: [
+                  // buildMarker(LatLng(41.27460, 1.98489), "Reto 1"),
+                  // buildMarker(LatLng(41.27651, 1.98856), "Reto 2"),
+                  // buildMarker(LatLng(41.27516, 1.98825), "Reto 3")
+                  Marker(
+                      point: LatLng(41.27460, 1.98489),
+                      builder: (content) => GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            child: Image.asset('images/marker.png'),
+                          )),
+                  Marker(
+                      point: LatLng(41.27651, 1.98856),
+                      builder: (content) => GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            child: Image.asset('images/marker.png'),
+                          )),
+                  Marker(
+                      point: LatLng(41.27516, 1.98825),
+                      builder: (content) => GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            child: Image.asset('images/marker.png'),
+                          )),
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }
