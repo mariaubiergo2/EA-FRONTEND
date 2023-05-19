@@ -1,6 +1,7 @@
 import 'package:ea_frontend/pages/friends_screen.dart';
 import 'package:ea_frontend/pages/initial_screen.dart';
 import 'package:ea_frontend/pages/login_screen.dart';
+import 'package:ea_frontend/pages/qr_screen.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
 import 'package:ea_frontend/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,10 +32,15 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (context) => const FriendsScreen());
 
+            case '/qr_screen':
+              return MaterialPageRoute(builder: (context) => const MyQR());
+
             case '/initial_screen':
-              return MaterialPageRoute(builder: (context) => const InitialScreen());
+              return MaterialPageRoute(
+                  builder: (context) => const InitialScreen());
             default:
-              return MaterialPageRoute(builder: (context) => const LoginScreen());
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreen());
           }
         });
   }

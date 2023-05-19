@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/widget/card_widget.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PanelWidget extends StatefulWidget {
   const PanelWidget({
@@ -30,14 +29,15 @@ class _PanelWidgetState extends State<PanelWidget> {
   @override
   void initState() {
     super.initState();
-    getSubjects();
+    getChallenges();
   }
 
-  Future getSubjects() async {
+  Future getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     //http://IP_PC:3000/subject/all
-    String path = 'http://127.0.0.1:3002/challenge/get/all';
+    String path = 'http://10.0.2.2:3002/challenge/get/all';
+    // String path = 'http://127.0.0.1:3002/challenge/get/all';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",
@@ -54,22 +54,18 @@ class _PanelWidgetState extends State<PanelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: <Widget>[
           const SizedBox(height: 12),
           buildDragHandle(),
-          const SizedBox(height: 18),
-          const Center(
-            child: Text(
-              'Challenges',
-              style: TextStyle(fontWeight: FontWeight.normal),
-            ),
+          const SizedBox(height: 30),
+          //const SizedBox(height: 36),
+          //buildAboutText(),
+          const SizedBox(height: 5),
+          Expanded(
+            child: buildChallenges12(context, challengeList),
           ),
-          const SizedBox(height: 36),
-          buildAboutText(),
-          const SizedBox(height: 24),
-          buildChallenges11(context, challengeList),
         ],
       ),
     );
@@ -85,6 +81,7 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
     child: Viewport(
       axisDirection: AxisDirection.down,
       offset: ViewportOffset.zero(),
+      //clipBehavior: Clip.hardEdge,
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -103,6 +100,29 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
         ),
       ],
     ),
+  );
+}
+
+Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
+  return CustomScrollView(
+    // MediaQuery.of(context).size.height - 100,
+    slivers: [
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return MyCard(
+                name: challengeList[index].name,
+                descr: challengeList[index].descr,
+                exp: challengeList[index].exp.toString(),
+              );
+            },
+            childCount: challengeList.length,
+          ),
+        ),
+      ),
+    ],
   );
 }
 
