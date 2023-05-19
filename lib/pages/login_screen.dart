@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:ea_frontend/services/auth_service.dart';
 import 'package:ea_frontend/widget/credential_textfield.dart';
 import 'package:ea_frontend/widget/credential_button.dart';
+import 'package:ea_frontend/widget/square_tile.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
@@ -23,6 +26,8 @@ class LoginScreen extends StatelessWidget {
     //Text editing controllers
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
+
+    //Login with Google
 
     //Login method
     void logIn() async {
@@ -184,16 +189,20 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(height: 20),
 
                           //Google
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(
-                                'images/google.png',
-                                height: 65,
-                              ),
-                            ),
+                          SquareTile(
+                            imgPath: 'images/google.png',
+                            onTap: () => AuthService().signInWithGoogle(),
                           ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(2.0),
+                          //   child: ClipRRect(
+                          //     borderRadius: BorderRadius.circular(15),
+                          //     child: Image.asset(
+                          //       'images/google.png',
+                          //       height: 65,
+                          //     ),
+                          //   ),
+                          // ),
 
                           //Don't have an account?
                           const SizedBox(height: 20),

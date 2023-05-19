@@ -1,3 +1,4 @@
+import 'package:ea_frontend/pages/auth_screen.dart';
 import 'package:ea_frontend/pages/friends_screen.dart';
 import 'package:ea_frontend/pages/initial_screen.dart';
 import 'package:ea_frontend/pages/login_screen.dart';
