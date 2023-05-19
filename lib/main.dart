@@ -25,16 +25,12 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case '/register_screen':
               return MaterialPageRoute(builder: (context) => RegisterScreen());
-            /*case '/profile_screen':
-              return MaterialPageRoute(builder: (context) => ProfileScreen());
-            */
             case '/friends_screen':
               return MaterialPageRoute(
                   builder: (context) => const FriendsScreen());
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
-
             case '/initial_screen':
               return MaterialPageRoute(builder: (context) => const InitialScreen());
             default:

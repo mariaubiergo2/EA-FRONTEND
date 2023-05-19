@@ -85,31 +85,23 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
 
 @override
 Widget build(BuildContext context) {
-  return SizedBox(
-    height:
-        MediaQuery.of(context).size.height - 100, // ajustar según sea necesario
-    width: MediaQuery.of(context).size.width,
-    child: Viewport(
-      axisDirection: AxisDirection.down,
-      offset: ViewportOffset.zero(),
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return MyCard(
-                  name: userList[index].name,
-                  descr: userList[index].surname,
-                  exp: userList[index].exp.toString(),
-                );
-              },
-              childCount: userList.length,
-            ),
-          ),
+  return CustomScrollView(
+    slivers: [SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return MyCard(
+              attr1: userList[index].name+' '+userList[index].surname,
+              attr2: userList[index].username,
+              attr3: userList[index].exp.toString(),
+            );
+          },
+          childCount: userList.length,
         ),
-      ],
-    ),
-  );
+      ),
+    ),]  
+);
+    
   }
 }

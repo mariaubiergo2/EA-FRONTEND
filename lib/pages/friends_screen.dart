@@ -94,7 +94,6 @@ Widget build(BuildContext context) {
     final panelHeightClosed = windowSize.height * 0.07;
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = windowSize.height * 0.8;
-    
     return Scaffold(
         drawer: NavBar(),
         appBar: AppBar(
@@ -107,6 +106,10 @@ Widget build(BuildContext context) {
             minHeight: panelHeightClosed,
             parallaxEnabled: true,
             parallaxOffset: .5,
+            panelBuilder: (controller) => PanelWidget(
+              controller: controller,
+              panelController: panelController,),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
             body: Stack(alignment: Alignment.topCenter, children: <Widget>[
                ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -120,24 +123,19 @@ Widget build(BuildContext context) {
                 },
               ),
               GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/makefriends_screen');
-                                },
-                                child: const Text(
-                                  "Makefriends",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 222, 66, 66),
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                              ),
-                          ],),
-        panelBuilder: (controller) => PanelWidget(
-              controller: controller,
-              panelController: panelController,
-            ),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/makefriends_screen');
+                },
+                child: const Text(
+                  "Makefriends",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 222, 66, 66),
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17),
+                ),
+              ),
+            ],),
           ),
         ],
     ),

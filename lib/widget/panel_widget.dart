@@ -92,9 +92,9 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return MyCard(
-                  name: challengeList[index].name,
-                  descr: challengeList[index].descr,
-                  exp: challengeList[index].exp.toString(),
+                  attr1: challengeList[index].name,
+                  attr2: challengeList[index].descr,
+                  attr3: challengeList[index].exp.toString(),
                 );
               },
               childCount: challengeList.length,
