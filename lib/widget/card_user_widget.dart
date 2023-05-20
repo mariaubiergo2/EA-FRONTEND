@@ -1,21 +1,97 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'credential_button.dart';
 
-class MyUserCard extends StatelessWidget {
+class MyUserCard extends StatefulWidget {
+  final String idUserSession;
+  final String idCardUser;
   final String attr1;
   final String attr2;
   final String attr3;
+  final bool following;
 
   const MyUserCard(
-      {Key? key, 
+      {Key? key,
+      required this.idUserSession, //the id in shared preferences
+      required this.idCardUser, //the id of the user that appears in the card 
       required this.attr1, //photo url of the user
       required this.attr2, //username
-      required this.attr3}) //exp or level of the user
-      
+      required this.attr3, //exp or level of the user
+      required this.following //if true it means that the user is following the one it has started session
+      })
       : super(key: key);
 
+   @override
+  State<MyUserCard> createState() => _MyUserCard();
+}
+
+
+class _MyUserCard extends State<MyUserCard> {
+  String buttonText = "";
+
+
+  @override
+  void initState() {
+    super.initState();
+    setFollowingState();
+    //getFriends();
+  }
+
+  Future setFollowingState() async {
+    if (widget.following){
+      buttonText="Unfollow";
+    } else {
+      buttonText="Follow";
+    }
+  }
+
+  Future followOrUnfollow() async {
+    if (widget.following){
+      buttonText="Unfollow";
+    } else {
+      startFollowing();
+    }
+    setFollowingState();
+  }
+
+  Future startFollowing() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://127.0.0.1:3002/user/follow/add/${widget.idUserSession}/${widget.idCardUser}';
+    try {
+      var response = await Dio().post(path,
+              options: Options(headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              }));
+
+          // var registros = response.data as List;
+
+          // for (var sub in registros) {
+          //   userList.add(User.fromJson2(sub));
+          // }
+          setState(() {
+            // following = true;
+          });
+    } catch (e, stackTrace){
+      print('Error: $e');
+      print('Stack Trace: $stackTrace');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Unable to follow!',
+            message: 'Try again later.',
+            contentType: ContentType.failure,
+          ),
+        ));
+    }
+}
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -54,7 +130,7 @@ class MyUserCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        attr2,
+                        widget.attr2,
                         style: const TextStyle(
                           fontStyle: FontStyle.normal,
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -62,7 +138,7 @@ class MyUserCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Level ' +attr3,
+                        'Level ' +widget.attr3,
                         style: const TextStyle(
                           fontStyle: FontStyle.normal,
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -70,11 +146,33 @@ class MyUserCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  CredentialButton(
-                    buttonText: "Follow?",
-                    onTap: null,
+                  GestureDetector(
+                    onTap: followOrUnfollow,
+                    child: Container(
+                      padding: const EdgeInsets.all(22),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: const Color.fromARGB(255, 242, 242, 242), width: 3),
+                          color: const Color.fromARGB(255, 222, 66, 66),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        child: Text(
+                          buttonText,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 242, 242, 242),
+                            fontWeight: FontWeight.w900,
+                            fontSize: 19,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
-                  ],)),],
-        ));
+                  ],
+                  )
+                ),
+              ],
+            )
+        );
   }
 }

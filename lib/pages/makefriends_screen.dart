@@ -121,9 +121,12 @@ Widget build(BuildContext context) {
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
             return MyUserCard(
+              idUserSession: _idUser!,
+              idCardUser: notFriendsList[index].idUser,
               attr1: friendsList[index].name+' '+friendsList[index].surname,
               attr2: friendsList[index].username,
               attr3: friendsList[index].exp.toString(),
+              following: true,
             );
           },
           childCount: friendsList.length,
@@ -144,9 +147,12 @@ Widget build(BuildContext context) {
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
             return MyUserCard(
+              idUserSession: _idUser!,
+              idCardUser: notFriendsList[index].idUser,
               attr1: notFriendsList[index].name,
               attr2: notFriendsList[index].username,
               attr3: notFriendsList[index].exp.toString(),
+              following: false,
             );
           },
           childCount: notFriendsList.length,
