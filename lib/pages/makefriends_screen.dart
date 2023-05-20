@@ -1,11 +1,12 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 import '../models/user.dart';
-import '../widget/card_widget.dart';
+import '../widget/card_user_widget.dart';
+
 
 
 
@@ -17,53 +18,49 @@ class MakeFriendsScreen extends StatefulWidget {
 }
 
 class _MakeFriendsScreen extends State<MakeFriendsScreen> {
-  User? user;
-  List<User> userList = <User>[];
+  List<User> friendsList = [];
+  List<User> notFriendsList = [];
   String? _idUser = "";
-  String? _name = "";
-  String? _surname = "";
-  String? _username = "";
   String? _token = "";
-  final panelController = PanelController();
 
   @override
   void initState() {
     super.initState();
     getUserInfo();
-    getUsers();
+    getFriends();
+    getNotFriends();
   }
 
-  Future getUserInfo() async {
+  Future<void> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _token = prefs.getString('token');
       _idUser = prefs.getString('idUser');
-      _name = prefs.getString('name');
-      _surname = prefs.getString('surname');
-      _username = prefs.getString('username');
     });
   }
 
-  Future getUsers() async {
+
+  Future getFriends() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    //3("/get/all", checkJwt, getAllUsers);
-    String path = 'http://127.0.0.1:3002/user/get/all';
+    String path = 'http://127.0.0.1:3002/user/friends/$_idUser';
     try {
-      var response = await Dio().get(path,
-              options: Options(headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer $token",
-              }));
+      var response = await Dio().get(
+        path,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
 
-          var usuarios = response.data as List;
+      var users = response.data as List;
 
-          for (var sub in usuarios) {
-            userList.add(User.fromJson2(sub));
-          }
-          setState(() {
-            userList = userList;
-          });
+      setState(() {
+        friendsList = users.map((user) => User.fromJson2(user)).toList();
+      });
+
     } catch (e, stackTrace){
       print('Error: $e');
       print('Stack Trace: $stackTrace');
@@ -80,27 +77,83 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
     }
   }
 
- 
+Future getNotFriends() async {
+  final prefs = await SharedPreferences.getInstance();
+  final String token = prefs.getString('token') ?? "";
+  String path = 'http://127.0.0.1:3002/user/friends/unfollowing/$_idUser';
+  try {
+    var response = await Dio().get(
+      path,
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+
+    var users = response.data as List;
+
+    setState(() {
+      notFriendsList = users.map((user) => User.fromJson2(user)).toList();
+    });
+  } catch (e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Unable! $e',
+            message: 'Try again later.',
+            contentType: ContentType.failure,
+          ),
+        ));
+    }
+  } 
 
 
 @override
 Widget build(BuildContext context) {
   return CustomScrollView(
-    slivers: [SliverPadding(
+    slivers: [ SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-            return MyCard(
-              attr1: userList[index].name+' '+userList[index].surname,
-              attr2: userList[index].username,
-              attr3: userList[index].exp.toString(),
+            return MyUserCard(
+              attr1: friendsList[index].name+' '+friendsList[index].surname,
+              attr2: friendsList[index].username,
+              attr3: friendsList[index].exp.toString(),
             );
           },
-          childCount: userList.length,
+          childCount: friendsList.length,
         ),
       ),
-    ),]  
+    ),
+    SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'You may know...',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,),),),),
+    SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return MyUserCard(
+              attr1: notFriendsList[index].name,
+              attr2: notFriendsList[index].username,
+              attr3: notFriendsList[index].exp.toString(),
+            );
+          },
+          childCount: notFriendsList.length,
+        ),
+      ),
+    ),
+    ]  
 );
     
   }

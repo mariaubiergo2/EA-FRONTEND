@@ -60,6 +60,7 @@ class _InitialScreenState extends State<InitialScreen> {
         ),
         body: Stack(alignment: Alignment.topCenter, children: <Widget>[
           SlidingUpPanel(
+            color: Colors.black,
             controller: panelController,
             maxHeight: panelHeightOpen,
             minHeight: panelHeightClosed,

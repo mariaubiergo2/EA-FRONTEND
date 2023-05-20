@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
-import 'package:ea_frontend/widget/card_widget.dart';
+import 'package:ea_frontend/widget/card_challenge_widget.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PanelWidget extends StatefulWidget {
@@ -91,7 +91,8 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return MyCard(
+                return MyChallengeCard(
+                  index: index,
                   attr1: challengeList[index].name,
                   attr2: challengeList[index].descr,
                   attr3: challengeList[index].exp.toString(),

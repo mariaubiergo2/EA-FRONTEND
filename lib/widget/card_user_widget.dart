@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class MyCard extends StatelessWidget {
+import 'credential_button.dart';
+
+class MyUserCard extends StatelessWidget {
   final String attr1;
   final String attr2;
   final String attr3;
 
-  const MyCard(
-      {Key? key, required this.attr1, required this.attr2, required this.attr3})
+  const MyUserCard(
+      {Key? key, 
+      required this.attr1, //photo url of the user
+      required this.attr2, //username
+      required this.attr3}) //exp or level of the user
+      
       : super(key: key);
 
   @override
@@ -18,12 +24,8 @@ class MyCard extends StatelessWidget {
           children: <Widget>[ 
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color.fromARGB(255, 0, 0, 0),
                 borderRadius: BorderRadius.circular(16),
-                // border: Border.all(
-                //   width: 4,
-                //   color: Colors.amber,
-                // ),
               ),
               width: MediaQuery.of(context).size.width, 
               padding: const EdgeInsets.fromLTRB(30.0, 8,8,8),
@@ -34,12 +36,14 @@ class MyCard extends StatelessWidget {
                     radius: 40,
                     child: ClipOval(
                       child: Image.asset(
-                        'images/google.png',      
+                        'images/google.png', //attr1 in the future, when the profile has an image      
                         fit: BoxFit.cover,
-                  ), 
+                        width: 40,
+                        height: 40,
+                      ), 
                     ),
                   ), 
-                  Padding(padding: EdgeInsets.fromLTRB(30,0,12,0),
+                  Padding(padding: EdgeInsets.fromLTRB(30,0,20,0),
                   child: Container(
                     width: 1,
                     height: 100,
@@ -50,22 +54,27 @@ class MyCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        attr1,
+                        attr2,
                         style: const TextStyle(
                           fontStyle: FontStyle.normal,
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 24),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        attr2,
+                        'Level ' +attr3,
                         style: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: Colors.black,
+                          fontStyle: FontStyle.normal,
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 14),
                       ),
                     ],
-                  )],)),],
+                  ),
+                  CredentialButton(
+                    buttonText: "Follow?",
+                    onTap: null,
+                  )
+                  ],)),],
         ));
   }
 }
