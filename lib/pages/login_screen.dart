@@ -3,6 +3,7 @@ import 'package:ea_frontend/widget/credential_textfield.dart';
 import 'package:ea_frontend/widget/credential_button.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/widget/password_textfield.dart';
 import 'package:ea_frontend/pages/register_screen.dart';
 import 'package:ea_frontend/pages/initial_screen.dart';
 import 'package:lit_starfield/lit_starfield.dart';
@@ -135,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(height: 10),
 
                           //Password textfield
-                          CredentialTextField(
+                          PasswordTextField(
                               controller: passwordController,
                               labelText: "Password",
                               obscureText: true),

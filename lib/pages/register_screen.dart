@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:bcrypt/bcrypt.dart';
+import 'package:ea_frontend/widget/password_textfield.dart';
 import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:ea_frontend/widget/credential_textfield.dart';
@@ -33,10 +34,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String text = "Please enter the password";
   Color colorPasswordIndicator = Colors.black;
 
+  bool passwordVisible = false;
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
 
   @override
   Widget build(BuildContext context) {
-
     //Sign up method
     void signUp() async {
       try {
@@ -78,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               contentType: ContentType.failure,
             ),
           ));
-        } else if (passControllerVerify.text != passwordController.text){
+        } else if (passControllerVerify.text != passwordController.text) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -141,43 +147,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     }
 
-    void checkPassword(String value){
+    void checkPassword(String value) {
       password = value.trim();
 
-      if (password.isEmpty){
+      if (password.isEmpty) {
         setState(() {
           strength = 0;
           text = "Please enter the password";
         });
-      } else if (password.length<4){
+      } else if (password.length < 4) {
         setState(() {
-          strength = 1/5;
+          strength = 1 / 5;
           colorPasswordIndicator = Colors.red;
           text = "Your password is too short";
         });
-      } else if (password.length<6){
+      } else if (password.length < 6) {
         setState(() {
-          strength = 2/4;
+          strength = 2 / 4;
           colorPasswordIndicator = Colors.orange;
           text = "Your password is acceptable but insecure";
         });
       } else {
         if (!letterReg.hasMatch(password) || !numReg.hasMatch(password)) {
           setState(() {
-          strength = 3/4;
-          colorPasswordIndicator = Colors.amber;
-          text = "Your password is strong";
-        });
+            strength = 3 / 4;
+            colorPasswordIndicator = Colors.amber;
+            text = "Your password is strong";
+          });
         } else {
           setState(() {
-          strength = 1;
-          colorPasswordIndicator = Colors.green;
-          text = "Your password is great!";
-          _isStrong = true;
-        });
+            strength = 1;
+            colorPasswordIndicator = Colors.green;
+            text = "Your password is great!";
+            _isStrong = true;
+          });
         }
       }
-    } 
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 25, 25, 25),
@@ -185,161 +191,182 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Center(
           child: SizedBox(
             width: 1080,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 40),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+              Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 40),
 
-                          //Hello
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Image.asset(
-                                'images/hello.png',
-                                height: 57,
-                              ),
-                            ),
+                      //Hello
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Image.asset(
+                            'images/hello.png',
+                            height: 57,
                           ),
+                        ),
+                      ),
 
-                          const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                          //Name textfield
-                          CredentialTextField(
-                              controller: nameController,
-                              labelText: "Name",
-                              obscureText: false),
+                      //Name textfield
+                      CredentialTextField(
+                          controller: nameController,
+                          labelText: "Name",
+                          obscureText: false),
 
-                          const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                          //Surname textfield
-                          CredentialTextField(
-                              controller: surnameController,
-                              labelText: "Surname",
-                              obscureText: false),
+                      //Surname textfield
+                      CredentialTextField(
+                          controller: surnameController,
+                          labelText: "Surname",
+                          obscureText: false),
 
-                          const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                          //Username textfield
-                          CredentialTextField(
-                              controller: usernameController,
-                              labelText: "Username",
-                              obscureText: false),
+                      //Username textfield
+                      CredentialTextField(
+                          controller: usernameController,
+                          labelText: "Username",
+                          obscureText: false),
 
-                          const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                          //Email address textfield
-                          CredentialTextField(
-                              controller: emailController,
-                              labelText: "Email address",
-                              obscureText: false),
+                      //Email address textfield
+                      CredentialTextField(
+                          controller: emailController,
+                          labelText: "Email address",
+                          obscureText: false),
 
-                          const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                          //Password textfield
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: TextField(
-                              onChanged:(val) => checkPassword(val),
-                              controller: passwordController,
-                              obscureText: true,
-                              cursorColor: const Color.fromARGB(255, 222, 66, 66),
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 67, 67, 67), fontSize: 17),
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.fromLTRB(25, 25, 25, 25),
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color.fromARGB(255, 222, 66, 66), width: 3),
-                                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                                ),
-                                labelText: "Password",
-                                labelStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 146, 146, 146), fontSize: 17),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                fillColor: const Color.fromARGB(255, 242, 242, 242),
-                                filled: true,
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          //Password strength indicator
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: LinearProgressIndicator(
-                              value: strength,
-                              backgroundColor: Color.fromARGB(255, 146, 146, 146),
-                              color: colorPasswordIndicator,
-                            ),),
-
-                          const SizedBox(height: 5),
-                          
-                          Text(
-                            text,
-                            style: TextStyle(
-                                    color: Color.fromARGB(255, 242, 242, 242),
-                                    fontSize: 14), 
-                          ),
-
-                          const SizedBox(height:5),
-
-                          //Password textfield
-                          CredentialTextField(
-                              controller: passControllerVerify,
-                              labelText: "Repeat your password",
-                              obscureText: true),
-
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                child: Checkbox(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  side: const BorderSide(
-                                      color:
-                                          Color.fromARGB(255, 242, 242, 242)),
-                                  checkColor:
-                                      const Color.fromARGB(255, 242, 242, 242),
-                                  activeColor:
-                                      const Color.fromARGB(255, 222, 66, 66),
-                                  value: _isChecked,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _isChecked = value!;
-                                    });
+                      //Password textfield
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TextField(
+                          onChanged: (val) => checkPassword(val),
+                          controller: passwordController,
+                          obscureText: passwordVisible,
+                          cursorColor: const Color.fromARGB(255, 222, 66, 66),
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 67, 67, 67),
+                              fontSize: 17),
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Color.fromARGB(255, 222, 66, 66)),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    passwordVisible = !passwordVisible;
                                   },
-                                ),
-                              ),
-                              const Text(
-                                'I accept the ',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 242, 242, 242),
-                                    fontSize: 14),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Terms of use and Privacy Policy'),
-                                        content: SingleChildScrollView(
-                                          child: Column(
-                                            children: [Text(
-                                              style: TextStyle(fontSize: 14),
-                                              textAlign: TextAlign.justify,
-                                          '''
+                                );
+                              },
+                            ),
+                            contentPadding: EdgeInsets.fromLTRB(25, 25, 25, 25),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 222, 66, 66),
+                                  width: 3),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            labelText: "Password",
+                            labelStyle: TextStyle(
+                                color: Color.fromARGB(255, 146, 146, 146),
+                                fontSize: 17),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            fillColor: Color.fromARGB(255, 242, 242, 242),
+                            filled: true,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      //Password strength indicator
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: LinearProgressIndicator(
+                          value: strength,
+                          backgroundColor:
+                              const Color.fromARGB(255, 146, 146, 146),
+                          color: colorPasswordIndicator,
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      Text(
+                        text,
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 242, 242, 242),
+                            fontSize: 14),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      //Password textfield
+                      PasswordTextField(
+                          controller: passControllerVerify,
+                          labelText: "Repeat your password",
+                          obscureText: true),
+
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                            child: Checkbox(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              side: const BorderSide(
+                                  color: Color.fromARGB(255, 242, 242, 242)),
+                              checkColor:
+                                  const Color.fromARGB(255, 242, 242, 242),
+                              activeColor:
+                                  const Color.fromARGB(255, 222, 66, 66),
+                              value: _isChecked,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isChecked = value!;
+                                });
+                              },
+                            ),
+                          ),
+                          const Text(
+                            'I accept the ',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 242, 242, 242),
+                                fontSize: 14),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        'Terms of use and Privacy Policy'),
+                                    content: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          const Text(
+                                            style: TextStyle(fontSize: 14),
+                                            textAlign: TextAlign.justify,
+                                            '''
 Acceptance of Terms: By accessing and using this app/service, you agree to be bound by these Terms of Use.
 
 User Responsibilities: You are responsible for the proper use of the app/service and complying with any applicable laws and regulations.
@@ -364,76 +391,73 @@ Third-Party Links: The app/service may contain links to third-party websites or 
 
 Updates to Privacy Policy: We may update the Privacy Policy from time to time, and it is your responsibility to review it periodically.
 
-''',              
+''',
                                           ),
                                         ],
-                    ),
-                  ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Close'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Close'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
                                   );
                                 },
-                                child: Text(
-                                  "Terms of use and Privacy Policy",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 242, 242, 242),
-                                    fontSize: 14,
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,)
-                                  
-                                  
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          //Sign up button
-                          CredentialButton(
-                            buttonText: "SIGN UP",
-                            onTap: signUp,
-                          ),
-
-                          //Already have an account?
-                          const SizedBox(height: 33),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Already have an account?",
+                              );
+                            },
+                            child: const Text("Terms of use and Privacy Policy",
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 242, 242, 242),
-                                    fontSize: 17),
-                              ),
-                              const SizedBox(width: 4),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/login_screen');
-                                },
-                                child: const Text(
-                                  "Log In",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 222, 66, 66),
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                              ),
-                            ],
+                                  color: Color.fromARGB(255, 242, 242, 242),
+                                  fontSize: 14,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                         ],
-                      )),
-                ]),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      //Sign up button
+                      CredentialButton(
+                        buttonText: "SIGN UP",
+                        onTap: signUp,
+                      ),
+
+                      //Already have an account?
+                      const SizedBox(height: 33),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Already have an account?",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 242, 242, 242),
+                                fontSize: 17),
+                          ),
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/login_screen');
+                            },
+                            child: const Text(
+                              "Log In",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 222, 66, 66),
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ]),
           ),
         ),
       ),
