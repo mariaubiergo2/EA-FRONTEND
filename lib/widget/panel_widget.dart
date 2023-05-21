@@ -95,6 +95,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                   attr3: challengeList[index].exp.toString(),
                   //controller: ScrollController(),
                   panelController: widget.panelController,
+                  lat: challengeList[index].lat,
+                  long: challengeList[index].long,
                 );
               },
               childCount: challengeList.length,

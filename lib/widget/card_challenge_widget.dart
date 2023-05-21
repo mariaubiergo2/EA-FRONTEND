@@ -1,37 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 class MyChallengeCard extends StatelessWidget {
   final int index;
   final String attr1;
   final String attr2;
   final String attr3;
+  final String lat;
+  final String long;
+  late MapController mapController;
   //final ScrollController controller;
   final PanelController panelController;
 
-  const MyChallengeCard({
+//  mapController.move(LatLng(double.parse(lat), double.parse(long)), 20);
+
+  MyChallengeCard({
     Key? key,
     required this.index,
     required this.attr1,
     required this.attr2,
     required this.attr3,
     required this.panelController,
-  }) : super(key: key);
+    required this.lat,
+    required this.long,
+  }) : super(key: key) {
+    mapController = MapController(); // Inicializa el mapController
+  }
 
-  // void togglePanel() {
-  //   panelController.close();
-  // }
+  Widget tabMap(BuildContext context) {
+    final double latitude = double.parse(lat);
+    final double longitude = double.parse(long);
 
-  // void togglePanel() {
-  //   if (panelController.isAttached) {
-  //     panelController.close();
-  //   }
-  // }
-
-  // void togglePanel2() {
-  //   panelController.close();
-  // }
+    return FlutterMap(
+        options: MapOptions(
+      center: LatLng(latitude, longitude),
+      zoom: 20,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +63,8 @@ class MyChallengeCard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               panelController.close();
+              //panelController.animatePanelToPosition(0);
+              tabMap(context);
             },
             child: Container(
               decoration: BoxDecoration(
