@@ -7,9 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/widget/password_textfield.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -24,12 +29,11 @@ class LoginScreen extends StatelessWidget {
     void logIn() async {
       if ((emailController.text != '') && (passwordController.text != '')) {
         try {
-          var response = await Dio().post("http://10.0.2.2:3002/auth/login",
-              // var response = await Dio().post("http://127.0.0.1:3002/auth/login",
-              data: {
-                "email": emailController.text,
-                "password": passwordController.text
-              });
+          var response = await Dio()
+              .post('http://${dotenv.env['API_URL']}/auth/login', data: {
+            "email": emailController.text,
+            "password": passwordController.text
+          });
 
           if (response.statusCode == 200) {
             Map<String, dynamic> payload = Jwt.parseJwt(response.toString());

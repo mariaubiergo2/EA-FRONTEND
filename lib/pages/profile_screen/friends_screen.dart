@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../models/user.dart';
@@ -8,6 +9,10 @@ import '../../widget/friend_widget.dart';
 import '../../widget/panel_widget.dart';
 import '../navbar.dart';
 import 'dart:ui' as ui;
+
+void main() async {
+  await dotenv.load();
+}
 
 class FriendsScreen extends StatefulWidget {
   const FriendsScreen({super.key});
@@ -40,8 +45,7 @@ class _FriendsScreen extends State<FriendsScreen> {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     //http://IP_PC:3000/subject/all
-    String path = 'http://10.0.2.2:3002/user/friends/${_idUser!}';
-    //String path = 'http://127.0.0.1:3002/user/friends/${_idUser!}';
+    String path = 'http://${dotenv.env['API_URL']}/user/friends/${_idUser!}';
     try {
       var response = await Dio().get(path,
           options: Options(headers: {

@@ -1,6 +1,7 @@
 // ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../widget/maps_widget.dart';
@@ -8,6 +9,10 @@ import '../../widget/panel_widget.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:ea_frontend/models/challenge.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class HomeScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -36,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://10.0.2.2:3002/challenge/get/all';
+    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",

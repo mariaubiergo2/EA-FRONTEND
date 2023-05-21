@@ -3,7 +3,12 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class MyUserCard extends StatefulWidget {
   final String idUserSession;
@@ -59,7 +64,7 @@ class _MyUserCard extends State<MyUserCard> {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     String path =
-        'http://10.0.2.2:3002/user/follow/add/${widget.idUserSession}/${widget.idCardUser}';
+        'http://${dotenv.env['API_URL']}/user/follow/add/${widget.idUserSession}/${widget.idCardUser}';
     try {
       var response = await Dio().post(path,
           options: Options(headers: {

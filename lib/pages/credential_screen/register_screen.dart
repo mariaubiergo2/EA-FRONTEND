@@ -6,7 +6,12 @@ import 'package:email_validator/email_validator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../widget/credential_button.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -106,9 +111,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ));
         } else {
-          var response =
-              // await Dio().post("http://10.0.2.2:3002/auth/register", data: {
-              await Dio().post("http://10.0.2.2:3002/auth/register", data: {
+          var response = await Dio()
+              .post("http://${dotenv.env['API_URL']}/auth/register", data: {
             "name": nameController.text,
             "surname": surnameController.text,
             "username": usernameController.text,

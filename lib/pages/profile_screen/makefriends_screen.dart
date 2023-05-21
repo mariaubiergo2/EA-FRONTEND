@@ -2,10 +2,15 @@
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import '../../models/user.dart';
 import '../../widget/card_user_widget.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class MakeFriendsScreen extends StatefulWidget {
   const MakeFriendsScreen({super.key});
@@ -37,7 +42,7 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   Future getFriends() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://10.0.2.2:3002/user/friends/$_idUser';
+    String path = 'http://${dotenv.env['API_URL']}/user/friends/$_idUser';
     try {
       var response = await Dio().get(
         path,
@@ -72,7 +77,8 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   Future getNotFriends() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://127.0.0.1:3002/user/friends/unfollowing/$_idUser';
+    String path =
+        'http://${dotenv.env['API_URL']}/user/friends/unfollowing/$_idUser';
     try {
       var response = await Dio().get(
         path,

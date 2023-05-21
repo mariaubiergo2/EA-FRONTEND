@@ -1,10 +1,17 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:dio/dio.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class MapScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
@@ -59,7 +66,7 @@ class MapsWidget extends State<MapScreen> {
   Future getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://10.0.2.2:3002/challenge/get/all';
+    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",
