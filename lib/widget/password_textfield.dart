@@ -32,7 +32,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         cursorColor: const Color.fromARGB(255, 222, 66, 66),
         style: const TextStyle(
             color: Color.fromARGB(255, 67, 67, 67), fontSize: 17),
-        decoration: InputDecoration(
+          decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(25, 25, 25, 25),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -48,7 +48,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           floatingLabelBehavior: FloatingLabelBehavior.never,
           fillColor: const Color.fromARGB(255, 242, 242, 242),
           filled: true,
-          suffixIcon: IconButton(
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: 12), 
+            child: IconButton(
             icon: Icon(
               _obscureText ? Icons.visibility : Icons.visibility_off,
               color: Color.fromARGB(255, 222, 66, 66),
@@ -58,7 +60,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                 _obscureText = !_obscureText;
               });
             },
-          ),
+          ),)          
         ),
       ),
     );

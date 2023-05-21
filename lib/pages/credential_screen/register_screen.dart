@@ -197,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: <
                     Widget>[
               Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
                       const SizedBox(height: 40),
