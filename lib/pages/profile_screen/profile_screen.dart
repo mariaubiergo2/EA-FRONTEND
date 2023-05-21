@@ -1,7 +1,38 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-class ProfileScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String? _idUser = "";
+  String? _name = "";
+  String? _surname = "";
+  String? _username = "";
+  String? _token = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  Future getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token');
+      _idUser = prefs.getString('idUser');
+      _name = prefs.getString('name');
+      _surname = prefs.getString('surname');
+      _username = prefs.getString('username');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +57,17 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    const Text(
-                      'Athax',
-                      style: TextStyle(
+                    Text(
+                      '$_name $_surname',
+                      style: const TextStyle(
                           color: Color.fromARGB(255, 242, 242, 242),
                           fontWeight: FontWeight.w500,
                           fontSize: 30),
                     ),
                     const SizedBox(height: 5),
-                    const Text(
-                      'adrian@eetacgo.com',
-                      style: TextStyle(
+                    Text(
+                      '$_username',
+                      style: const TextStyle(
                           color: Color.fromARGB(255, 242, 242, 242),
                           fontSize: 13),
                     ),

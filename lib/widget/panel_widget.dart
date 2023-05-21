@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import, unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -30,8 +32,6 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
-  dynamic controller;
-  dynamic panelController;
 
   @override
   void initState() {
@@ -76,29 +76,25 @@ class _PanelWidgetState extends State<PanelWidget> {
       ),
     );
   }
-}
 
-@override
-Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
-  return SizedBox(
-    height:
-        MediaQuery.of(context).size.height - 100, // ajustar según sea necesario
-    width: MediaQuery.of(context).size.width,
-    child: Viewport(
-      axisDirection: AxisDirection.down,
-      offset: ViewportOffset.zero(),
-      //clipBehavior: Clip.hardEdge,
+  Widget buildChallenges12(
+      BuildContext context, List<Challenge> challengeList) {
+    return CustomScrollView(
+      // MediaQuery.of(context).size.height - 100,
       slivers: [
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
+                // return MyCard(
                 return MyChallengeCard(
                   index: index,
                   attr1: challengeList[index].name,
                   attr2: challengeList[index].descr,
                   attr3: challengeList[index].exp.toString(),
+                  controller: ScrollController(),
+                  panelController: PanelController(),
                 );
               },
               childCount: challengeList.length,
@@ -106,49 +102,24 @@ Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
           ),
         ),
       ],
-    ),
-  );
-}
-
-Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
-  return CustomScrollView(
-    // MediaQuery.of(context).size.height - 100,
-    slivers: [
-      SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              // return MyCard(
-              return MyChallengeCard(
-                index: index,
-                attr1: challengeList[index].name,
-                attr2: challengeList[index].descr,
-                attr3: challengeList[index].exp.toString(),
-              );
-            },
-            childCount: challengeList.length,
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget buildDragHandle() => GestureDetector(
-      onTap: togglePanel,
-      child: Center(
-        child: Container(
-          width: 100,
-          height: 4,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 242, 242, 242),
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      ),
     );
+  }
 
-void togglePanel() => PanelController().isPanelOpen
-    ? PanelController().close()
-    : PanelController().open();
+  Widget buildDragHandle() => GestureDetector(
+        onTap: togglePanel,
+        child: Center(
+          child: Container(
+            width: 100,
+            height: 4,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 242, 242, 242),
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      );
+
+  void togglePanel() => widget.panelController.isPanelOpen
+      ? widget.panelController.close()
+      : widget.panelController.open();
+}

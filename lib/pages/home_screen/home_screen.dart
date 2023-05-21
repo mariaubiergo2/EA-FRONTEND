@@ -15,8 +15,9 @@ void main() async {
 }
 
 class HomeScreen extends StatefulWidget {
-  //const LoginScreen({super.key, required String title});
   const HomeScreen({super.key});
+
+  //const LoginScreen({super.key, required String title});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -65,6 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: SlidingUpPanel(
       controller: panelController,
+      backdropEnabled: true,
+      backdropTapClosesPanel: true,
+      //color: Colors.transparent,
       maxHeight: panelHeightOpen,
       minHeight: panelHeightClosed,
       parallaxEnabled: true,
