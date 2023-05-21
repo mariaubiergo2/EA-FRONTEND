@@ -57,6 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void togglePanel() {
+    if (panelController.isPanelOpen) {
+      panelController.close();
+    } else {
+      panelController.open();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //en que porcentage de la pantalla se inicia el panel deslizante
