@@ -4,13 +4,13 @@ import 'package:ea_frontend/widget/credential_button.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/widget/password_textfield.dart';
-import 'package:ea_frontend/pages/register_screen.dart';
-import 'package:ea_frontend/pages/initial_screen.dart';
+import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
+import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:lit_starfield/lit_starfield.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user.dart';
+import '../../models/user.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

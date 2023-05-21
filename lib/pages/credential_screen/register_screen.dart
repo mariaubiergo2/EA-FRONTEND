@@ -9,7 +9,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import '../widget/credential_button.dart';
+import '../../widget/credential_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override

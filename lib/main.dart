@@ -1,10 +1,10 @@
-import 'package:ea_frontend/pages/friends_screen.dart';
-import 'package:ea_frontend/pages/initial_screen.dart';
-import 'package:ea_frontend/pages/login_screen.dart';
-import 'package:ea_frontend/pages/qr_screen.dart';
-import 'package:ea_frontend/pages/makefriends_screen.dart';
-import 'package:ea_frontend/pages/register_screen.dart';
-import 'package:ea_frontend/pages/splash_screen.dart';
+import 'package:ea_frontend/pages/profile_screen/friends_screen.dart';
+import 'package:ea_frontend/pages/home_screen/home_screen.dart';
+import 'package:ea_frontend/pages/credential_screen/login_screen.dart';
+import 'package:ea_frontend/pages/home_screen/qr_screen.dart';
+import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
+import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
+import 'package:ea_frontend/pages/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/pages/navbar.dart';
 
@@ -36,9 +36,8 @@ class MyApp extends StatelessWidget {
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
-            case '/initial_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const InitialScreen());
+            case '/navbar':
+              return MaterialPageRoute(builder: (context) => const NavBar());
             default:
               return MaterialPageRoute(
                   builder: (context) => const LoginScreen());

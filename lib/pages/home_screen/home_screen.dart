@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import '../widget/maps_widget.dart';
-import '../widget/panel_widget.dart';
+import '../../widget/maps_widget.dart';
+import '../../widget/panel_widget.dart';
 import 'package:ea_frontend/pages/navbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -15,19 +15,19 @@ import 'dart:ui' as ui;
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/widget/card_widget.dart';
 
-class InitialScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
-  const InitialScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
-  State<InitialScreen> createState() => _InitialScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 const snackBar = SnackBar(
   content: Text('Marker Clicked'),
 );
 
-class _InitialScreenState extends State<InitialScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   final panelController = PanelController();
   List<Marker> allmarkers = [];
   Challenge? challenge;
@@ -95,58 +95,54 @@ class _InitialScreenState extends State<InitialScreen> {
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
     return Scaffold(
-        drawer: const NavBar(),
-        appBar: AppBar(
-          title: const Text('EETAC -  GO'),
-        ),
         body: SlidingUpPanel(
-          controller: panelController,
-          maxHeight: panelHeightOpen,
-          minHeight: panelHeightClosed,
-          parallaxEnabled: true,
-          parallaxOffset: .5,
-          panelBuilder: (controller) => ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(18),
-              topRight: Radius.circular(18),
-            ),
-            child: PanelWidget(
-              controller: controller,
-              panelController: panelController,
-            ),
+      controller: panelController,
+      maxHeight: panelHeightOpen,
+      minHeight: panelHeightClosed,
+      parallaxEnabled: true,
+      parallaxOffset: .5,
+      panelBuilder: (controller) => ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(18),
+          topRight: Radius.circular(18),
+        ),
+        child: PanelWidget(
+          controller: controller,
+          panelController: panelController,
+        ),
+      ),
+      collapsed: const Center(child: Text('Challenges')),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(18),
+        topRight: Radius.circular(18),
+      ),
+      body: FlutterMap(
+        options: MapOptions(
+          center: LatLng(41.27561, 1.98722),
+          zoom: 16.0,
+          maxZoom: 18.0,
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.example.app',
           ),
-          collapsed: const Center(child: Text('Challenges')),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(18),
-            topRight: Radius.circular(18),
-          ),
-          body: FlutterMap(
-            options: MapOptions(
-              center: LatLng(41.27561, 1.98722),
-              zoom: 16.0,
-              maxZoom: 18.0,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-              ),
-              MarkerLayer(
-                markers: allmarkers,
-              )
-            ],
-            nonRotatedChildren: [
-              RichAttributionWidget(
-                attributions: [
-                  TextSourceAttribution(
-                    'OpenStreetMap contributors',
-                    onTap: () => launchUrl(
-                        Uri.parse('https://openstreetmap.org/copyright')),
-                  ),
-                ],
+          MarkerLayer(
+            markers: allmarkers,
+          )
+        ],
+        nonRotatedChildren: [
+          RichAttributionWidget(
+            attributions: [
+              TextSourceAttribution(
+                'OpenStreetMap contributors',
+                onTap: () =>
+                    launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
               ),
             ],
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }

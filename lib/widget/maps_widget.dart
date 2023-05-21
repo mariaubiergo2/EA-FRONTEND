@@ -7,7 +7,7 @@ import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/widget/card_widget.dart';
 import 'package:dio/dio.dart';
 
-import '../pages/initial_screen.dart';
+import '../pages/home_screen/home_screen.dart';
 
 class MapScreen extends StatefulWidget {
   //const LoginScreen({super.key, required String title});
