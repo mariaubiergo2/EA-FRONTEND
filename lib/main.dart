@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
             case '/navbar':
               return MaterialPageRoute(builder: (context) => const NavBar());
             default:
-              return MaterialPageRoute(builder: (context) => const NavBar());
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreen());
           }
         });
   }
