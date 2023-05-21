@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# dotenv environment variables file
+.env*
+
 # IntelliJ related
 *.iml
 *.ipr

@@ -189,7 +189,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 25, 25, 25),
-      body: SafeArea(
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: Center(
           child: SizedBox(
             width: 1080,
