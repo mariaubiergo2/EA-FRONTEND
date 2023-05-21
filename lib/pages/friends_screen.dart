@@ -45,8 +45,8 @@ class _FrindsScreen extends State<FriendsScreen> {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     //http://IP_PC:3000/subject/all
-    String path = 'http://10.0.2.2:3002/user/friends/${_idUser!}';
-    // String path = 'http://127.0.0.1:3002/user/friends/${_idUser!}';
+    //String path = 'http://10.0.2.2:3002/user/friends/${_idUser!}';
+    String path = 'http://127.0.0.1:3002/user/friends/${_idUser!}';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",

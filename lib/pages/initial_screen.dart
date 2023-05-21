@@ -120,7 +120,33 @@ class _InitialScreenState extends State<InitialScreen> {
             topLeft: Radius.circular(18),
             topRight: Radius.circular(18),
           ),
-          body: const MapsWidget(),
+          body: FlutterMap(
+            options: MapOptions(
+              center: LatLng(41.27561, 1.98722),
+              zoom: 16.0,
+              maxZoom: 18.0,
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+              ),
+              MarkerLayer(
+                markers: allmarkers,
+              )
+            ],
+            nonRotatedChildren: [
+              RichAttributionWidget(
+                attributions: [
+                  TextSourceAttribution(
+                    'OpenStreetMap contributors',
+                    onTap: () => launchUrl(
+                        Uri.parse('https://openstreetmap.org/copyright')),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ));
   }
 }

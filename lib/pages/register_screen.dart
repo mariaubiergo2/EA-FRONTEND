@@ -100,8 +100,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ));
         } else {
           var response =
-              await Dio().post("http://10.0.2.2:3002/auth/register", data: {
-            // await Dio().post("http://127.0.0.1:3002/auth/register", data: {
+              // await Dio().post("http://10.0.2.2:3002/auth/register", data: {
+              await Dio().post("http://127.0.0.1:3002/auth/register", data: {
             "name": nameController.text,
             "surname": surnameController.text,
             "username": usernameController.text,

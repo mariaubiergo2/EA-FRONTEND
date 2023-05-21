@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
     void logIn() async {
       if ((emailController.text != '') && (passwordController.text != '')) {
         try {
-          var response = await Dio().post("http://10.0.2.2:3002/auth/login",
+          var response = await Dio().post("http://127.0.0.1:3002/auth/login",
               // var response = await Dio().post("http://127.0.0.1:3002/auth/login",
               data: {
                 "email": emailController.text,
