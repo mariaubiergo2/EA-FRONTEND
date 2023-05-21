@@ -7,7 +7,7 @@ class MyChallengeCard extends StatelessWidget {
   final String attr1;
   final String attr2;
   final String attr3;
-  final ScrollController controller;
+  //final ScrollController controller;
   final PanelController panelController;
 
   const MyChallengeCard({
@@ -16,15 +16,22 @@ class MyChallengeCard extends StatelessWidget {
     required this.attr1,
     required this.attr2,
     required this.attr3,
-    required this.controller,
     required this.panelController,
   }) : super(key: key);
 
-  void togglePanel() {
-    if (panelController.isAttached) {
-      panelController.close();
-    }
-  }
+  // void togglePanel() {
+  //   panelController.close();
+  // }
+
+  // void togglePanel() {
+  //   if (panelController.isAttached) {
+  //     panelController.close();
+  //   }
+  // }
+
+  // void togglePanel2() {
+  //   panelController.close();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,7 @@ class MyChallengeCard extends StatelessWidget {
           ),
           child: GestureDetector(
             onTap: () {
-              togglePanel();
+              panelController.close();
             },
             child: Container(
               decoration: BoxDecoration(
