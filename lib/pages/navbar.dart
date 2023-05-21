@@ -4,7 +4,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 //Screens
 import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
-import 'package:ea_frontend/pages/list_screen/list_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/profile_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 
@@ -22,7 +21,7 @@ final screens = [
   const HomeScreen(),
   ChatScreen(),
   const MakeFriendsScreen(),
-  ProfileScreen(),
+  const ProfileScreen(),
 ];
 
 class _NavBarState extends State<NavBar> {

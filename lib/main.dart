@@ -21,11 +21,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material Login',
-        home: SplashScreen(),
+        home: const SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
-              return MaterialPageRoute(builder: (context) => RegisterScreen());
+              return MaterialPageRoute(
+                  builder: (context) => const RegisterScreen());
             case '/friends_screen':
               return MaterialPageRoute(
                   builder: (context) => const FriendsScreen());

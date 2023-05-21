@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:bcrypt/bcrypt.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ea_frontend/widget/password_textfield.dart';
-import 'package:flutter_bcrypt/flutter_bcrypt.dart';
-import 'package:dbcrypt/dbcrypt.dart';
 import 'package:ea_frontend/widget/credential_textfield.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:dio/dio.dart';
@@ -12,6 +9,8 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import '../../widget/credential_button.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -109,19 +108,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         } else {
           var response =
               // await Dio().post("http://10.0.2.2:3002/auth/register", data: {
-              await Dio().post("http://127.0.0.1:3002/auth/register", data: {
+              await Dio().post("http://10.0.2.2:3002/auth/register", data: {
             "name": nameController.text,
             "surname": surnameController.text,
             "username": usernameController.text,
             "email": emailController.text,
             "password": passwordController.text,
           });
-          print("Error debug: " + response.statusCode.toString());
           if (response.statusCode == 200) {
             Navigator.pushNamed(context, '/login_screen');
           }
           if (response.statusCode == 400) {
-            print(response.statusMessage);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
@@ -264,7 +261,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   passwordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Color.fromARGB(255, 222, 66, 66)),
+                                  color:
+                                      const Color.fromARGB(255, 222, 66, 66)),
                               onPressed: () {
                                 setState(
                                   () {
@@ -273,12 +271,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 );
                               },
                             ),
-                            contentPadding: EdgeInsets.fromLTRB(25, 25, 25, 25),
-                            border: OutlineInputBorder(
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(25, 25, 25, 25),
+                            border: const OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromARGB(255, 222, 66, 66),
                                   width: 3),
@@ -286,11 +285,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   BorderRadius.all(Radius.circular(20)),
                             ),
                             labelText: "Password",
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                                 color: Color.fromARGB(255, 146, 146, 146),
                                 fontSize: 17),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: Color.fromARGB(255, 242, 242, 242),
+                            fillColor: const Color.fromARGB(255, 242, 242, 242),
                             filled: true,
                           ),
                         ),
@@ -363,8 +362,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         'Terms of use and Privacy Policy'),
                                     content: SingleChildScrollView(
                                       child: Column(
-                                        children: [
-                                          const Text(
+                                        children: const [
+                                          Text(
                                             style: TextStyle(fontSize: 14),
                                             textAlign: TextAlign.justify,
                                             '''

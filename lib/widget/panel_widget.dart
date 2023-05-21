@@ -39,7 +39,7 @@ class _PanelWidgetState extends State<PanelWidget> {
     final String token = prefs.getString('token') ?? "";
     //http://IP_PC:3000/subject/all
     //String path = 'http://10.0.2.2:3002/challenge/get/all';
-    String path = 'http://127.0.0.1:3002/challenge/get/all';
+    String path = 'http://10.0.2.2:3002/challenge/get/all';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",

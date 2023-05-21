@@ -1,9 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-
 import '../../models/user.dart';
 import '../../widget/card_user_widget.dart';
 
@@ -18,7 +18,6 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   List<User> friendsList = [];
   List<User> notFriendsList = [];
   String? _idUser = "";
-  String? _token = "";
 
   @override
   void initState() {
@@ -31,7 +30,6 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   Future<void> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _token = prefs.getString('token');
       _idUser = prefs.getString('idUser');
     });
   }
@@ -39,7 +37,7 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   Future getFriends() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://127.0.0.1:3002/user/friends/$_idUser';
+    String path = 'http://10.0.2.2:3002/user/friends/$_idUser';
     try {
       var response = await Dio().get(
         path,
@@ -56,9 +54,8 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
       setState(() {
         friendsList = users.map((user) => User.fromJson2(user)).toList();
       });
-    } catch (e, stackTrace) {
-      print('Error: $e');
-      print('Stack Trace: $stackTrace');
+    } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         elevation: 0,
         behavior: SnackBarBehavior.floating,
@@ -118,7 +115,7 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
                 idUserSession: _idUser!,
                 idCardUser: notFriendsList[index].idUser,
                 attr1:
-                    friendsList[index].name + ' ' + friendsList[index].surname,
+                    '${friendsList[index].name} ${friendsList[index].surname}',
                 attr2: friendsList[index].username,
                 attr3: friendsList[index].exp.toString(),
                 following: true,
@@ -128,9 +125,9 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
           ),
         ),
       ),
-      SliverToBoxAdapter(
+      const SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             'You may know...',
             style: TextStyle(

@@ -48,7 +48,7 @@ class MyChallengeCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundColor: Color.fromARGB(255, 222, 66, 66),
+                      backgroundColor: const Color.fromARGB(255, 222, 66, 66),
                       child: ClipOval(
                         child: Text(
                           (this.index + 1).toString(),
@@ -61,7 +61,7 @@ class MyChallengeCard extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(30, 0, 12, 0),
+                      padding: const EdgeInsets.fromLTRB(30, 0, 12, 0),
                       child: Container(
                         width: 1,
                         height: 100,
@@ -69,30 +69,28 @@ class MyChallengeCard extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              attr1,
-                              style: const TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 24,
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            attr1,
+                            style: const TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 24,
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              attr2,
-                              style: const TextStyle(
-                                fontStyle: FontStyle.normal,
-                                color: Colors.black,
-                                fontSize: 14,
-                              ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            attr2,
+                            style: const TextStyle(
+                              fontStyle: FontStyle.normal,
+                              color: Colors.black,
+                              fontSize: 14,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Positioned(
@@ -101,21 +99,21 @@ class MyChallengeCard extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 10,
                             backgroundColor: Colors.amber,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
                             attr3,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                         ],

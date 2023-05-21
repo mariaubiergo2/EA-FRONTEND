@@ -1,12 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:ea_frontend/widget/credential_textfield.dart';
 import 'package:ea_frontend/widget/credential_button.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/widget/password_textfield.dart';
-import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
-import 'package:ea_frontend/pages/home_screen/home_screen.dart';
-import 'package:lit_starfield/lit_starfield.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,10 +16,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late String idUser = "";
-    late String _email;
-    late String _password;
-
     //Text editing controllers
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
@@ -29,24 +24,18 @@ class LoginScreen extends StatelessWidget {
     void logIn() async {
       if ((emailController.text != '') && (passwordController.text != '')) {
         try {
-          var response = await Dio().post("http://127.0.0.1:3002/auth/login",
+          var response = await Dio().post("http://10.0.2.2:3002/auth/login",
               // var response = await Dio().post("http://127.0.0.1:3002/auth/login",
               data: {
                 "email": emailController.text,
                 "password": passwordController.text
               });
 
-          print(response.statusCode);
-
           if (response.statusCode == 200) {
             Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
 
-            print('Token:' + payload.toString());
-
             User u = User.fromJson(payload);
             var data = json.decode(response.toString());
-
-            print(data['token']);
 
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
@@ -58,7 +47,6 @@ class LoginScreen extends StatelessWidget {
 
             Navigator.pushNamed(context, '/navbar');
           } else {
-            print(response.statusCode);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
