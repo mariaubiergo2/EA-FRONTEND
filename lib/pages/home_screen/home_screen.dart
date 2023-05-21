@@ -91,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     //en que porcentage de la pantalla se inicia el panel deslizante
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.07;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.06;
     //hasta que porcentage de la pantalla lega el panel
-    final panelHeightOpen = MediaQuery.of(context).size.height * 0.8;
+    final panelHeightOpen = MediaQuery.of(context).size.height * 0.78;
     return Scaffold(
         body: SlidingUpPanel(
       controller: panelController,
@@ -103,18 +103,17 @@ class _HomeScreenState extends State<HomeScreen> {
       parallaxOffset: .5,
       panelBuilder: (controller) => ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(18),
-          topRight: Radius.circular(18),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
         child: PanelWidget(
           controller: controller,
           panelController: panelController,
         ),
       ),
-      collapsed: const Center(child: Text('Challenges')),
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(18),
-        topRight: Radius.circular(18),
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
       ),
       body: FlutterMap(
         options: MapOptions(

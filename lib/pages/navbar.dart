@@ -34,39 +34,37 @@ class _NavBarState extends State<NavBar> {
         color: const Color.fromARGB(255, 25, 25, 25),
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
         child: GNav(
-            gap: 10,
+            gap: 15,
             backgroundColor: const Color.fromARGB(255, 25, 25, 25),
             color: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
             selectedIndex: _currentIndex,
             onTabChange: (index) => {setState(() => _currentIndex = index)},
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.fromLTRB(14, 8.5, 14, 8.5),
             tabs: const [
               GButton(
                 icon: Icons.home_filled,
+                iconSize: 25,
                 text: 'Home',
               ),
-              GButton(icon: Icons.chat, text: 'Chat'),
               GButton(
-                icon: Icons.list,
-                text: 'List',
+                  icon: Icons.chat_bubble_rounded, iconSize: 22, text: 'Chat'),
+              GButton(
+                icon: Icons.manage_search_rounded,
+                iconSize: 27,
+                text: 'Discover',
               ),
               GButton(
-                icon: Icons.person,
+                icon: Icons.person_rounded,
+                iconSize: 24,
                 text: 'Profile',
               ),
             ]),
       ),
-      bottomSheet: Container(
-        color: const Color.fromARGB(255, 52, 52, 52),
-        child: const SizedBox(
-          height: 1.0,
-          child: Divider(
-            color: Color.fromARGB(255, 52, 52, 52),
-            height: 1.0,
-          ),
-        ),
+      bottomSheet: const Divider(
+        color: Color.fromARGB(255, 52, 52, 52),
+        height: 0.05,
       ),
     );
   }

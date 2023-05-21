@@ -57,18 +57,19 @@ class _PanelWidgetState extends State<PanelWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          const SizedBox(height: 12),
-          buildDragHandle(),
-          const SizedBox(height: 30),
-          //const SizedBox(height: 36),
-          //buildAboutText(),
-          const SizedBox(height: 5),
-          Expanded(
-            child: buildChallenges12(context, challengeList),
-          ),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(color: Color.fromARGB(255, 25, 25, 25)),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 12),
+            buildDragHandle(),
+            const SizedBox(height: 30),
+            const SizedBox(height: 5),
+            Expanded(
+              child: buildChallenges12(context, challengeList),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -131,27 +132,14 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   );
 }
 
-Widget buildAboutText() => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
-          Text(
-            'Available challenges',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          )
-        ],
-      ),
-    );
-
 Widget buildDragHandle() => GestureDetector(
       onTap: togglePanel,
       child: Center(
         child: Container(
-          width: 30,
-          height: 5,
+          width: 100,
+          height: 4,
           decoration: BoxDecoration(
-            color: Colors.grey[300],
+            color: const Color.fromARGB(255, 242, 242, 242),
             borderRadius: BorderRadius.circular(12),
           ),
         ),
