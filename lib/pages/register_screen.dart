@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:bcrypt/bcrypt.dart';
+import 'package:ea_frontend/widget/password_textfield.dart';
 import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:ea_frontend/widget/credential_textfield.dart';
@@ -32,6 +33,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late String password;
   String text = "Please enter the password";
   Color colorPasswordIndicator = Colors.black;
+
+  bool passwordVisible = false;
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -245,19 +253,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextField(
                           onChanged: (val) => checkPassword(val),
                           controller: passwordController,
-                          obscureText: true,
+                          obscureText: passwordVisible,
                           cursorColor: const Color.fromARGB(255, 222, 66, 66),
                           style: const TextStyle(
                               color: Color.fromARGB(255, 67, 67, 67),
                               fontSize: 17),
                           decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(25, 25, 25, 25),
-                            border: const OutlineInputBorder(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Color.fromARGB(255, 222, 66, 66)),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    passwordVisible = !passwordVisible;
+                                  },
+                                );
+                              },
+                            ),
+                            contentPadding: EdgeInsets.fromLTRB(25, 25, 25, 25),
+                            border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                             ),
-                            focusedBorder: const OutlineInputBorder(
+                            focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromARGB(255, 222, 66, 66),
                                   width: 3),
@@ -265,11 +286,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   BorderRadius.all(Radius.circular(20)),
                             ),
                             labelText: "Password",
-                            labelStyle: const TextStyle(
+                            labelStyle: TextStyle(
                                 color: Color.fromARGB(255, 146, 146, 146),
                                 fontSize: 17),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: const Color.fromARGB(255, 242, 242, 242),
+                            fillColor: Color.fromARGB(255, 242, 242, 242),
                             filled: true,
                           ),
                         ),
@@ -282,7 +303,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: LinearProgressIndicator(
                           value: strength,
-                          backgroundColor: Color.fromARGB(255, 146, 146, 146),
+                          backgroundColor:
+                              const Color.fromARGB(255, 146, 146, 146),
                           color: colorPasswordIndicator,
                         ),
                       ),
@@ -291,7 +313,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       Text(
                         text,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color.fromARGB(255, 242, 242, 242),
                             fontSize: 14),
                       ),
@@ -299,7 +321,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 5),
 
                       //Password textfield
-                      CredentialTextField(
+                      PasswordTextField(
                           controller: passControllerVerify,
                           labelText: "Repeat your password",
                           obscureText: true),
@@ -337,12 +359,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title:
-                                        Text('Terms of use and Privacy Policy'),
+                                    title: const Text(
+                                        'Terms of use and Privacy Policy'),
                                     content: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          Text(
+                                          const Text(
                                             style: TextStyle(fontSize: 14),
                                             textAlign: TextAlign.justify,
                                             '''
@@ -377,7 +399,7 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: Text('Close'),
+                                        child: const Text('Close'),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
@@ -387,7 +409,7 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                 },
                               );
                             },
-                            child: Text("Terms of use and Privacy Policy",
+                            child: const Text("Terms of use and Privacy Policy",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 242, 242, 242),
                                   fontSize: 14,
