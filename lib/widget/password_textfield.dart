@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-class CredentialTextField extends StatefulWidget {
+class PasswordTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final bool obscureText;
   final Function(String)? function;
 
-  const CredentialTextField({
+  const PasswordTextField({
     Key? key,
     required this.controller,
     required this.labelText,
@@ -17,17 +17,18 @@ class CredentialTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CredentialTextFieldState createState() => _CredentialTextFieldState();
+  _PasswordTextFieldState createState() => _PasswordTextFieldState();
 }
 
-class _CredentialTextFieldState extends State<CredentialTextField> {
+class _PasswordTextFieldState extends State<PasswordTextField> {
+  bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextField(
         controller: widget.controller,
-        obscureText: widget.obscureText,
+        obscureText: _obscureText,
         cursorColor: const Color.fromARGB(255, 222, 66, 66),
         style: const TextStyle(
             color: Color.fromARGB(255, 67, 67, 67), fontSize: 17),
@@ -47,6 +48,17 @@ class _CredentialTextFieldState extends State<CredentialTextField> {
           floatingLabelBehavior: FloatingLabelBehavior.never,
           fillColor: const Color.fromARGB(255, 242, 242, 242),
           filled: true,
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureText ? Icons.visibility : Icons.visibility_off,
+              color: Color.fromARGB(255, 222, 66, 66),
+            ),
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+          ),
         ),
       ),
     );
