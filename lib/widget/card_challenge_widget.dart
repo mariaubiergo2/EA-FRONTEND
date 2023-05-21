@@ -7,64 +7,71 @@ class MyChallengeCard extends StatelessWidget {
   final String attr2;
   final String attr3;
 
-  const MyChallengeCard(
-      {Key? key,
-      required this.index,
-      required this.attr1, //name of the challenge
-      required this.attr2, //description of the challenge
-      required this.attr3}) //experience the challenge gives
-      : super(key: key);
+  const MyChallengeCard({
+    Key? key,
+    required this.index,
+    required this.attr1, //name of the challenge
+    required this.attr2, //description of the challenge
+    required this.attr3,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Slidable(
-          startActionPane: ActionPane(
-            motion: const StretchMotion(),
-            children: [
-              SlidableAction(
-                onPressed: (BuildContext context) {
-                  Navigator.pushNamed(context, '/qr_screen');
-                },
-                backgroundColor: Colors.red,
-                icon: Icons.qr_code,
-                borderRadius: BorderRadius.circular(12),
-              )
-            ],
-          ),
-          child: Stack(
-            children: <Widget>[
-              Container(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 22),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 222, 66, 66),
+          borderRadius: BorderRadius.circular(16), // Agregar bordes redondeados
+        ),
+        child: Column(
+          children: [
+            Slidable(
+              startActionPane: ActionPane(
+                motion: const StretchMotion(),
+                extentRatio: 0.27,
+                children: [
+                  SlidableAction(
+                    onPressed: (BuildContext context) {
+                      Navigator.pushNamed(context, '/qr_screen');
+                    },
+                    backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                    icon: Icons.camera_alt_rounded,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(16),
+                    ),
+                  ),
+                ],
+              ),
+              child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(30.0, 8, 8, 8),
+                padding: const EdgeInsets.fromLTRB(30, 8, 8, 8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: const Color.fromARGB(255, 222, 66, 66),
-                      child: ClipOval(
-                        child: Text(
-                          (this.index + 1).toString(),
-                          style: const TextStyle(
-                            fontStyle: FontStyle.normal,
-                            color: Colors.white,
-                            fontSize: 34,
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        (index + 1).toString(),
+                        style: const TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 222, 66, 66),
+                          fontSize: 35,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 12, 0),
+                      padding: const EdgeInsets.fromLTRB(30, 5, 15, 5),
                       child: Container(
                         width: 1,
-                        height: 100,
+                        height: 75,
                         color: const Color.fromARGB(255, 222, 66, 66),
                       ),
                     ),
@@ -77,8 +84,8 @@ class MyChallengeCard extends StatelessWidget {
                             style: const TextStyle(
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 24,
+                              color: Color.fromARGB(255, 25, 25, 25),
+                              fontSize: 16,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -86,8 +93,8 @@ class MyChallengeCard extends StatelessWidget {
                             attr2,
                             style: const TextStyle(
                               fontStyle: FontStyle.normal,
-                              color: Colors.black,
-                              fontSize: 14,
+                              color: Color.fromARGB(255, 25, 25, 25),
+                              fontSize: 13,
                             ),
                           ),
                         ],
@@ -100,7 +107,7 @@ class MyChallengeCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const CircleAvatar(
-                            radius: 10,
+                            radius: 5,
                             backgroundColor: Colors.amber,
                           ),
                           const SizedBox(
@@ -122,8 +129,10 @@ class MyChallengeCard extends StatelessWidget {
                   ],
                 ),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

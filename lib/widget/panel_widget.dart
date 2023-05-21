@@ -5,9 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
-import 'package:ea_frontend/widget/card_widget.dart';
 import 'package:ea_frontend/widget/card_challenge_widget.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 void main() async {
   await dotenv.load();
