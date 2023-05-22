@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -18,13 +20,21 @@ class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => MapsWidget();
+  // ignore: no_logic_in_create_state
+  State<MapScreen> createState() => MapsWidget(mapController: MapController());
 }
 
 class MapsWidget extends State<MapScreen> {
   List<Marker> allmarkers = [];
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
+  var lat = 41.27561;
+  var long = 1.98722;
+  var zoom = 16.0;
+  late MapController mapController;
+
+  MapsWidget({required this.mapController});
+  LatLng get mapCenter => LatLng(lat, long);
 
   @override
   void initState() {
@@ -36,8 +46,9 @@ class MapsWidget extends State<MapScreen> {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
-        center: LatLng(41.27561, 1.98722),
-        zoom: 16.0,
+        //center: LatLng(lat, long),
+        center: mapCenter,
+        zoom: zoom,
         maxZoom: 18.0,
       ),
       nonRotatedChildren: [
