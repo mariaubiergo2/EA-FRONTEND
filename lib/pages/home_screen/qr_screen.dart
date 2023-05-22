@@ -13,9 +13,25 @@ class MyQR extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Demo Home Page')),
-      body: const Center(
-        child: QRViewExample(),
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            const Center(
+              child: QRViewExample(),
+            ),
+            Positioned(
+              top: 25,
+              left: 25,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/navbar');
+                },
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                child: const Icon(Icons.arrow_back_rounded),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -69,11 +85,11 @@ class _QRViewExampleState extends State<QRViewExample> {
           key: qrKey,
           onQRViewCreated: _onQRViewCreated,
           overlay: QrScannerOverlayShape(
-              borderColor: Colors.red,
-              borderRadius: 10,
-              borderLength: 30,
-              borderWidth: 10,
-              cutOutSize: scanArea),
+              borderColor: const Color.fromARGB(255, 222, 66, 66),
+              borderRadius: 20,
+              borderLength: 35,
+              borderWidth: 13,
+              cutOutSize: scanArea + 20),
           onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
         ),
         Positioned(
@@ -87,46 +103,86 @@ class _QRViewExampleState extends State<QRViewExample> {
                     Text(
                         'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
                   else
-                    const Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(8, 8, 30, 8),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromARGB(255, 222, 66, 66),
+                          ),
+                          child: ElevatedButton(
                             onPressed: () async {
                               await controller?.toggleFlash();
                               setState(() {});
                             },
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(16),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 222, 66, 66),
+                              foregroundColor: Colors.white,
+                            ),
                             child: FutureBuilder(
                               future: controller?.getFlashStatus(),
                               builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
+                                if (snapshot.data != null) {
+                                  return Icon(
+                                    snapshot.data == true
+                                        ? Icons.flash_on
+                                        : Icons.flash_off,
+                                    size: 24,
+                                  );
+                                } else {
+                                  return const Icon(
+                                    Icons.access_time_filled,
+                                    size: 24,
+                                  );
+                                }
                               },
-                            )),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromARGB(255, 222, 66, 66),
+                          ),
+                          child: ElevatedButton(
                             onPressed: () async {
                               await controller?.flipCamera();
                               setState(() {});
                             },
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(16),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 222, 66, 66),
+                              foregroundColor: Colors.white,
+                            ),
                             child: FutureBuilder(
                               future: controller?.getCameraInfo(),
                               builder: (context, snapshot) {
                                 if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
+                                  return const Icon(
+                                    Icons.sync_rounded,
+                                    size: 24,
+                                  );
                                 } else {
-                                  return const Text('loading');
+                                  return const Icon(
+                                    Icons.access_time_filled,
+                                    size: 24,
+                                  );
                                 }
                               },
-                            )),
-                      )
-                    ],
-                  ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                 ]))
       ],
     );
