@@ -1,3 +1,4 @@
+import 'package:ea_frontend/pages/credential_screen/splash_screenv2.dart';
 import 'package:ea_frontend/pages/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/login_screen.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'EETAC Go',
-        home: const SplashScreen(),
+        home: SecondPage(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
