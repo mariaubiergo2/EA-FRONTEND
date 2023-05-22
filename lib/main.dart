@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Material Login',
+        title: 'EETAC Go',
         home: const SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
