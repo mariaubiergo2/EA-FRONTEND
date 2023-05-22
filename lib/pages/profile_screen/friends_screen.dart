@@ -1,7 +1,9 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/widget/maps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../models/user.dart';
@@ -100,6 +102,7 @@ class _FriendsScreen extends State<FriendsScreen> {
             panelBuilder: (controller) => PanelWidget(
               controller: controller,
               panelController: panelController,
+              mapa: MapsWidget(),
             ),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
             body: Stack(

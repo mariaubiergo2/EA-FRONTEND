@@ -1,9 +1,11 @@
 // ignore_for_file: unnecessary_import, unused_import
 
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/widget/maps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
@@ -20,10 +22,12 @@ class PanelWidget extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.panelController,
+    required this.mapa,
   }) : super(key: key);
 
   final ScrollController controller;
   final PanelController panelController;
+  final MapsWidget mapa;
 
   @override
   State<PanelWidget> createState() => _PanelWidgetState();
@@ -97,6 +101,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                   panelController: widget.panelController,
                   lat: challengeList[index].lat,
                   long: challengeList[index].long,
+                  mapsWidget: widget.mapa,
                 );
               },
               childCount: challengeList.length,

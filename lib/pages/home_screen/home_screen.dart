@@ -29,6 +29,7 @@ const snackBar = SnackBar(
 
 class _HomeScreenState extends State<HomeScreen> {
   final panelController = PanelController();
+  final mapController = MapController();
   List<Marker> allmarkers = [];
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
@@ -63,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.06;
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.78;
+
+    final MapsWidget mapeta = MapsWidget();
+
     return Scaffold(
         body: SlidingUpPanel(
       controller: panelController,
@@ -81,13 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PanelWidget(
           controller: controller,
           panelController: panelController,
+          mapa: mapeta,
         ),
       ),
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
       ),
-      body: MapScreen(),
+      body: mapeta,
     ));
   }
 }

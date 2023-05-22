@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
@@ -17,6 +17,7 @@ class MyChallengeCard extends StatefulWidget {
   final String lat;
   final String long;
   final PanelController panelController;
+  final MapsWidget mapsWidget;
 
   const MyChallengeCard({
     Key? key,
@@ -27,6 +28,7 @@ class MyChallengeCard extends StatefulWidget {
     required this.panelController,
     required this.lat,
     required this.long,
+    required this.mapsWidget,
   }) : super(key: key);
 
   @override
@@ -35,19 +37,15 @@ class MyChallengeCard extends StatefulWidget {
 }
 
 class _MyChallengeCardState extends State<MyChallengeCard> {
-  late MapController mapController;
-  late MapsWidget mapsWidget;
+  void tabMap(double latitude, double longitude) {
+    widget.mapsWidget.updateView2(41.27561, 2.98722, 200.00);
+    // mapsWidget.lat = lat;
+    // mapsWidget.long = long;
+    // mapsWidget.zoom = 20.0;
 
-  _MyChallengeCardState() {
-    mapController = MapController();
-    mapsWidget = MapsWidget(mapController: mapController);
-  }
+    // widget.mapController.move(LatLng(lat, long), mapsWidget.zoom);
 
-  void tabMap(double lat, double long) {
-    mapsWidget.lat = lat;
-    mapsWidget.long = long;
-    mapsWidget.zoom = 20.0;
-    mapsWidget.mapController.move(LatLng(lat, long), mapsWidget.zoom);
+    //mapsWidget.mapController.move(LatLng(lat, long), mapsWidget.zoom);
   }
 
   @override
@@ -70,9 +68,9 @@ class _MyChallengeCardState extends State<MyChallengeCard> {
         ),
         child: GestureDetector(
           onTap: () {
-            tabMap(double.parse(widget.lat), double.parse(widget.long));
+            // tabMap(double.parse(widget.lat), double.parse(widget.long));
+            widget.mapsWidget.updateView2(41.27561, 1.98722, 18.00);
             widget.panelController.close();
-            // tabMap(context);
           },
           child: Container(
             decoration: BoxDecoration(

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
-import 'dart:js';
+// import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,26 +15,31 @@ void main() async {
   await dotenv.load();
 }
 
-class MapScreen extends StatefulWidget {
-  //const LoginScreen({super.key, required String title});
-  const MapScreen({super.key});
+class MapsWidget extends StatefulWidget {
+  const MapsWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
-  State<MapScreen> createState() => MapsWidget(mapController: MapController());
+  State<MapsWidget> createState() => _MapsWidget();
+
+  void updateView2(double d, double e, double f) {
+    updateView2(d, e, f);
+  }
 }
 
-class MapsWidget extends State<MapScreen> {
+class _MapsWidget extends State<MapsWidget> {
   List<Marker> allmarkers = [];
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
-  var lat = 41.27561;
-  var long = 1.98722;
-  var zoom = 16.0;
-  late MapController mapController;
+  double lat = 41.27561;
+  double long = 1.98722;
+  final double _zoom = 16.0;
 
-  MapsWidget({required this.mapController});
-  LatLng get mapCenter => LatLng(lat, long);
+  final MapController _mpcontroller = MapController();
+  final double _initialZoom = 10.0;
+  LatLng _location = LatLng(41.27561, 1.98722);
+  final LatLng _initialLocation = LatLng(41.27561, 1.98722);
 
   @override
   void initState() {
@@ -42,13 +47,20 @@ class MapsWidget extends State<MapScreen> {
     getChallenges();
   }
 
+  Future updateView(double latitude, double longitude, double zooming) async {
+    setState(() {
+      _location = LatLng(latitude, longitude);
+      _mpcontroller.move(_location, zooming);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
+      mapController: _mpcontroller,
       options: MapOptions(
-        //center: LatLng(lat, long),
-        center: mapCenter,
-        zoom: zoom,
+        center: _location,
+        zoom: _zoom,
         maxZoom: 18.0,
       ),
       nonRotatedChildren: [
@@ -69,7 +81,24 @@ class MapsWidget extends State<MapScreen> {
         ),
         MarkerLayer(
           markers: allmarkers,
-        )
+        ),
+        GestureDetector(
+          onTap: () {
+            try {
+              updateView(41.27561, 1.98722, 200.00);
+            } catch (e) {
+              print('Problem: $e');
+            }
+          },
+          child: const Text(
+            "Mapa",
+            style: TextStyle(
+                color: Color.fromARGB(255, 222, 66, 66),
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.bold,
+                fontSize: 17),
+          ),
+        ),
       ],
     );
   }
