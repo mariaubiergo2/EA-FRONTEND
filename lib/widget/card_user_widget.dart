@@ -157,12 +157,14 @@ class _MyUserCard extends State<MyUserCard> {
                   child: 
                   Align(
                     widthFactor: 2,
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: followOrUnfollow,
                       child: Container(
-                        padding: const EdgeInsets.all(10),
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        height: 30,
+                        width: 110,
+                        padding: const EdgeInsets.all(2),
+                        margin: const EdgeInsets.symmetric(horizontal: 1),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: const Color.fromARGB(255, 242, 242, 242),
@@ -177,7 +179,7 @@ class _MyUserCard extends State<MyUserCard> {
                             style: const TextStyle(
                               color: Color.fromARGB(255, 242, 242, 242),
                               // fontWeight: FontWeight.bold,
-                              fontSize: 19,
+                              fontSize: 14,
                             ),
                           ),
                         ),
