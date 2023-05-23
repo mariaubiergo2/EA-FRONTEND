@@ -64,7 +64,7 @@ class MyChallengePage extends StatelessWidget {
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: const <Widget>[
                 // FlatButton(
                 //   onPressed: () {
                 //     Navigator.of(context).pop();
@@ -72,7 +72,7 @@ class MyChallengePage extends StatelessWidget {
                 //   child: const Text('No'),
                 //   textColor: Colors.white,
                 // ),
-                const SizedBox(
+                SizedBox(
                   width: 8,
                 ),
                 // RaisedButton(

@@ -82,20 +82,17 @@ class MapsWidget extends State<MapScreen> {
     setState(() {
       challengeList = challengeList;
     });
-    fetchAndBuildMarkers3();
+    fetchAndBuildMarkers();
   }
 
-  Future<void> fetchAndBuildMarkers3() async {
+  Future<void> fetchAndBuildMarkers() async {
     final newMarkers = challengeList.map((challenge) {
       final lat = double.parse(challenge.lat);
       final long = double.parse(challenge.long);
-      final snackBar =
-          SnackBar(content: Text("Este reto es: " + challenge.name));
       return Marker(
         point: LatLng(lat, long),
         builder: (context) => GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -113,99 +110,6 @@ class MapsWidget extends State<MapScreen> {
                 );
               },
             );
-          },
-          child: Image.asset('images/marker.png'),
-        ),
-      );
-    }).toList();
-
-    setState(() {
-      allmarkers = newMarkers;
-    });
-  }
-
-  Future<void> fetchAndBuildMarkers2() async {
-    final newMarkers = challengeList.map((challenge) {
-      final lat = double.parse(challenge.lat);
-      final long = double.parse(challenge.long);
-      final snackBar =
-          SnackBar(content: Text("Este reto es: " + challenge.name));
-      return Marker(
-        point: LatLng(lat, long),
-        builder: (context) => GestureDetector(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            showDialog(
-              context: context,
-              barrierColor: Colors.black.withOpacity(0.5),
-              builder: (BuildContext context) {
-                return Stack(
-                  children: [
-                    // Fondo difuminado
-                    BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                      child: Container(
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ),
-                    // Página de desafío
-                    MyChallengePage(),
-                  ],
-                );
-              },
-            );
-          },
-          child: Image.asset('images/marker.png'),
-        ),
-      );
-    }).toList();
-
-    setState(() {
-      allmarkers = newMarkers;
-    });
-  }
-
-  Future<void> fetchAndBuildMarkers4() async {
-    final newMarkers = challengeList.map((challenge) {
-      final lat = double.parse(challenge.lat);
-      final long = double.parse(challenge.long);
-      final snackBar =
-          SnackBar(content: Text("Este reto es: " + challenge.name));
-      return Marker(
-        point: LatLng(lat, long),
-        builder: (context) => GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/challenge_screen',
-              arguments: challenge,
-            );
-          },
-          child: Image.asset('images/marker.png'),
-        ),
-      );
-    }).toList();
-
-    setState(() {
-      allmarkers = newMarkers;
-    });
-  }
-
-  Future<void> fetchAndBuildMarkers() async {
-    // final challenges = await fetchChallenges();
-    final newMarkers = challengeList.map((challenge) {
-      final lat = double.parse(challenge.lat);
-      final long = double.parse(challenge.long);
-      final snackBar =
-          SnackBar(content: Text("Este reto es: " + challenge.name));
-      return Marker(
-        point: LatLng(lat, long),
-        builder: (context) => GestureDetector(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            // Navigator.pushNamed(context, '/dialog_helper');
-            //DialogHelper.exit(context);
-            //Navigator.of(context).pop(false);
           },
           child: Image.asset('images/marker.png'),
         ),
