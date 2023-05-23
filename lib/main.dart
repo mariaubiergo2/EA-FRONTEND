@@ -1,3 +1,4 @@
+import 'package:ea_frontend/pages/challenge_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/login_screen.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
 
             case '/qr_screen':
               return MaterialPageRoute(builder: (context) => const MyQR());
+            case '/challenge_screen':
+              return MaterialPageRoute(
+                  builder: (context) => const challenge_screen());
 
             case '/makefriends_screen':
               return MaterialPageRoute(

@@ -18,6 +18,7 @@ class MyChallengeCard extends StatefulWidget {
   final String long;
   final PanelController panelController;
   final MapsWidget mapsWidget;
+  // final GlobalKey mapsWidgetKey;
 
   const MyChallengeCard({
     Key? key,
@@ -38,18 +39,14 @@ class MyChallengeCard extends StatefulWidget {
 
 class _MyChallengeCardState extends State<MyChallengeCard> {
   void tabMap(double latitude, double longitude) {
-    widget.mapsWidget.updateView2(41.27561, 2.98722, 200.00);
-    // mapsWidget.lat = lat;
-    // mapsWidget.long = long;
-    // mapsWidget.zoom = 20.0;
-
-    // widget.mapController.move(LatLng(lat, long), mapsWidget.zoom);
-
-    //mapsWidget.mapController.move(LatLng(lat, long), mapsWidget.zoom);
+    widget.mapsWidget.updateView3(latitude, longitude, 200.00);
   }
 
   @override
   Widget build(BuildContext context) {
+    final double latitude = double.parse(widget.lat);
+    final double longitude = double.parse(widget.long);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
@@ -68,9 +65,13 @@ class _MyChallengeCardState extends State<MyChallengeCard> {
         ),
         child: GestureDetector(
           onTap: () {
-            // tabMap(double.parse(widget.lat), double.parse(widget.long));
-            widget.mapsWidget.updateView2(41.27561, 1.98722, 18.00);
-            widget.panelController.close();
+            try {
+              widget.panelController.close();
+              tabMap(41.3, 2.0);
+              // widget.mapsWidgetKey.currentState?.updateView3(latitude, longitude, 18.00);
+            } catch (e) {
+              print('Error: $e');
+            }
           },
           child: Container(
             decoration: BoxDecoration(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings, unused_field
 
 // import 'dart:js';
 
@@ -16,30 +16,37 @@ void main() async {
 }
 
 class MapsWidget extends StatefulWidget {
+  // final LatLng initialPosition;
+
   const MapsWidget({
     Key? key,
+    // required this.initialPosition,
   }) : super(key: key);
 
   @override
-  State<MapsWidget> createState() => _MapsWidget();
+  State<MapsWidget> createState() => _MapsWidgetState();
 
-  void updateView2(double d, double e, double f) {
-    updateView2(d, e, f);
+  void updateView3(double d, double e, double f) {
+    final mapState = key as GlobalKey<_MapsWidgetState>?;
+    mapState?.currentState?.updateView(d, e, 200.0);
+    // (key as GlobalKey<_MapsWidgetState>).currentState?.updateView(d, e, f);
   }
 }
 
-class _MapsWidget extends State<MapsWidget> {
+class _MapsWidgetState extends State<MapsWidget> {
   List<Marker> allmarkers = [];
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
   double lat = 41.27561;
   double long = 1.98722;
-  final double _zoom = 16.0;
+  double _zoom = 16.0;
 
   final MapController _mpcontroller = MapController();
   final double _initialZoom = 10.0;
   LatLng _location = LatLng(41.27561, 1.98722);
   final LatLng _initialLocation = LatLng(41.27561, 1.98722);
+
+  late MapController mapController;
 
   @override
   void initState() {
@@ -49,8 +56,9 @@ class _MapsWidget extends State<MapsWidget> {
 
   Future updateView(double latitude, double longitude, double zooming) async {
     setState(() {
-      _location = LatLng(latitude, longitude);
-      _mpcontroller.move(_location, zooming);
+      _location = LatLng(41.27561, 1.98722);
+      _zoom = 200.0;
+      _mpcontroller.move(_location, 200.0);
     });
   }
 
@@ -60,7 +68,7 @@ class _MapsWidget extends State<MapsWidget> {
       mapController: _mpcontroller,
       options: MapOptions(
         center: _location,
-        zoom: _zoom,
+        zoom: 10.0,
         maxZoom: 18.0,
       ),
       nonRotatedChildren: [
@@ -133,7 +141,8 @@ class _MapsWidget extends State<MapsWidget> {
         point: LatLng(lat, long),
         builder: (context) => GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            Navigator.pushNamed(context, '/challenge_screen');
           },
           child: Image.asset('images/marker.png'),
         ),
