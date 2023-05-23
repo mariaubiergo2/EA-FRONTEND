@@ -25,9 +25,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _token = "";
   String? _followers = "";
   String? _following = "";
-  int _exp = 0;
+  int _level = 0;
   bool _seeFollowing = false;
   bool _seeFollowers = false;
+  bool _seeOptions = true;
   List<User> friendsList = [];
   final TextStyle _highlightedText = const TextStyle(
     color: Colors.amber,
@@ -59,9 +60,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _surname = prefs.getString('surname');
       _username = prefs.getString('username');
       try{
-        _exp = prefs.getInt('exp')!;
+        _level = prefs.getInt('level')!;
       }catch (e){
-        _exp = 0;
+        print(e);
+        _level = 0;
       }    
     });
   }
@@ -180,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                        'Level '+_exp.toString(),
+                        'Level '+_level.toString(),
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             color: Color.fromARGB(255, 242, 242, 242),
@@ -193,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: LinearProgressIndicator(
                           minHeight: 10,
-                          value: _exp.toDouble(),
+                          value: _level.toDouble()/100,
                           backgroundColor:
                               Colors.white,
                           color: Colors.amber,
@@ -209,45 +211,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _seeFollowing = !_seeFollowing;
-                                    if (_seeFollowing){
-                                      _textStyleFollowing=_highlightedText;
-                                      _textStyleFollowers=_normalText;
-                                    } else {
-                                      _textStyleFollowing=_normalText;
-                                    }
-                                  });                                  
-                                },
-                                child: Text(
-                                  "$_following\nFollowing",
-                                  textAlign: TextAlign.center,
-                                  style: _textStyleFollowing,
-                                ),
+                          onTap: () {
+                            setState(() {
+                              _seeFollowing = !_seeFollowing;
+                              if (_seeFollowing){
+                                _seeOptions = false;
+                                _textStyleFollowing=_highlightedText;
+                                _textStyleFollowers=_normalText;
+                              } else {
+                                _seeOptions = true;
+                                _textStyleFollowing=_normalText;
+                              }
+                            });                                  
+                          },
+                          child: Text(
+                            "$_following\nFollowing",
+                            textAlign: TextAlign.center,
+                            style: _textStyleFollowing,
+                          ),
                         ),
                         SizedBox(width: 100),
                         GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _seeFollowers = !_seeFollowers;
-                                    if (_seeFollowers){
-                                      _textStyleFollowers=_highlightedText;
-                                      _textStyleFollowing=_normalText;
-                                    } else {
-                                      _textStyleFollowers=_normalText;
-                                    }
-                                  });                                  
-                                },
-                                child: Text(                          
-                                  "$_followers\nFollowers",
-                                  textAlign: TextAlign.center,
-                                  style: _textStyleFollowers,
-                                ),
+                          onTap: () {
+                            setState(() {
+                              _seeFollowers = !_seeFollowers;
+                              if (_seeFollowers){
+                                _seeOptions = false;
+                                _textStyleFollowers=_highlightedText;
+                                _textStyleFollowing=_normalText;
+                              } else {
+                                _seeOptions = true;
+                                _textStyleFollowers=_normalText;
+                              }
+                            });                                  
+                          },
+                          child: Text(                          
+                            "$_followers\nFollowers",
+                            textAlign: TextAlign.center,
+                            style: _textStyleFollowers,
+                          ),
                         ),
-
-
-                        
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -259,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Visibility(
                       visible: _seeFollowing, // not visible if set false
                       child: Container(
-                        height: 100,
+                        height: 250,
                         child: ListView.builder(
                           itemCount: friendsList.length,
                           itemBuilder:
@@ -279,86 +282,116 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
-                    ),                                                
+                    ), 
 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(255, 222, 66, 66),
-                              ),
-                            ),
-                            const SizedBox(width: 25),
-                            const Text(
-                              "Edit accotunt",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15),
-                            ),
-                          ]),
-                    ),
-                    const SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(255, 222, 66, 66),
-                              ),
-                            ),
-                            const SizedBox(width: 25),
-                            const Text(
-                              "Information",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15),
-                            ),
-                          ]),
-                    ),
-                    const SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(255, 222, 66, 66),
-                              ),
-                            ),
-                            const SizedBox(width: 25),
-                            const Text(
-                              "Delete account",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15),
-                            ),
-                          ]),
-                    ),
-                  ]),
-                )
+                    Visibility(
+                      visible: _seeOptions,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 222, 66, 66),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 25),
+                                  const Text(
+                                    "Edit accotunt",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ),
+                                ]),
+                          ),
+                          const SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 222, 66, 66),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 25),
+                                  const Text(
+                                    "Information",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ),
+                                ]),
+                          ),
+                          const SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 222, 66, 66),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 25),
+                                  const Text(
+                                    "Delete account",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ),
+                                ]),
+                          ),
+                          const SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 222, 66, 66),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  TextButton(onPressed: (){
+                                    Navigator.pushNamed(
+                                            context, '/login_screen');
+                                  }, child: Text("LogOut",
+                                  style: TextStyle(
+                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ))
+                                ]),
+                          ),
+                        ],),
+                ),
               ],
             ),
           ),
-        ),
+            ]),
       ),
-    );
+    )));
   }
 }

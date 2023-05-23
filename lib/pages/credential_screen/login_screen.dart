@@ -46,11 +46,10 @@ class LoginScreen extends StatelessWidget {
             prefs.setString('token', data['token']);
             prefs.setString('idUser', u.idUser);
             prefs.setString('name', u.name);
-            prefs.setString('surname', u.surname);
-            prefs.setString('username', u.username);
-            
+            prefs.setString('surname', u.surname);            
             try{
-              prefs.setInt('exp', u.exp!);
+              // prefs.setInt('exp', u.exp!);
+              prefs.setInt('level', u.level!);
             } catch (e){
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,

@@ -101,12 +101,13 @@ class _MyUserCard extends State<MyUserCard> {
       child: Stack(
         children: <Widget>[
           Container(
+            height: 72,
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 0, 0, 0),
               borderRadius: BorderRadius.circular(16),
             ),
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.fromLTRB(30.0, 8, 8, 8),
+            padding: const EdgeInsets.fromLTRB(10.0, 8, 8, 8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -122,7 +123,7 @@ class _MyUserCard extends State<MyUserCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
                   child: Container(
                     width: 1,
                     height: 100,
@@ -146,7 +147,7 @@ class _MyUserCard extends State<MyUserCard> {
                       style: const TextStyle(
                         fontStyle: FontStyle.normal,
                         color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                   ],
