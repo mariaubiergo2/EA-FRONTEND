@@ -134,7 +134,7 @@ class _MyUserCard extends State<MyUserCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.attr2,
+                      widget.attr1,
                       style: const TextStyle(
                         fontStyle: FontStyle.normal,
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -152,41 +152,41 @@ class _MyUserCard extends State<MyUserCard> {
                     ),
                   ],
                 ),
-                Spacer(),
-                Expanded(
-                  child: 
-                  Align(
-                    widthFactor: 2,
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: followOrUnfollow,
-                      child: Container(
-                        height: 30,
-                        width: 110,
-                        padding: const EdgeInsets.all(2),
-                        margin: const EdgeInsets.symmetric(horizontal: 1),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 242, 242, 242),
-                            width: 1,
-                          ),
-                          color: Color.fromARGB(255, 222, 66, 66),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                          child: Text(
-                            buttonText,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 242, 242, 242),
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Spacer(),
+                // Expanded(
+                //   child: 
+                //   Align(
+                //     widthFactor: 2,
+                //     alignment: Alignment.centerRight,
+                //     child: GestureDetector(
+                //       onTap: followOrUnfollow,
+                //       child: Container(
+                //         height: 30,
+                //         width: 110,
+                //         padding: const EdgeInsets.all(2),
+                //         margin: const EdgeInsets.symmetric(horizontal: 1),
+                //         decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: const Color.fromARGB(255, 242, 242, 242),
+                //             width: 1,
+                //           ),
+                //           color: Color.fromARGB(255, 222, 66, 66),
+                //           borderRadius: BorderRadius.circular(20),
+                //         ),
+                //         child: Center(
+                //           child: Text(
+                //             buttonText,
+                //             style: const TextStyle(
+                //               color: Color.fromARGB(255, 242, 242, 242),
+                //               // fontWeight: FontWeight.bold,
+                //               fontSize: 14,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

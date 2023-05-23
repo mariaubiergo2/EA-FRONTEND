@@ -29,15 +29,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _seeFollowing = false;
   bool _seeFollowers = false;
   bool _seeOptions = true;
-  List<User> friendsList = [];
+  List<User> followingList = [];
+  List<User> followersList = [];
+
   final TextStyle _highlightedText = const TextStyle(
     color: Colors.amber,
     fontWeight: FontWeight.bold,
     fontSize: 18);
+
   final TextStyle _normalText = const TextStyle(
     color: Color.fromARGB(255, 242, 242, 242),
     fontWeight: FontWeight.normal,
     fontSize: 18);
+
   late TextStyle _textStyleFollowers;
   late TextStyle _textStyleFollowing;
 
@@ -45,8 +49,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     getUserInfo();
-    setFriendsInfo();
-    getFriends();
+    getFriendsInfo();
+    getFollowing();
+    getFollowers();
     _textStyleFollowers = _normalText;
     _textStyleFollowing = _normalText;
   }
@@ -68,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Future setFriendsInfo() async {
+  Future getFriendsInfo() async {
     try { 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var followersCount = await Dio()
@@ -87,25 +92,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         
       }
     catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'Attention!',
-            message: 'Error: $e',
-            contentType: ContentType.failure,
-          ),
-        ),
-      );
+      print('Error in the counting of friends: $e');
     }
   }
 
-  Future getFriends() async {
+  Future getFollowing() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://${dotenv.env['API_URL']}/user/friends/$_idUser';
+    String path = 'http://${dotenv.env['API_URL']}/user/following/$_idUser';
     try {
       var response = await Dio().get(
         path,
@@ -116,11 +110,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
       );
-
       var users = response.data as List;
-
       setState(() {
-        friendsList = users.map((user) => User.fromJson2(user)).toList();
+        followingList = users.map((user) => User.fromJson2(user)).toList();
+      });
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: 'Unable! $e',
+          message: 'Try again later.',
+          contentType: ContentType.failure,
+        ),
+      ));
+    }
+  }
+
+  Future getFollowers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://${dotenv.env['API_URL']}/user/followers/$_idUser';
+    try {
+      var response = await Dio().get(
+        path,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      var users = response.data as List;
+      setState(() {
+        followersList = users.map((user) => User.fromJson2(user)).toList();
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -216,6 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               _seeFollowing = !_seeFollowing;
                               if (_seeFollowing){
                                 _seeOptions = false;
+                                _seeFollowers = false;
                                 _textStyleFollowing=_highlightedText;
                                 _textStyleFollowers=_normalText;
                               } else {
@@ -237,6 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               _seeFollowers = !_seeFollowers;
                               if (_seeFollowers){
                                 _seeOptions = false;
+                                _seeFollowing = false;
                                 _textStyleFollowers=_highlightedText;
                                 _textStyleFollowing=_normalText;
                               } else {
@@ -259,21 +286,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 0.05,
                     ),
                     const SizedBox(height: 30),
+                    // Following scroll page
                     Visibility(
                       visible: _seeFollowing, // not visible if set false
                       child: Container(
                         height: 250,
                         child: ListView.builder(
-                          itemCount: friendsList.length,
+                          itemCount: followingList.length,
                           itemBuilder:
                           (BuildContext context, int index) {
                             try {
                               return MyUserCard(
                                 idUserSession: _idUser!,
-                                idCardUser: friendsList[index].idUser,
-                                attr1: '${friendsList[index].name} ${friendsList[index].surname}',
-                                attr2: friendsList[index].username,
-                                attr3: friendsList[index].exp.toString(),
+                                idCardUser: followingList[index].idUser,
+                                attr1: '${followingList[index].name} ${followingList[index].surname}',
+                                attr2: followingList[index].username,
+                                attr3: followingList[index].level.toString(),
+                                following: true,
+                              );
+                            } catch (e) {
+                              return SizedBox();
+                            }
+                          },
+                        ),
+                      ),
+                    ), 
+                    // Followers scroll view
+                    Visibility(
+                      visible: _seeFollowers, // not visible if set false
+                      child: Container(
+                        height: 250,
+                        child: ListView.builder(
+                          itemCount: followersList.length,
+                          itemBuilder:
+                          (BuildContext context, int index) {
+                            try {
+                              return MyUserCard(
+                                idUserSession: _idUser!,
+                                idCardUser: followersList[index].idUser,
+                                attr1: '${followersList[index].name} ${followersList[index].surname}',
+                                attr2: followersList[index].username,
+                                attr3: followersList[index].level.toString(),
                                 following: true,
                               );
                             } catch (e) {
