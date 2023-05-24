@@ -46,8 +46,22 @@ class LoginScreen extends StatelessWidget {
             prefs.setString('token', data['token']);
             prefs.setString('idUser', u.idUser);
             prefs.setString('name', u.name);
-            prefs.setString('surname', u.surname);
-            prefs.setString('username', u.username);
+            prefs.setString('surname', u.surname);            
+            try{
+              // prefs.setInt('exp', u.exp!);
+              prefs.setInt('level', u.level!);
+            } catch (e){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'Attention!',
+                message: 'Error $e',
+                contentType: ContentType.failure,
+              ),
+            ));
+            }
 
             Navigator.pushNamed(context, '/navbar');
           } else {
@@ -97,7 +111,7 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width: 1080,
+            // width: 1080,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

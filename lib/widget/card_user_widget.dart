@@ -45,7 +45,7 @@ class _MyUserCard extends State<MyUserCard> {
 
   Future setFollowingState() async {
     if (widget.following) {
-      buttonText = "Unfollow";
+      buttonText = "Following";
     } else {
       buttonText = "Follow";
     }
@@ -53,7 +53,7 @@ class _MyUserCard extends State<MyUserCard> {
 
   Future followOrUnfollow() async {
     if (widget.following) {
-      buttonText = "Unfollow";
+      buttonText = "Following";
     } else {
       startFollowing();
     }
@@ -94,87 +94,104 @@ class _MyUserCard extends State<MyUserCard> {
     }
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Stack(
-          children: <Widget>[
-            Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  borderRadius: BorderRadius.circular(16),
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            height: 72,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.fromLTRB(10.0, 8, 8, 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  child: ClipOval(
+                    child: Image.asset(
+                      'images/google.png', //attr1 in the future, when the profile has an image
+                      fit: BoxFit.cover,
+                      width: 40,
+                      height: 40,
+                    ),
+                  ),
                 ),
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(30.0, 8, 8, 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
+                  child: Container(
+                    width: 1,
+                    height: 100,
+                    color: const Color.fromARGB(255, 222, 66, 66),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 40,
-                      child: ClipOval(
-                        child: Image.asset(
-                          'images/google.png', //attr1 in the future, when the profile has an image
-                          fit: BoxFit.cover,
-                          width: 40,
-                          height: 40,
-                        ),
+                    Text(
+                      widget.attr1,
+                      style: const TextStyle(
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 24,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
-                      child: Container(
-                        width: 1,
-                        height: 100,
-                        color: const Color.fromARGB(255, 222, 66, 66),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Level ${widget.attr3}',
+                      style: const TextStyle(
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 12,
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.attr2,
-                          style: const TextStyle(
-                              fontStyle: FontStyle.normal,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 24),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Level ${widget.attr3}',
-                          style: const TextStyle(
-                              fontStyle: FontStyle.normal,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: followOrUnfollow,
-                      child: Container(
-                        padding: const EdgeInsets.all(22),
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color.fromARGB(255, 242, 242, 242),
-                                width: 3),
-                            color: const Color.fromARGB(255, 222, 66, 66),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Center(
-                          child: Text(
-                            buttonText,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 242, 242, 242),
-                              fontWeight: FontWeight.w900,
-                              fontSize: 19,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
                   ],
-                )),
-          ],
-        ));
+                ),
+                // Spacer(),
+                // Expanded(
+                //   child: 
+                //   Align(
+                //     widthFactor: 2,
+                //     alignment: Alignment.centerRight,
+                //     child: GestureDetector(
+                //       onTap: followOrUnfollow,
+                //       child: Container(
+                //         height: 30,
+                //         width: 110,
+                //         padding: const EdgeInsets.all(2),
+                //         margin: const EdgeInsets.symmetric(horizontal: 1),
+                //         decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: const Color.fromARGB(255, 242, 242, 242),
+                //             width: 1,
+                //           ),
+                //           color: Color.fromARGB(255, 222, 66, 66),
+                //           borderRadius: BorderRadius.circular(20),
+                //         ),
+                //         child: Center(
+                //           child: Text(
+                //             buttonText,
+                //             style: const TextStyle(
+                //               color: Color.fromARGB(255, 242, 242, 242),
+                //               // fontWeight: FontWeight.bold,
+                //               fontSize: 14,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

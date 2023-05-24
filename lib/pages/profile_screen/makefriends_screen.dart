@@ -111,56 +111,65 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return MyUserCard(
-                idUserSession: _idUser!,
-                idCardUser: notFriendsList[index].idUser,
-                attr1:
-                    '${friendsList[index].name} ${friendsList[index].surname}',
-                attr2: friendsList[index].username,
-                attr3: friendsList[index].exp.toString(),
-                following: true,
-              );
-            },
-            childCount: friendsList.length,
-          ),
-        ),
-      ),
-      const SliverToBoxAdapter(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            'You may know...',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                try {
+                  return MyUserCard(
+                    idUserSession: _idUser!,
+                    idCardUser: friendsList[index].idUser,
+                    attr1: '${friendsList[index].name} ${friendsList[index].surname}',
+                    attr2: friendsList[index].username,
+                    attr3: friendsList[index].exp.toString(),
+                    following: true,
+                  );
+                } catch (e) {
+                  return SizedBox(); // Return an empty SizedBox if the index is out of range
+                }
+              },
+              childCount: friendsList.length,
             ),
           ),
         ),
-      ),
-      SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return MyUserCard(
-                idUserSession: _idUser!,
-                idCardUser: notFriendsList[index].idUser,
-                attr1: notFriendsList[index].name,
-                attr2: notFriendsList[index].username,
-                attr3: notFriendsList[index].exp.toString(),
-                following: false,
-              );
-            },
-            childCount: notFriendsList.length,
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'You may know...',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
-      ),
-    ]);
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                try {
+                  return MyUserCard(
+                    idUserSession: _idUser!,
+                    idCardUser: notFriendsList[index].idUser,
+                    attr1: notFriendsList[index].name,
+                    attr2: notFriendsList[index].username,
+                    attr3: notFriendsList[index].exp.toString(),
+                    following: false,
+                  );
+                } catch (e) {
+                  return SizedBox(); // Return an empty SizedBox if the index is out of range
+                }
+              },
+              childCount: notFriendsList.length,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

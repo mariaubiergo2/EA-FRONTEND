@@ -167,14 +167,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         setState(() {
           strength = 2 / 4;
           colorPasswordIndicator = Colors.orange;
-          text = "Your password is acceptable but insecure";
+          text = "Your password should have at least 6 characters";
         });
       } else {
         if (!letterReg.hasMatch(password) || !numReg.hasMatch(password)) {
           setState(() {
             strength = 3 / 4;
             colorPasswordIndicator = Colors.amber;
-            text = "Your password is strong";
+            text = "Your password should contain at least one number";
           });
         } else {
           setState(() {
@@ -197,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: <
                     Widget>[
               Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
                       const SizedBox(height: 5),
