@@ -18,7 +18,7 @@ class MyChallengeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 22),
+      padding: const EdgeInsets.fromLTRB(8, 20, 8, 22),
       child: Container(
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 222, 66, 66),
