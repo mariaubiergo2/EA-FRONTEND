@@ -19,9 +19,9 @@ int _currentIndex = 0;
 
 final screens = [
   const HomeScreen(),
-  ChatScreen(),
+  const ChatScreen(),
   const MakeFriendsScreen(),
-  ProfileScreen(),
+  const ProfileScreen(),
 ];
 
 class _NavBarState extends State<NavBar> {
