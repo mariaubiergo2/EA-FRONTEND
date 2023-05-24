@@ -61,16 +61,16 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Unable! $e',
-          message: 'Try again later.',
-          contentType: ContentType.failure,
-        ),
-      ));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   elevation: 0,
+      //   behavior: SnackBarBehavior.floating,
+      //   backgroundColor: Colors.transparent,
+      //   content: AwesomeSnackbarContent(
+      //     title: 'Unable! $e',
+      //     message: 'Try again later.',
+      //     contentType: ContentType.failure,
+      //   ),
+      // ));
     }
   }
 
@@ -96,16 +96,16 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
         notFriendsList = users.map((user) => User.fromJson2(user)).toList();
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Unable! $e',
-          message: 'Try again later.',
-          contentType: ContentType.failure,
-        ),
-      ));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   elevation: 0,
+      //   behavior: SnackBarBehavior.floating,
+      //   backgroundColor: Colors.transparent,
+      //   content: AwesomeSnackbarContent(
+      //     title: 'Unable! $e',
+      //     message: 'Try again later.',
+      //     contentType: ContentType.failure,
+      //   ),
+      // ));
     }
   }
 
@@ -113,28 +113,6 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                try {
-                  return MyUserCard(
-                    idUserSession: _idUser!,
-                    idCardUser: friendsList[index].idUser,
-                    attr1: '${friendsList[index].name} ${friendsList[index].surname}',
-                    attr2: friendsList[index].username,
-                    attr3: friendsList[index].exp.toString(),
-                    following: true,
-                  );
-                } catch (e) {
-                  return SizedBox(); // Return an empty SizedBox if the index is out of range
-                }
-              },
-              childCount: friendsList.length,
-            ),
-          ),
-        ),
         const SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -158,7 +136,7 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
                     idCardUser: notFriendsList[index].idUser,
                     attr1: notFriendsList[index].name,
                     attr2: notFriendsList[index].username,
-                    attr3: notFriendsList[index].exp.toString(),
+                    attr3: notFriendsList[index].level.toString(),
                     following: false,
                   );
                 } catch (e) {

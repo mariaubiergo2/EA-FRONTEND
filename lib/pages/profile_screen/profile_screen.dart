@@ -33,14 +33,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<User> followersList = [];
 
   final TextStyle _highlightedText = const TextStyle(
-    color: Colors.amber,
-    fontWeight: FontWeight.bold,
-    fontSize: 18);
+      color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
 
   final TextStyle _normalText = const TextStyle(
-    color: Color.fromARGB(255, 242, 242, 242),
-    fontWeight: FontWeight.normal,
-    fontSize: 18);
+      color: Color.fromARGB(255, 242, 242, 242),
+      fontWeight: FontWeight.normal,
+      fontSize: 18);
 
   late TextStyle _textStyleFollowers;
   late TextStyle _textStyleFollowing;
@@ -64,34 +62,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _name = prefs.getString('name');
       _surname = prefs.getString('surname');
       _username = prefs.getString('username');
-      try{
+      try {
         _level = prefs.getInt('level')!;
-      }catch (e){
+      } catch (e) {
         print(e);
         _level = 0;
-      }    
+      }
     });
   }
 
   Future getFriendsInfo() async {
-    try { 
+    try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var followersCount = await Dio()
-          .get('http://${dotenv.env['API_URL']}/user/followers/count/${_idUser!}');
-        
+      var followersCount = await Dio().get(
+          'http://${dotenv.env['API_URL']}/user/followers/count/${_idUser!}');
+
       setState(() {
         _followers = followersCount.toString();
       });
-        
-      var followingCount = await Dio()
-          .get('http://${dotenv.env['API_URL']}/user/following/count/${_idUser!}');
-        
+
+      var followingCount = await Dio().get(
+          'http://${dotenv.env['API_URL']}/user/following/count/${_idUser!}');
+
       setState(() {
         _following = followingCount.toString();
       });
-        
-      }
-    catch (e) {
+    } catch (e) {
       print('Error in the counting of friends: $e');
     }
   }
@@ -116,16 +112,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Unable! $e',
-          message: 'Try again later.',
-          contentType: ContentType.failure,
-        ),
-      ));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   elevation: 0,
+      //   behavior: SnackBarBehavior.floating,
+      //   backgroundColor: Colors.transparent,
+      //   content: AwesomeSnackbarContent(
+      //     title: 'Unable! $e',
+      //     message: 'Try again later.',
+      //     contentType: ContentType.failure,
+      //   ),
+      // ));
     }
   }
 
@@ -149,34 +145,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Unable! $e',
-          message: 'Try again later.',
-          contentType: ContentType.failure,
-        ),
-      ));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   elevation: 0,
+      //   behavior: SnackBarBehavior.floating,
+      //   backgroundColor: Colors.transparent,
+      //   content: AwesomeSnackbarContent(
+      //     title: 'Unable! $e',
+      //     message: 'Try again later.',
+      //     contentType: ContentType.failure,
+      //   ),
+      // ));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 25, 25, 25),
-      body: SafeArea(
-        child: Center(
+        backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+        body: SafeArea(
+            child: Center(
           child: SizedBox(
             width: 1080,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(
                           100.0), // Ajusta el radio según tus necesidades
@@ -201,31 +197,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontSize: 13),
                     ),
                     const SizedBox(height: 30),
-                    
 
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                        'Level '+_level.toString(),
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 242, 242, 242),
-                            fontSize: 14),
-                      ),
+                          'Level ' + _level.toString(),
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 242, 242, 242),
+                              fontSize: 14),
+                        ),
                       ],
-                    ),                      
+                    ),
                     const SizedBox(height: 5),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: LinearProgressIndicator(
-                          minHeight: 10,
-                          value: _level.toDouble()/100,
-                          backgroundColor:
-                              Colors.white,
-                          color: Colors.amber,
-                        ),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: LinearProgressIndicator(
+                        minHeight: 10,
+                        value: _level.toDouble() / 100,
+                        backgroundColor: Colors.white,
+                        color: Colors.amber,
                       ),
+                    ),
                     const SizedBox(height: 30),
                     const Divider(
                       color: Color.fromARGB(255, 52, 52, 52),
@@ -239,16 +233,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             setState(() {
                               _seeFollowing = !_seeFollowing;
-                              if (_seeFollowing){
+                              if (_seeFollowing) {
                                 _seeOptions = false;
                                 _seeFollowers = false;
-                                _textStyleFollowing=_highlightedText;
-                                _textStyleFollowers=_normalText;
+                                _textStyleFollowing = _highlightedText;
+                                _textStyleFollowers = _normalText;
                               } else {
                                 _seeOptions = true;
-                                _textStyleFollowing=_normalText;
+                                _textStyleFollowing = _normalText;
                               }
-                            });                                  
+                            });
                           },
                           child: Text(
                             "$_following\nFollowing",
@@ -261,18 +255,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             setState(() {
                               _seeFollowers = !_seeFollowers;
-                              if (_seeFollowers){
+                              if (_seeFollowers) {
                                 _seeOptions = false;
                                 _seeFollowing = false;
-                                _textStyleFollowers=_highlightedText;
-                                _textStyleFollowing=_normalText;
+                                _textStyleFollowers = _highlightedText;
+                                _textStyleFollowing = _normalText;
                               } else {
                                 _seeOptions = true;
-                                _textStyleFollowers=_normalText;
+                                _textStyleFollowers = _normalText;
                               }
-                            });                                  
+                            });
                           },
-                          child: Text(                          
+                          child: Text(
                             "$_followers\nFollowers",
                             textAlign: TextAlign.center,
                             style: _textStyleFollowers,
@@ -293,13 +287,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 250,
                         child: ListView.builder(
                           itemCount: followingList.length,
-                          itemBuilder:
-                          (BuildContext context, int index) {
+                          itemBuilder: (BuildContext context, int index) {
                             try {
                               return MyUserCard(
                                 idUserSession: _idUser!,
                                 idCardUser: followingList[index].idUser,
-                                attr1: '${followingList[index].name} ${followingList[index].surname}',
+                                attr1:
+                                    '${followingList[index].name} ${followingList[index].surname}',
                                 attr2: followingList[index].username,
                                 attr3: followingList[index].level.toString(),
                                 following: true,
@@ -310,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
-                    ), 
+                    ),
                     // Followers scroll view
                     Visibility(
                       visible: _seeFollowers, // not visible if set false
@@ -318,13 +312,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 250,
                         child: ListView.builder(
                           itemCount: followersList.length,
-                          itemBuilder:
-                          (BuildContext context, int index) {
+                          itemBuilder: (BuildContext context, int index) {
                             try {
                               return MyUserCard(
                                 idUserSession: _idUser!,
                                 idCardUser: followersList[index].idUser,
-                                attr1: '${followersList[index].name} ${followersList[index].surname}',
+                                attr1:
+                                    '${followersList[index].name} ${followersList[index].surname}',
                                 attr2: followersList[index].username,
                                 attr3: followersList[index].level.toString(),
                                 following: true,
@@ -335,7 +329,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
-                    ), 
+                    ),
 
                     Visibility(
                       visible: _seeOptions,
@@ -358,7 +352,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const Text(
                                     "Edit accotunt",
                                     style: TextStyle(
-                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -382,7 +377,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const Text(
                                     "Information",
                                     style: TextStyle(
-                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -406,7 +402,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const Text(
                                     "Delete account",
                                     style: TextStyle(
-                                        color: Color.fromARGB(255, 242, 242, 242),
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -427,24 +424,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 20),
-                                  TextButton(onPressed: (){
-                                    Navigator.pushNamed(
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
                                             context, '/login_screen');
-                                  }, child: Text("LogOut",
-                                  style: TextStyle(
-                                        color: Color.fromARGB(255, 242, 242, 242),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
-                                  ))
+                                      },
+                                      child: Text(
+                                        "LogOut",
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 242, 242, 242),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15),
+                                      ))
                                 ]),
                           ),
-                        ],),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
             ]),
-      ),
-    )));
+          ),
+        )));
   }
 }
