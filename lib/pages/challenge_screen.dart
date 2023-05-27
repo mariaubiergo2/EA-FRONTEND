@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+//import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/challenge.dart';
@@ -27,6 +28,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
   String? _name = "";
   String? _descr = "";
   String? _exp = "";
+  bool isButtonPressed = false;
 
   @override
   void initState() {
@@ -80,13 +82,13 @@ class _MyChallengePageState extends State<MyChallengePage> {
   Widget _buildChild(BuildContext context) {
     if (challenge == null) {
       // Muestra un indicador de carga mientras se obtiene la información del desafío
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     } else {
       // Muestra la información del desafío
       return Container(
         height: 350,
-        decoration: BoxDecoration(
-          color: Colors.redAccent,
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 25, 25, 25),
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
@@ -94,7 +96,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.only(
@@ -111,29 +113,54 @@ class _MyChallengePageState extends State<MyChallengePage> {
                 ),
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               _name ?? '',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 _descr ?? '',
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
+                if (isButtonPressed)
+                  const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  )
+                else
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isButtonPressed = true;
+                      });
+                      Navigator.pushNamed(context, '/qr_screen');
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ],
