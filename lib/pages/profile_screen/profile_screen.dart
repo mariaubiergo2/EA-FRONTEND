@@ -54,6 +54,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _textStyleFollowing = _normalText;
   }
 
+  Future clearInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
   Future getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -426,6 +431,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const SizedBox(width: 20),
                                   TextButton(
                                       onPressed: () {
+                                        clearInfo();
                                         Navigator.pushNamed(
                                             context, '/login_screen');
                                       },

@@ -48,6 +48,8 @@ class LoginScreen extends StatelessWidget {
             prefs.setString('name', u.name);
             prefs.setString('surname', u.surname);
             prefs.setString('username', u.username);
+            prefs.setString('email', emailController.text);
+            prefs.setString('password', passwordController.text);
             try {
               // prefs.setInt('exp', u.exp!);
               prefs.setInt('level', u.level!);
