@@ -28,6 +28,9 @@ class MapsWidget extends State<MapScreen> {
   List<Marker> allmarkers = [];
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
+  String? selectedChallengeId;
+  String? nameChallenge;
+  String? descrChallenge;
 
   @override
   void initState() {
@@ -93,6 +96,11 @@ class MapsWidget extends State<MapScreen> {
         point: LatLng(lat, long),
         builder: (context) => GestureDetector(
           onTap: () {
+            setState(() {
+              selectedChallengeId = challenge.id;
+              nameChallenge = challenge.name;
+              descrChallenge = challenge.descr;
+            });
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -104,7 +112,11 @@ class MapsWidget extends State<MapScreen> {
                     filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
                     child: Container(
                       color: Colors.black.withOpacity(0.5),
-                      child: const MyChallengePage(),
+                      child: MyChallengePage(
+                        selectedChallengeId: selectedChallengeId,
+                        nameChallenge: nameChallenge,
+                        descrChallenge: descrChallenge,
+                      ),
                     ),
                   ),
                 );

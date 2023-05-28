@@ -76,38 +76,6 @@ class _PanelWidgetState extends State<PanelWidget> {
   }
 }
 
-@override
-Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
-  return SizedBox(
-    height:
-        MediaQuery.of(context).size.height - 100, // ajustar según sea necesario
-    width: MediaQuery.of(context).size.width,
-    child: Viewport(
-      axisDirection: AxisDirection.down,
-      offset: ViewportOffset.zero(),
-      //clipBehavior: Clip.hardEdge,
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return MyChallengeCard(
-                  index: index,
-                  attr1: challengeList[index].name,
-                  attr2: challengeList[index].descr,
-                  attr3: challengeList[index].exp.toString(),
-                );
-              },
-              childCount: challengeList.length,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
 Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   return CustomScrollView(
     // MediaQuery.of(context).size.height - 100,
