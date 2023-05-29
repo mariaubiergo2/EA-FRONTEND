@@ -7,7 +7,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../models/user.dart';
 import '../../widget/friend_widget.dart';
 import '../../widget/panel_widget.dart';
-import '../navbar.dart';
+import '../navbar_mobile.dart';
 import 'dart:ui' as ui;
 
 void main() async {
@@ -84,7 +84,7 @@ class _FriendsScreen extends State<FriendsScreen> {
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = windowSize.height * 0.8;
     return Scaffold(
-      drawer: const NavBar(),
+      drawer: const NavBarMobile(),
       appBar: AppBar(
         title: const Text('EETAC -  GO'),
       ),

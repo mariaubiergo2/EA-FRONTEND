@@ -7,12 +7,12 @@ import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/profile_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 
-class NavBar extends StatefulWidget {
-  const NavBar({Key? key}) : super(key: key);
+class NavBarMobile extends StatefulWidget {
+  const NavBarMobile({Key? key}) : super(key: key);
 
   @override
   //ignore: library_private_types_in_public_api
-  _NavBarState createState() => _NavBarState();
+  _NavBarMobileState createState() => _NavBarMobileState();
 }
 
 int _currentIndex = 0;
@@ -24,7 +24,7 @@ final screens = [
   const ProfileScreen(),
 ];
 
-class _NavBarState extends State<NavBar> {
+class _NavBarMobileState extends State<NavBarMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

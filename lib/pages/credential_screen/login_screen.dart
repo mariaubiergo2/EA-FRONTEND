@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
             prefs.setString('surname', u.surname);
             prefs.setString('username', u.username);
 
-            Navigator.pushNamed(context, '/navbar');
+            Navigator.pushNamed(context, '/navbar_mobile');
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,

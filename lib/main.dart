@@ -6,8 +6,11 @@ import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ea_frontend/pages/navbar.dart';
+import 'package:ea_frontend/pages/navbar_mobile.dart';
+import 'package:ea_frontend/pages/navbar_web.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 
 void main() async {
   await dotenv.load();
@@ -22,8 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Material Login',
-        home: const SplashScreen(),
+        //home: const SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
@@ -39,10 +41,16 @@ class MyApp extends StatelessWidget {
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
-            case '/navbar':
-              return MaterialPageRoute(builder: (context) => const NavBar());
+            case '/navbar_mobile':
+              return MaterialPageRoute(
+                  builder: (context) => const NavBarMobile());
             default:
-              return MaterialPageRoute(builder: (context) => const NavBar());
+              if (kIsWeb) {
+                return MaterialPageRoute(builder: (context) => NavBarWeb());
+              } else {
+                return MaterialPageRoute(
+                    builder: (context) => const LoginScreen());
+              }
           }
         });
   }
