@@ -1,11 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:html';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../models/user.dart';
 import '../../widget/card_user_widget.dart';
@@ -31,6 +35,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _seeOptions = true;
   List<User> followingList = [];
   List<User> followersList = [];
+  PickedFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
@@ -52,6 +58,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getFollowers();
     _textStyleFollowers = _normalText;
     _textStyleFollowing = _normalText;
+  }
+
+  Widget imageProfile(PickedFile p){
+    return Stack(
+      children: [
+        CircleAvatar(
+          radius: 80,
+          // ignore: unnecessary_null_comparison
+          backgroundImage: p==null
+          ? AssetImage('images/example.png')
+          :FileImage(File(picked!.path)),
+        
+        ),
+        Positioned(
+          bottom: 5.0,
+          right: 5.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder)=>bottomSheet()),
+              );
+            },
+            child: const Icon(
+              Icons.camera_enhance,
+              color: Colors.amber,
+              size: 25.0,
+            ),
+          ),          
+        )
+    ],
+    );    
+  }
+
+  Widget bottomSheet(){
+    return Container(
+      height:100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(children: [
+        const Text(
+          "Choose a profile photo",
+          style: TextStyle(
+            fontSize: 18),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+            onTap: () {
+              takePhoto(ImageSource.camera, _picker);
+            },
+            child: const Icon(
+              Icons.camera_alt,
+              color: Color.fromARGB(255, 7, 119, 255),
+              size: 25.0,
+            ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            InkWell(
+            onTap: () {},
+            child: const Icon(
+              Icons.image,
+              color: Color.fromARGB(255, 7, 119, 255),
+              size: 25.0,
+              semanticLabel: "Gallery",
+            ),
+            ),
+          ],
+        )
+      ]),
+    );
+  }
+
+void takePhoto(ImageSource source, ImagePicker picker) async{
+    final pickedFile = await picker.getImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile!;
+    });
   }
 
   Future clearInfo() async {
@@ -178,14 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          100.0), // Ajusta el radio según tus necesidades
-                      child: Image.asset(
-                        'images/example.png',
-                        height: 150,
-                      ),
-                    ),
+                    imageProfile(),
                     const SizedBox(height: 30),
                     Text(
                       '$_name $_surname',
@@ -435,13 +523,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Navigator.pushNamed(
                                             context, '/login_screen');
                                       },
-                                      child: Text(
+                                      child: const Text(
                                         "LogOut",
                                         style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 242, 242, 242),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
+                                          color: Color.fromARGB(
+                                              255, 242, 242, 242),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
                                       ))
                                 ]),
                           ),
