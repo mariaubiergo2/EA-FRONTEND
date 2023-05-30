@@ -1,16 +1,21 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:bcrypt/bcrypt.dart';
-import 'package:flutter_bcrypt/flutter_bcrypt.dart';
-import 'package:dbcrypt/dbcrypt.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:ea_frontend/widget/password_textfield.dart';
 import 'package:ea_frontend/widget/credential_textfield.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import '../widget/credential_button.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../widget/credential_button.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -30,8 +35,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   RegExp numReg = RegExp(r".*[0-9].*");
   RegExp letterReg = RegExp(r".*[A-Aa-z].*");
   late String password;
-  String text = "Please enter the password";
+  String text = "Please enter a password";
   Color colorPasswordIndicator = Colors.black;
+
+  bool passwordVisible = false;
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,20 +111,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ));
         } else {
-          var response =
-              await Dio().post("http://10.0.2.2:3002/auth/register", data: {
+          var response = await Dio()
+              .post("http://${dotenv.env['API_URL']}/auth/register", data: {
             "name": nameController.text,
             "surname": surnameController.text,
             "username": usernameController.text,
             "email": emailController.text,
             "password": passwordController.text,
           });
-          print("Error debug: " + response.statusCode.toString());
           if (response.statusCode == 200) {
             Navigator.pushNamed(context, '/login_screen');
           }
           if (response.statusCode == 400) {
-            print(response.statusMessage);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
@@ -145,26 +155,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (password.isEmpty) {
         setState(() {
           strength = 0;
-          text = "Please enter the password";
+          text = "Please enter a password";
         });
       } else if (password.length < 4) {
         setState(() {
           strength = 1 / 5;
-          colorPasswordIndicator = Colors.red;
+          colorPasswordIndicator = const Color.fromARGB(255, 222, 66, 66);
           text = "Your password is too short";
         });
       } else if (password.length < 6) {
         setState(() {
           strength = 2 / 4;
           colorPasswordIndicator = Colors.orange;
-          text = "Your password is acceptable but insecure";
+          text = "Your password should have at least 6 characters";
         });
       } else {
         if (!letterReg.hasMatch(password) || !numReg.hasMatch(password)) {
           setState(() {
             strength = 3 / 4;
             colorPasswordIndicator = Colors.amber;
-            text = "Your password is strong";
+            text = "Your password should contain at least one number";
           });
         } else {
           setState(() {
@@ -187,24 +197,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: <
                     Widget>[
               Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 40),
-
-                      //Hello
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Image.asset(
-                            'images/hello.png',
-                            height: 57,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
 
                       //Name textfield
                       CredentialTextField(
@@ -244,12 +240,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: TextField(
                           onChanged: (val) => checkPassword(val),
                           controller: passwordController,
-                          obscureText: true,
+                          obscureText: passwordVisible,
                           cursorColor: const Color.fromARGB(255, 222, 66, 66),
                           style: const TextStyle(
                               color: Color.fromARGB(255, 67, 67, 67),
                               fontSize: 17),
                           decoration: InputDecoration(
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: IconButton(
+                                icon: Icon(
+                                    passwordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color:
+                                        const Color.fromARGB(255, 222, 66, 66)),
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      passwordVisible = !passwordVisible;
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
                             contentPadding:
                                 const EdgeInsets.fromLTRB(25, 25, 25, 25),
                             border: const OutlineInputBorder(
@@ -274,15 +288,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
 
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 2),
 
-                      //Password strength indicator
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: LinearProgressIndicator(
-                          value: strength,
-                          backgroundColor: Color.fromARGB(255, 146, 146, 146),
-                          color: colorPasswordIndicator,
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          //borderRadius: BorderRadius.circular(  10.0), // Establece el radio de los bordes
+                          child: SizedBox(
+                            height:
+                                4.0, // Ajusta la altura del indicador de progreso según sea necesario
+                            child: LinearProgressIndicator(
+                              value: strength,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 146, 146, 146),
+                              color: colorPasswordIndicator,
+                            ),
+                          ),
                         ),
                       ),
 
@@ -290,7 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       Text(
                         text,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color.fromARGB(255, 242, 242, 242),
                             fontSize: 14),
                       ),
@@ -298,7 +320,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 5),
 
                       //Password textfield
-                      CredentialTextField(
+                      PasswordTextField(
                           controller: passControllerVerify,
                           labelText: "Repeat your password",
                           obscureText: true),
@@ -336,13 +358,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title:
-                                        Text('Terms of use and Privacy Policy'),
+                                    title: const Text(
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                        'Terms of use and Privacy Policy'),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     content: SingleChildScrollView(
                                       child: Column(
-                                        children: [
+                                        children: const [
                                           Text(
-                                            style: TextStyle(fontSize: 14),
+                                            style: TextStyle(fontSize: 13.5),
                                             textAlign: TextAlign.justify,
                                             '''
 Acceptance of Terms: By accessing and using this app/service, you agree to be bound by these Terms of Use.
@@ -376,17 +403,31 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                     ),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: Text('Close'),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
+                                        style: ButtonStyle(
+                                          overlayColor:
+                                              MaterialStateColor.resolveWith(
+                                            (states) => const Color.fromARGB(
+                                                    255, 222, 66, 66)
+                                                .withOpacity(0.2),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          'Close',
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   );
                                 },
                               );
                             },
-                            child: Text("Terms of use and Privacy Policy",
+                            child: const Text("Terms of use and Privacy Policy",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 242, 242, 242),
                                   fontSize: 14,

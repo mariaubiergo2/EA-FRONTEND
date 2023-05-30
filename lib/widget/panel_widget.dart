@@ -1,11 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
-import 'package:ea_frontend/widget/card_widget.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ea_frontend/widget/card_challenge_widget.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class PanelWidget extends StatefulWidget {
   const PanelWidget({
@@ -30,14 +34,13 @@ class _PanelWidgetState extends State<PanelWidget> {
   @override
   void initState() {
     super.initState();
-    getSubjects();
+    getChallenges();
   }
 
-  Future getSubjects() async {
+  Future getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    //http://IP_PC:3000/subject/all
-    String path = 'http://10.0.2.2:3002/challenge/get/all';
+    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",
@@ -54,79 +57,58 @@ class _PanelWidgetState extends State<PanelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 12),
-          buildDragHandle(),
-          const SizedBox(height: 18),
-          const Center(
-            child: Text(
-              'Challenges',
-              style: TextStyle(fontWeight: FontWeight.normal),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(color: Color.fromARGB(255, 25, 25, 25)),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 12),
+            buildDragHandle(),
+            const SizedBox(height: 30),
+            const SizedBox(height: 5),
+            Expanded(
+              child: buildChallenges12(context, challengeList),
             ),
-          ),
-          const SizedBox(height: 36),
-          buildAboutText(),
-          const SizedBox(height: 24),
-          buildChallenges11(context, challengeList),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-@override
-Widget buildChallenges11(BuildContext context, List<Challenge> challengeList) {
-  return SizedBox(
-    height:
-        MediaQuery.of(context).size.height - 100, // ajustar según sea necesario
-    width: MediaQuery.of(context).size.width,
-    child: Viewport(
-      axisDirection: AxisDirection.down,
-      offset: ViewportOffset.zero(),
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return MyCard(
-                  name: challengeList[index].name,
-                  descr: challengeList[index].descr,
-                  exp: challengeList[index].exp.toString(),
-                );
-              },
-              childCount: challengeList.length,
-            ),
+Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
+  return CustomScrollView(
+    // MediaQuery.of(context).size.height - 100,
+    slivers: [
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              // return MyCard(
+              return MyChallengeCard(
+                index: index,
+                attr1: challengeList[index].name,
+                attr2: challengeList[index].descr,
+                attr3: challengeList[index].exp.toString(),
+              );
+            },
+            childCount: challengeList.length,
           ),
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }
-
-Widget buildAboutText() => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
-          Text(
-            'Available challenges',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          )
-        ],
-      ),
-    );
 
 Widget buildDragHandle() => GestureDetector(
       onTap: togglePanel,
       child: Center(
         child: Container(
-          width: 30,
-          height: 5,
+          width: 100,
+          height: 4,
           decoration: BoxDecoration(
-            color: Colors.grey[300],
+            color: const Color.fromARGB(255, 242, 242, 242),
             borderRadius: BorderRadius.circular(12),
           ),
         ),

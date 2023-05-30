@@ -15,6 +15,8 @@ class Challenge {
     required this.descr,
     required this.exp,
     required this.users,
+    this.lat = "0",
+    this.long = "0",
   });
 
   final String id;
@@ -22,14 +24,17 @@ class Challenge {
   final String descr;
   final int exp;
   final List<User> users;
+  final String lat;
+  final String long;
 
   factory Challenge.fromJson(Map<String, dynamic> json) => Challenge(
-        id: json["_id"], //Aqui irn cosas
-        name: json["name"],
-        descr: json["descr"],
-        exp: json["exp"],
-        users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
-      );
+      id: json["_id"],
+      name: json["name"],
+      descr: json["descr"],
+      exp: json["exp"],
+      users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
+      lat: json["lat"],
+      long: json["long"]);
 
   Map<String, dynamic> toJson() => {
         "_id": id,

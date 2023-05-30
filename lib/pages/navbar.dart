@@ -1,82 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
+//Screens
+import 'package:ea_frontend/pages/home_screen/home_screen.dart';
+import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
+import 'package:ea_frontend/pages/profile_screen/profile_screen.dart';
+import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  const NavBar({Key? key}) : super(key: key);
 
   @override
+  //ignore: library_private_types_in_public_api
   _NavBarState createState() => _NavBarState();
 }
 
+int _currentIndex = 0;
+
+final screens = [
+  const HomeScreen(),
+  ChatScreen(),
+  const MakeFriendsScreen(),
+  ProfileScreen(),
+];
+
 class _NavBarState extends State<NavBar> {
-  // Algunos datos de ejemplo
-  String? _idUser = "";
-  String? _name = "";
-  String? _surname = "";
-  String? _username = "";
-  String? _token = "";
-
-  @override
-  void initState() {
-    super.initState();
-    getUserInfo();
-  }
-
-  Future getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _token = prefs.getString('token');
-      _idUser = prefs.getString('idUser');
-      _name = prefs.getString('name');
-      _surname = prefs.getString('surname');
-      _username = prefs.getString('username');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-        child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        UserAccountsDrawerHeader(
-          accountName: Text('$_name $_surname'),
-          accountEmail: Text(_username.toString()),
-          currentAccountPicture: CircleAvatar(
-            child: ClipOval(
-              child: Image.network(
-                'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
-                width: 90,
-                height: 90,
-                fit: BoxFit.cover,
+    return Scaffold(
+      body: screens[_currentIndex],
+      bottomNavigationBar: Container(
+        color: const Color.fromARGB(255, 25, 25, 25),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+        child: GNav(
+            gap: 15,
+            backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+            color: Colors.white,
+            activeColor: Colors.white,
+            tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
+            selectedIndex: _currentIndex,
+            onTabChange: (index) => {setState(() => _currentIndex = index)},
+            padding: const EdgeInsets.fromLTRB(14, 8.5, 14, 8.5),
+            tabs: const [
+              GButton(
+                icon: Icons.home_filled,
+                iconSize: 25,
+                text: 'Home',
               ),
-            ),
-          ),
-          decoration: const BoxDecoration(
-              color: Colors.blue,
-              image: DecorationImage(
-                image: NetworkImage(
-                  'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.talent.upc.edu%2Fblog%2Fla-upc-primera-universidad-en-espana-y-top-100-mundial-en-ingenieria-de-telecomunicaciones-electrica-y-electronica%2F&psig=AOvVaw1EziXCYxTpYbWEcCkR5Wh3&ust=1683370206650000&source=images&cd=vfe&ved=0CA4QjRxqFwoTCOjg0-yA3v4CFQAAAAAdAAAAABAH',
-                ),
-                fit: BoxFit.cover,
-              )),
-        ),
-        const ListTile(
-          leading: Icon(Icons.favorite),
-          title: Text('Favorites'),
-        ),
-        ListTile(
-          leading: const Icon(Icons.people),
-          title: const Text('Friends'),
-          onTap: () => Navigator.pushNamed(context, '/friends_screen'),
-        ),
-        Divider(),
-        ListTile(
-          leading: const Icon(Icons.exit_to_app),
-          title: const Text('Log Out'),
-          onTap: () => Navigator.pushNamed(context, '/login_screen'),
-        ),
-      ],
-    ));
+              GButton(
+                  icon: Icons.chat_bubble_rounded, iconSize: 22, text: 'Chat'),
+              GButton(
+                icon: Icons.manage_search_rounded,
+                iconSize: 27,
+                text: 'Discover',
+              ),
+              GButton(
+                icon: Icons.person_rounded,
+                iconSize: 24,
+                text: 'Profile',
+              ),
+            ]),
+      ),
+      bottomSheet: const Divider(
+        color: Color.fromARGB(255, 52, 52, 52),
+        height: 0.05,
+      ),
+    );
   }
 }
