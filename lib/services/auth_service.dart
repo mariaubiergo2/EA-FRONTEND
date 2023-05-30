@@ -18,7 +18,7 @@ import '../pages/initial_screen.dart';
 class AuthService {
   Future<void> logIn(User user) async {
     try {
-      var response = await Dio().post("http://127.0.0.1:3002/auth/login",
+      var response = await Dio().post("http://10.0.2.2:3002/auth/login",
           data: {"email": user.email, "password": user.uid});
       print(response.statusCode);
 
@@ -47,19 +47,25 @@ class AuthService {
   }
 
   Future<bool> registerUserInAPI(User user) async {
-    final String apiUrl = "http://127.0.0.1:3002/auth/register";
+    // final String apiUrl = "http://10.0.2.2:3002/auth/register";
 
-    final Map<String, dynamic> requestData = {
-      'name': user.displayName,
-      'surname': user.displayName,
-      'username': user.email,
-      'password': user.uid, // Generate a secure password for the user
-      'email': user.email,
-    };
-    print(requestData);
+    // final Map<String, dynamic> requestData = {
+    //   'name': user.displayName,
+    //   'surname': user.displayName,
+    //   'username': user.email,
+    //   'password': user.uid, // Generate a secure password for the user
+    //   'email': user.email,
+
     try {
-      final http.Response response =
-          await http.post(Uri.parse(apiUrl), body: requestData);
+      var response =
+          await Dio().post("http://10.0.2.2:3002/auth/register", data: {
+        "name": user.displayName,
+        "surname": user.displayName,
+        "username": user.displayName,
+        "email": user.email,
+        "password": user.uid
+      });
+      print(response);
 
       if (response.statusCode == 200) {
         print('User registration successful');
