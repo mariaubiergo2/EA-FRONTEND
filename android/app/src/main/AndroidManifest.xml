@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ea_frontend">
+    
    <application
         android:label="ea_frontend"
         android:name="${applicationName}"

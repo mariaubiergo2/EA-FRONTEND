@@ -91,11 +91,12 @@ class MapsWidget extends State<MapScreen> {
           SnackBar(content: Text("Este reto es: " + challenge.name));
       return Marker(
         point: LatLng(lat, long),
+        rotate: true,
         builder: (context) => GestureDetector(
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
-          child: Image.asset('images/marker.png'),
+          child: Image.asset('images/pointer.png'),
         ),
       );
     }).toList();
