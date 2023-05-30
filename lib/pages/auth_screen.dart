@@ -1,5 +1,3 @@
-import 'package:ea_frontend/pages/initial_screen.dart';
-import 'package:ea_frontend/pages/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

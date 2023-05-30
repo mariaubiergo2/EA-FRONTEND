@@ -2,12 +2,14 @@
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/user.dart';
+import '../../models/user.dart' as user_ea;
 import '../../widget/card_user_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -29,8 +31,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _seeFollowing = false;
   bool _seeFollowers = false;
   bool _seeOptions = true;
-  List<User> followingList = [];
-  List<User> followersList = [];
+  List<user_ea.User> followingList = [];
+  List<user_ea.User> followersList = [];
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
@@ -113,7 +116,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
       var users = response.data as List;
       setState(() {
-        followingList = users.map((user) => User.fromJson2(user)).toList();
+        followingList =
+            users.map((user) => user_ea.User.fromJson2(user)).toList();
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -146,7 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
       var users = response.data as List;
       setState(() {
-        followersList = users.map((user) => User.fromJson2(user)).toList();
+        followersList =
+            users.map((user) => user_ea.User.fromJson2(user)).toList();
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -431,6 +436,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const SizedBox(width: 20),
                                   TextButton(
                                       onPressed: () {
+                                        auth.signOut();
+                                        GoogleSignIn().signOut();
                                         clearInfo();
                                         Navigator.pushNamed(
                                             context, '/login_screen');

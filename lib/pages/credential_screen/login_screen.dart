@@ -197,62 +197,6 @@ class LoginScreen extends StatelessWidget {
                 ]),
               ),
 
-              const SizedBox(height: 5),
-
-              //Email address textfield
-              CredentialTextField(
-                  controller: emailController,
-                  labelText: "Email address",
-                  obscureText: false),
-
-              const SizedBox(height: 10),
-
-              //Password textfield
-              CredentialTextField(
-                  controller: passwordController,
-                  labelText: "Password",
-                  obscureText: true),
-
-              const SizedBox(height: 20),
-
-              //Log in button
-              CredentialButton(
-                buttonText: "LOG IN",
-                onTap: logIn,
-              ),
-
-              const SizedBox(height: 20),
-
-              //Or continue with
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  children: const [
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Color.fromARGB(255, 242, 242, 242),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Text(
-                        'Or continue with',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 242, 242, 242),
-                            fontSize: 17),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Color.fromARGB(255, 242, 242, 242),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
               const SizedBox(height: 20),
 
               //Google

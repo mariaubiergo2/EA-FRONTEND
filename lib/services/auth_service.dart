@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'package:ea_frontend/pages/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart' as user_ea;
@@ -12,8 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-
-import '../pages/initial_screen.dart';
 
 class AuthService {
   Future<void> logIn(User user) async {
@@ -46,19 +45,10 @@ class AuthService {
     }
   }
 
-  Future<bool> registerUserInAPI(User user) async {
-    // final String apiUrl = "http://10.0.2.2:3002/auth/register";
-
-    // final Map<String, dynamic> requestData = {
-    //   'name': user.displayName,
-    //   'surname': user.displayName,
-    //   'username': user.email,
-    //   'password': user.uid, // Generate a secure password for the user
-    //   'email': user.email,
-
+  Future<bool> SignInViaGoogle(User user) async {
     try {
       var response =
-          await Dio().post("http://10.0.2.2:3002/auth/register", data: {
+          await Dio().post("http://10.0.2.2:3002/auth/loginGAuth", data: {
         "name": user.displayName,
         "surname": user.displayName,
         "username": user.displayName,
@@ -69,6 +59,21 @@ class AuthService {
 
       if (response.statusCode == 200) {
         print('User registration successful');
+        Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
+
+        print('Token:' + payload.toString());
+
+        user_ea.User u = user_ea.User.fromJson(payload);
+        var data = json.decode(response.toString());
+
+        print(data['token']);
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', data['token']);
+        prefs.setString('idUser', u.idUser);
+        prefs.setString('name', u.name);
+        prefs.setString('surname', u.surname);
+        prefs.setString('username', u.username);
         return true;
       } else {
         print(
@@ -108,13 +113,9 @@ class AuthService {
       print('Email: ${user?.email}');
 
       //Intentamos login en API
-      final bool registerOK = await registerUserInAPI(user!);
-      await logIn(user);
+      final bool registerOK = await SignInViaGoogle(user!);
       if (registerOK) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => InitialScreen()),
-        );
+        Navigator.pushNamed(context, '/navbar');
       }
 
       return userCredential;
