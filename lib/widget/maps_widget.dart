@@ -31,7 +31,6 @@ class MapsWidget extends State<MapScreen> {
     super.initState();
     getChallenges();
     getLocationPermission();
-    listenToLocationUpdates();
   }
 
   Future<void> getLocationPermission() async {
@@ -54,6 +53,9 @@ class MapsWidget extends State<MapScreen> {
     if (permission == LocationPermission.deniedForever) {
       return;
     }
+
+    buildChallengeMarkers();
+    listenToLocationUpdates();
   }
 
   void listenToLocationUpdates() {
