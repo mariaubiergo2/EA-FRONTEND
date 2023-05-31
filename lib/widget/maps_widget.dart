@@ -39,18 +39,74 @@ class MapsWidget extends State<MapScreen> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Servicio de ubicación desactivado'),
+            content: const Text(
+                'El servicio de ubicación está desactivado. Por favor, actívalo en la configuración de tu dispositivo.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el AlertDialog
+                },
+              ),
+            ],
+          );
+        },
+      );
       return;
     }
-
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Aviso'),
+              content: const Text(
+                  'Al denegar el acceso a la ubicación, no será posible establecer el lugar donde te encuentras. Si quieres activar el acceso a la ubicación, vuelve a abrir la aplicación.'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Cierra el AlertDialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
         return;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Aviso'),
+            content:
+                const Text('Denegaste para siempre el acceso a la ubicación.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el AlertDialog
+                },
+              ),
+            ],
+          );
+        },
+      );
       return;
     }
 
@@ -95,16 +151,10 @@ class MapsWidget extends State<MapScreen> {
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
-
           child: Image.asset(
             'images/marker_advanced.png',
             width: 20,
           ),
-          // child: const Icon(
-          //   Icons.location_pin,
-          //   color: Color.fromARGB(255, 222, 66, 66),
-          //   size: 25,
-          // ),
         ),
       );
     }).toList();
