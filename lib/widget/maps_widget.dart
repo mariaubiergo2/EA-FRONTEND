@@ -72,12 +72,9 @@ class MapsWidget extends State<MapScreen> {
     allmarkers.clear();
     if (showUserLocation && userLocation != null) {
       final userMarker = Marker(
-        rotate: false,
         point: LatLng(userLocation!.latitude, userLocation!.longitude),
-        builder: (_) => const Icon(
-          Icons.location_searching_rounded,
-          color: Color.fromARGB(255, 23, 126, 209),
-          size: 20,
+        builder: (_) => Image.asset(
+          'images/gps_pointer.png',
         ),
       );
       allmarkers.add(userMarker);
@@ -98,11 +95,16 @@ class MapsWidget extends State<MapScreen> {
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
-          child: const Icon(
-            Icons.location_pin,
-            color: Color.fromARGB(255, 222, 66, 66),
-            size: 25,
+
+          child: Image.asset(
+            'images/marker_advanced.png',
+            width: 20,
           ),
+          // child: const Icon(
+          //   Icons.location_pin,
+          //   color: Color.fromARGB(255, 222, 66, 66),
+          //   size: 25,
+          // ),
         ),
       );
     }).toList();

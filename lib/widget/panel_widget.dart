@@ -62,10 +62,9 @@ class _PanelWidgetState extends State<PanelWidget> {
         decoration: const BoxDecoration(color: Color.fromARGB(255, 25, 25, 25)),
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             buildDragHandle(),
-            const SizedBox(height: 30),
-            const SizedBox(height: 5),
+            const SizedBox(height: 100), //AQUI IRÁ LOS MODOS
             Expanded(
               child: buildChallenges12(context, challengeList),
             ),
@@ -137,7 +136,7 @@ Widget buildDragHandle() => GestureDetector(
       onTap: togglePanel,
       child: Center(
         child: Container(
-          width: 100,
+          width: 135,
           height: 4,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 242, 242, 242),
