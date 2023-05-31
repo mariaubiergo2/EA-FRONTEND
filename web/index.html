@@ -15,7 +15,7 @@
     the `--base-href` argument provided to `flutter build`.
   -->
   <base href="$FLUTTER_BASE_HREF">
-
+  <meta name="google-signin-client_id" content="557103334938-nn5u3hmd9h333pnf8dv6n64inq6qissv.apps.googleusercontent.com">
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
@@ -40,6 +40,25 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBe7h6juNn5hQSVGqBYjqyYMoQd6V0dfsA",
+      authDomain: "eetacgo.firebaseapp.com",
+      projectId: "eetacgo",
+      storageBucket: "eetacgo.appspot.com",
+      messagingSenderId: "557103334938",
+      appId: "1:557103334938:web:bbf7e7873a6bfa66c3b3a3"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
