@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ea_frontend/models/challenge.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   await dotenv.load();
@@ -25,10 +26,12 @@ class MapsWidget extends State<MapScreen> {
   List<Challenge> challengeList = <Challenge>[];
   bool showUserLocation = false;
   Position? userLocation;
+  late MapController mapController;
 
   @override
   void initState() {
     super.initState();
+    mapController = MapController();
     getChallenges();
     getLocationPermission();
   }
@@ -44,15 +47,41 @@ class MapsWidget extends State<MapScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Servicio de ubicación desactivado'),
-            content: const Text(
-                'El servicio de ubicación está desactivado. Por favor, actívalo en la configuración de tu dispositivo.'),
+            title: const Text(
+              'Location service disabled',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  Text(
+                    "The location service is disabled. Please enable it in your device settings.",
+                    style: TextStyle(fontSize: 13.5),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el AlertDialog
+                  Navigator.of(context).pop();
                 },
+                style: ButtonStyle(
+                  overlayColor: MaterialStateColor.resolveWith(
+                    (states) =>
+                        const Color.fromARGB(255, 222, 66, 66).withOpacity(0.2),
+                  ),
+                ),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 222, 66, 66),
+                  ),
+                ),
               ),
             ],
           );
@@ -64,25 +93,6 @@ class MapsWidget extends State<MapScreen> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Aviso'),
-              content: const Text(
-                  'Al denegar el acceso a la ubicación, no será posible establecer el lugar donde te encuentras. Si quieres activar el acceso a la ubicación, vuelve a abrir la aplicación.'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el AlertDialog
-                  },
-                ),
-              ],
-            );
-          },
-        );
         return;
       }
     }
@@ -93,15 +103,58 @@ class MapsWidget extends State<MapScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Aviso'),
-            content:
-                const Text('Denegaste para siempre el acceso a la ubicación.'),
+            title: const Text(
+              'Location permission denied forever',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  Text(
+                    "Location permission has been denied forever. Please enable it in your device settings to use this feature.",
+                    style: TextStyle(fontSize: 13.5),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el AlertDialog
+                  Navigator.of(context).pop();
                 },
+                style: ButtonStyle(
+                  overlayColor: MaterialStateColor.resolveWith(
+                    (states) =>
+                        const Color.fromARGB(255, 222, 66, 66).withOpacity(0.2),
+                  ),
+                ),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 222, 66, 66),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  openAppSettings(); // Abre la configuración de la aplicación
+                },
+                style: ButtonStyle(
+                  overlayColor: MaterialStateColor.resolveWith(
+                    (states) =>
+                        const Color.fromARGB(255, 222, 66, 66).withOpacity(0.2),
+                  ),
+                ),
+                child: const Text(
+                  'Open Settings',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 222, 66, 66),
+                  ),
+                ),
               ),
             ],
           );
@@ -121,6 +174,11 @@ class MapsWidget extends State<MapScreen> {
         showUserLocation = true;
         updateMarkers();
       });
+    }, onError: (e) {
+      setState(() {
+        showUserLocation = false;
+        updateMarkers();
+      });
     });
   }
 
@@ -128,6 +186,8 @@ class MapsWidget extends State<MapScreen> {
     allmarkers.clear();
     if (showUserLocation && userLocation != null) {
       final userMarker = Marker(
+        height: 20,
+        width: 20,
         point: LatLng(userLocation!.latitude, userLocation!.longitude),
         builder: (_) => Image.asset(
           'images/gps_pointer.png',
@@ -143,8 +203,10 @@ class MapsWidget extends State<MapScreen> {
       final lat = double.parse(challenge.lat);
       final long = double.parse(challenge.long);
       final snackBar =
-          SnackBar(content: Text("Este reto es: " + challenge.name));
+          SnackBar(content: Text("Este reto es: ${challenge.name}"));
       return Marker(
+        height: 35,
+        width: 35,
         point: LatLng(lat, long),
         rotate: true,
         builder: (context) => GestureDetector(
@@ -153,7 +215,6 @@ class MapsWidget extends State<MapScreen> {
           },
           child: Image.asset(
             'images/marker_advanced.png',
-            width: 20,
           ),
         ),
       );
@@ -164,30 +225,58 @@ class MapsWidget extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        center: LatLng(41.27561, 1.98722),
-        zoom: 16.0,
-        maxZoom: 18.0,
-      ),
-      nonRotatedChildren: [
-        RichAttributionWidget(
-          attributions: [
-            TextSourceAttribution(
-              'OpenStreetMap contributors',
-              onTap: () =>
-                  launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+    return Stack(
+      children: [
+        FlutterMap(
+          mapController: mapController,
+          options: MapOptions(
+            center: LatLng(41.27561, 1.98722),
+            zoom: 16.0,
+            maxZoom: 18.0,
+          ),
+          nonRotatedChildren: [
+            RichAttributionWidget(
+              attributions: [
+                TextSourceAttribution(
+                  'OpenStreetMap contributors',
+                  onTap: () => launchUrl(
+                    Uri.parse('https://openstreetmap.org/copyright'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          children: [
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'com.example.app',
+            ),
+            MarkerLayer(
+              markers: allmarkers,
             ),
           ],
         ),
-      ],
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
-        ),
-        MarkerLayer(
-          markers: allmarkers,
+        Positioned(
+          bottom: 145.0,
+          right: 25.0,
+          child: GestureDetector(
+            onTap: onTapContainer,
+            child: Container(
+              width: 65,
+              height: 65,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 222, 66, 66),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Icon(
+                showUserLocation
+                    ? Icons.gps_fixed_rounded
+                    : Icons.gps_off_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -210,5 +299,14 @@ class MapsWidget extends State<MapScreen> {
       challengeList = challengeList;
     });
     buildChallengeMarkers();
+  }
+
+  void onTapContainer() {
+    if (showUserLocation && userLocation != null) {
+      final center = LatLng(userLocation!.latitude, userLocation!.longitude);
+      mapController.move(center, 16.0);
+    } else {
+      getLocationPermission();
+    }
   }
 }
