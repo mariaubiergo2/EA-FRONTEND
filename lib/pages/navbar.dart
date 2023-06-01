@@ -22,7 +22,7 @@ int _currentIndex = 0;
 final screens = [
   const HomeScreen(),
   // ChatPage(),
-  const MyApp(),
+  MyApp(),
   // Chat(),
   const MakeFriendsScreen(),
   const ProfileScreen(),

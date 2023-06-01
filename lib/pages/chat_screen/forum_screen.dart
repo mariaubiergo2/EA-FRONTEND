@@ -1,10 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
+
+import '../../models/challenge.dart';
 
 void main() {
   runApp(MyApp());
@@ -134,11 +138,40 @@ class _MyChatPageState extends State<MyChatPage> {
   String _currentRoom = '';
   List<ChatMessage> _messages = [];
   Map<String, String> roomNames = {};
+  List<Challenge> challengeList = <Challenge>[];
 
   IO.Socket? socket;
 
   TextEditingController roomNameController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
+
+  void getChallenges() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
+    var response = await Dio().get(path,
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        }));
+    var registros = response.data as List;
+    for (var sub in registros) {
+      challengeList.add(Challenge.fromJson(sub));
+    }
+    setState(() {
+      challengeList = challengeList;
+    });
+    setChallengeRooms();
+  }
+
+  void setChallengeRooms() async {
+    for (int i = 0; i < challengeList.length; i++) {
+      if (challengeList[i].name.isNotEmpty &&
+          !roomNames.values.contains(challengeList[i].name)) {
+        socket!.emit('CREATE_ROOM', {"roomName": challengeList[i].name});
+      }
+    }
+  }
 
   void createRoom(String roomName) {
     if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
@@ -193,14 +226,16 @@ class _MyChatPageState extends State<MyChatPage> {
       });
 
     socket!.on("ROOMS", (rooms) {
-      setState(() {
-        roomNames.clear();
-        final roomsJsonString = jsonEncode(rooms);
-        final roomsJson = jsonDecode(roomsJsonString);
-        roomsJson.forEach((roomId, roomData) {
-          roomNames[roomId] = roomData["name"];
+      if (mounted) {
+        setState(() {
+          roomNames.clear();
+          final roomsJsonString = jsonEncode(rooms);
+          final roomsJson = jsonDecode(roomsJsonString);
+          roomsJson.forEach((roomId, roomData) {
+            roomNames[roomId] = roomData["name"];
+          });
         });
-      });
+      }
     });
 
     socket!.on("ROOM_MESSAGE", (data) {
@@ -211,25 +246,29 @@ class _MyChatPageState extends State<MyChatPage> {
         messageContent: roomMessageJson['message'],
         timeSent: roomMessageJson['time'],
       );
-      setState(() {
-        _messages.insert(0, chatMessage);
-        _textController.clear();
-      });
+      if (mounted) {
+        setState(() {
+          _messages.insert(0, chatMessage);
+          _textController.clear();
+        });
+      }
     });
+
+    getChallenges();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('FLUTTER CHAT CLIENT'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('FLUTTER CHAT CLIENT'),
+      // ),
       body: Row(
         children: [
           Flexible(
             flex: 1,
             child: Container(
-              color: Color.fromARGB(255, 198, 238, 219),
+              color: Color.fromARGB(255, 0, 0, 0),
               child: Column(
                 children: [
                   Container(
@@ -239,8 +278,10 @@ class _MyChatPageState extends State<MyChatPage> {
                         Expanded(
                           child: TextField(
                             controller: roomNameController,
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
                               hintText: 'Enter a room name',
+                              hintStyle: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
@@ -283,7 +324,7 @@ class _MyChatPageState extends State<MyChatPage> {
           Flexible(
             flex: 3,
             child: Container(
-              color: Color.fromARGB(255, 216, 243, 247),
+              color: Color.fromARGB(255, 252, 252, 252),
               child: Column(
                 children: [
                   // Chat room header
