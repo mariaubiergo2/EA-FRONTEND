@@ -26,6 +26,7 @@ class MapsWidget extends State<MapScreen> {
   List<Challenge> challengeList = <Challenge>[];
   bool showUserLocation = false;
   Position? userLocation;
+  LocationPermission? permission;
   late MapController mapController;
 
   @override
@@ -38,7 +39,7 @@ class MapsWidget extends State<MapScreen> {
 
   Future<void> getLocationPermission() async {
     bool serviceEnabled;
-    LocationPermission permission;
+    LocationPermission checkPermissions;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -77,7 +78,25 @@ class MapsWidget extends State<MapScreen> {
                   ),
                 ),
                 child: const Text(
-                  'OK',
+                  'Cancel',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 222, 66, 66),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Geolocator.openLocationSettings();
+                  Navigator.of(context).pop();
+                },
+                style: ButtonStyle(
+                  overlayColor: MaterialStateColor.resolveWith(
+                    (states) =>
+                        const Color.fromARGB(255, 222, 66, 66).withOpacity(0.2),
+                  ),
+                ),
+                child: const Text(
+                  'Open Settings',
                   style: TextStyle(
                     color: Color.fromARGB(255, 222, 66, 66),
                   ),
@@ -89,9 +108,12 @@ class MapsWidget extends State<MapScreen> {
       );
       return;
     }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
+
+    checkPermissions = await Geolocator.checkPermission();
+
+    if (checkPermissions == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
+
       if (permission == LocationPermission.denied) {
         return;
       }
@@ -141,7 +163,8 @@ class MapsWidget extends State<MapScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  openAppSettings(); // Abre la configuración de la aplicación
+                  openAppSettings();
+                  Navigator.of(context).pop();
                 },
                 style: ButtonStyle(
                   overlayColor: MaterialStateColor.resolveWith(
@@ -169,16 +192,21 @@ class MapsWidget extends State<MapScreen> {
 
   void listenToLocationUpdates() {
     Geolocator.getPositionStream().listen((Position position) {
-      setState(() {
-        userLocation = position;
-        showUserLocation = true;
-        updateMarkers();
-      });
+      if (mounted) {
+        setState(() {
+          userLocation = position;
+          showUserLocation = true;
+          updateMarkers();
+        });
+      }
     }, onError: (e) {
-      setState(() {
-        showUserLocation = false;
-        updateMarkers();
-      });
+      if (mounted) {
+        setState(() {
+          userLocation = null;
+          showUserLocation = false;
+          updateMarkers();
+        });
+      }
     });
   }
 
@@ -259,13 +287,19 @@ class MapsWidget extends State<MapScreen> {
         Positioned(
           bottom: 145.0,
           right: 25.0,
-          child: GestureDetector(
-            onTap: onTapContainer,
-            child: Container(
+          child: ElevatedButton(
+            onPressed: onTapContainer,
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+            ),
+            child: Ink(
               width: 65,
               height: 65,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 222, 66, 66),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Icon(
@@ -295,9 +329,11 @@ class MapsWidget extends State<MapScreen> {
     for (var sub in registros) {
       challengeList.add(Challenge.fromJson(sub));
     }
-    setState(() {
-      challengeList = challengeList;
-    });
+    if (mounted) {
+      setState(() {
+        challengeList = challengeList;
+      });
+    }
     buildChallengeMarkers();
   }
 
