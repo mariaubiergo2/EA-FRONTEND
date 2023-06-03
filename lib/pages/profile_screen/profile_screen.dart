@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/user.dart' as user_ea;
 import '../../widget/card_user_widget.dart';
@@ -359,9 +360,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 25),
-                                  const Text(
-                                    "Edit accotunt",
-                                    style: TextStyle(
+                                  Text(
+                                    AppLocalizations.of(context)!.edit_account,
+                                    // "Edit accotunt",
+                                    style: const TextStyle(
                                         color:
                                             Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,

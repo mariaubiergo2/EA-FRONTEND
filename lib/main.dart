@@ -10,6 +10,8 @@ import 'package:ea_frontend/pages/home_screen/qr_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  //supportedLocales: L10n.all,
 
   // This widget is the root of your application.
   @override
@@ -30,6 +33,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'EETAC Go',
         home: const SplashScreen(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('es')],
+        locale: const Locale('es'),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
