@@ -164,11 +164,23 @@ class _MyChatPageState extends State<MyChatPage> {
     setChallengeRooms();
   }
 
-  void setChallengeRooms() async {
-    for (int i = 0; i < challengeList.length; i++) {
-      if (challengeList[i].name.isNotEmpty &&
-          !roomNames.values.contains(challengeList[i].name)) {
-        socket!.emit('CREATE_ROOM', {"roomName": challengeList[i].name});
+  // void setChallengeRooms() {
+  //   for (var challenge in challengeList) {
+  //     if (challenge.name.isNotEmpty &&
+  //         !roomNames.values.contains(challenge.name) &&
+  //         (challenge.name !=
+  //             roomNames.values.elementAt(challengeList.indexOf(challenge)))) {
+  //       socket!.emit('CREATE_ROOM', {"roomName": challenge.name});
+  //     }
+  //   }
+  // }
+
+  void setChallengeRooms() {
+    for (var challenge in challengeList) {
+      if (challenge.name.isNotEmpty &&
+          !roomNames.values.contains(challenge.name) &&
+          !roomNames.values.any((value) => value == challenge.name)) {
+        socket!.emit('CREATE_ROOM', {"roomName": challenge.name});
       }
     }
   }
@@ -233,6 +245,7 @@ class _MyChatPageState extends State<MyChatPage> {
           final roomsJson = jsonDecode(roomsJsonString);
           roomsJson.forEach((roomId, roomData) {
             roomNames[roomId] = roomData["name"];
+            print(roomNames);
           });
         });
       }
@@ -254,7 +267,7 @@ class _MyChatPageState extends State<MyChatPage> {
       }
     });
 
-    getChallenges();
+    if (mounted) getChallenges();
   }
 
   @override
