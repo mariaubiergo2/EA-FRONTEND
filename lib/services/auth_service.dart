@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:ea_frontend/pages/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../models/user.dart' as user_ea;
 
@@ -17,7 +18,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 class AuthService {
   Future<void> logIn(User user) async {
     try {
-      var response = await Dio().post("http://10.0.2.2:3002/auth/login",
+      var response = await Dio().post("http://${dotenv.env['API_URL']}/auth/login",
           data: {"email": user.email, "password": user.uid});
       print(response.statusCode);
 
@@ -48,7 +49,7 @@ class AuthService {
   Future<bool> SignInViaGoogle(User user) async {
     try {
       var response =
-          await Dio().post("http://10.0.2.2:3002/auth/loginGAuth", data: {
+          await Dio().post("http://${dotenv.env['API_URL']}/auth/loginGAuth", data: {
         "name": user.displayName,
         "surname": user.displayName,
         "username": user.displayName,
