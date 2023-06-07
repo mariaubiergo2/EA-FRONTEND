@@ -8,5 +8,12 @@
   "log_out": "Tancar sessió",
   "following": "Seguint",
   "followers": "Seguidors",
-  "level": "Nivell"
+  "level": "Nivell",
+
+  "@---------------- NAVBAR ------------------": {
+  },
+  "home": "Inici",
+  "discover": "Descobreix",
+  "chat": "Xat",
+  "profile": "Perfil"
 }

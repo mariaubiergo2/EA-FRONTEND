@@ -9,5 +9,12 @@
   "log_out": "Log out",
   "following": "Following",
   "followers": "Followers",
-  "level": "Level"
+  "level": "Level",
+
+  "@---------------- NAVBAR ------------------": {
+  },
+  "home": "Home",
+  "discover": "Discover",
+  "chat": "Chat",
+  "profile": "Profile"
 }

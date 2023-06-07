@@ -8,5 +8,12 @@
   "log_out": "Cerrar sessión",
   "following": "Siguiendo",
   "followers": "Seguidores",
-  "level": "Nivel"
+  "level": "Nivel",
+
+  "@---------------- NAVBAR ------------------": {
+  },
+  "home": "Inicio",
+  "discover": "Descubre",
+  "chat": "Chat",
+  "profile": "Perfil"
 }
