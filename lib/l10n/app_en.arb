@@ -1,4 +1,13 @@
+
 {
+ "@---------------- PROFILE ------------------": {
+  },
   "@@locale": "en",
-  "edit_account": "Edit Account"
+  "edit_account": "Edit Account",
+  "information": "Information",
+  "delete_account": "Delete account",
+  "log_out": "Log out",
+  "following": "Following",
+  "followers": "Followers",
+  "level": "Level"
 }

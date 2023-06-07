@@ -213,7 +213,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Level ' + _level.toString(),
+                          '${AppLocalizations.of(context)!.level} $_level',
+                          // 'Level ' + _level.toString(),
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               color: Color.fromARGB(255, 242, 242, 242),
@@ -256,12 +257,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                           },
                           child: Text(
-                            "$_following\nFollowing",
+                            "$_following\n${AppLocalizations.of(context)!.following}",
+                            // "$_following\nFollowing",
                             textAlign: TextAlign.center,
                             style: _textStyleFollowing,
                           ),
                         ),
-                        SizedBox(width: 100),
+                        const SizedBox(width: 100),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -278,7 +280,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                           },
                           child: Text(
-                            "$_followers\nFollowers",
+                            "$_followers\n${AppLocalizations.of(context)!.followers}",
+                            // "$_followers\nFollowers",
                             textAlign: TextAlign.center,
                             style: _textStyleFollowers,
                           ),
@@ -310,7 +313,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 following: true,
                               );
                             } catch (e) {
-                              return SizedBox();
+                              return const SizedBox();
                             }
                           },
                         ),
@@ -335,7 +338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 following: true,
                               );
                             } catch (e) {
-                              return SizedBox(); // Return an empty SizedBox if the index is out of range
+                              return const SizedBox(); // Return an empty SizedBox if the index is out of range
                             }
                           },
                         ),
@@ -386,9 +389,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 25),
-                                  const Text(
-                                    "Information",
-                                    style: TextStyle(
+                                  Text(
+                                    AppLocalizations.of(context)!.information,
+                                    // "Information",
+                                    style: const TextStyle(
                                         color:
                                             Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
@@ -411,9 +415,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 25),
-                                  const Text(
-                                    "Delete account",
-                                    style: TextStyle(
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .delete_account,
+                                    // "Delete account",
+                                    style: const TextStyle(
                                         color:
                                             Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
@@ -445,8 +451,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             context, '/login_screen');
                                       },
                                       child: Text(
-                                        "LogOut",
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!.log_out,
+                                        // "LogOut",
+                                        style: const TextStyle(
                                             color: Color.fromARGB(
                                                 255, 242, 242, 242),
                                             fontWeight: FontWeight.w500,

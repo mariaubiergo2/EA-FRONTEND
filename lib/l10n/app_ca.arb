@@ -1,0 +1,12 @@
+{
+  "@---------------- PROFILE ------------------": {
+  },
+  "@@locale": "ca",
+  "edit_account": "Editar compte",
+  "information": "Informació",
+  "delete_account": "Eliminar compte",
+  "log_out": "Tancar sessió",
+  "following": "Seguint",
+  "followers": "Seguidors",
+  "level": "Nivell"
+}

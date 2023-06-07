@@ -32,15 +32,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'EETAC Go',
-        home: const SplashScreen(),
+        //home: const SplashScreen(),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        supportedLocales: const [Locale('en'), Locale('es')],
-        locale: const Locale('es'),
+        supportedLocales: const [Locale('en'), Locale('es'), Locale('ca')],
+        // locale: const Locale('es'),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':

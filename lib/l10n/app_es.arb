@@ -1,4 +1,12 @@
 {
+  "@---------------- PROFILE ------------------": {
+  },
   "@@locale": "es",
-  "edit_account": "Editar Cuenta"
+  "edit_account": "Editar Cuenta",
+  "information": "Información",
+  "delete_account": "Eliminar Cuneta",
+  "log_out": "Cerrar sessión",
+  "following": "Siguiendo",
+  "followers": "Seguidores",
+  "level": "Nivel"
 }
