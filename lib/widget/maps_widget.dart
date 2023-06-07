@@ -22,19 +22,70 @@ class MapScreen extends StatefulWidget {
 
 class MapsWidget extends State<MapScreen> {
   List<Marker> allmarkers = [];
+
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
-  bool showUserLocation = false;
+
   Position? userLocation;
+  bool showUserLocation = false;
+
   LocationPermission? permission;
   late MapController mapController;
 
   @override
   void initState() {
     super.initState();
+
     mapController = MapController();
+
     getChallenges();
     getLocationPermission();
+  }
+
+  Future<void> getChallenges() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
+    var response = await Dio().get(path,
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        }));
+    var registros = response.data as List;
+    for (var sub in registros) {
+      challengeList.add(Challenge.fromJson(sub));
+    }
+    if (mounted) {
+      setState(() {
+        challengeList = challengeList;
+      });
+    }
+    buildChallengeMarkers();
+  }
+
+  void buildChallengeMarkers() {
+    final newMarkers = challengeList.map((challenge) {
+      final lat = double.parse(challenge.lat);
+      final long = double.parse(challenge.long);
+      final snackBar =
+          SnackBar(content: Text("Este reto es: ${challenge.name}"));
+      return Marker(
+        height: 35,
+        width: 35,
+        point: LatLng(lat, long),
+        rotate: true,
+        builder: (context) => GestureDetector(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+          child: Image.asset(
+            'images/marker_advanced.png',
+          ),
+        ),
+      );
+    }).toList();
+
+    allmarkers.addAll(newMarkers);
   }
 
   Future<void> getLocationPermission() async {
@@ -226,29 +277,13 @@ class MapsWidget extends State<MapScreen> {
     buildChallengeMarkers();
   }
 
-  void buildChallengeMarkers() {
-    final newMarkers = challengeList.map((challenge) {
-      final lat = double.parse(challenge.lat);
-      final long = double.parse(challenge.long);
-      final snackBar =
-          SnackBar(content: Text("Este reto es: ${challenge.name}"));
-      return Marker(
-        height: 35,
-        width: 35,
-        point: LatLng(lat, long),
-        rotate: true,
-        builder: (context) => GestureDetector(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-          child: Image.asset(
-            'images/marker_advanced.png',
-          ),
-        ),
-      );
-    }).toList();
-
-    allmarkers.addAll(newMarkers);
+  void onTapContainer() {
+    if (showUserLocation && userLocation != null) {
+      final center = LatLng(userLocation!.latitude, userLocation!.longitude);
+      mapController.move(center, 16.0);
+    } else {
+      getLocationPermission();
+    }
   }
 
   @override
@@ -314,35 +349,5 @@ class MapsWidget extends State<MapScreen> {
         ),
       ],
     );
-  }
-
-  Future<void> getChallenges() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString('token') ?? "";
-    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
-    var response = await Dio().get(path,
-        options: Options(headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token",
-        }));
-    var registros = response.data as List;
-    for (var sub in registros) {
-      challengeList.add(Challenge.fromJson(sub));
-    }
-    if (mounted) {
-      setState(() {
-        challengeList = challengeList;
-      });
-    }
-    buildChallengeMarkers();
-  }
-
-  void onTapContainer() {
-    if (showUserLocation && userLocation != null) {
-      final center = LatLng(userLocation!.latitude, userLocation!.longitude);
-      mapController.move(center, 16.0);
-    } else {
-      getLocationPermission();
-    }
   }
 }
