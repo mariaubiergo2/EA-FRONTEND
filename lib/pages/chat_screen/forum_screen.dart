@@ -35,8 +35,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  String userName = '';
+  var current = WordPair.random();
   IO.Socket? socket;
+  String userName = '';
 
   void setUserName(String name) {
     userName = name;
@@ -48,11 +49,11 @@ class MyAppState extends ChangeNotifier {
     userName = prefs.getString('username')!;
     notifyListeners();
   }
-
-  var current = WordPair.random();
 }
 
 class MyHomePage extends StatelessWidget {
+  final _nameController = TextEditingController();
+
   void setIdandconnect(BuildContext context) {
     var appState = context.watch<MyAppState>();
     appState.setUserName2();
@@ -69,8 +70,6 @@ class MyHomePage extends StatelessWidget {
       MaterialPageRoute(builder: (context) => MyChatPage()),
     );
   }
-
-  final _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -118,14 +117,14 @@ class MyHomePage extends StatelessWidget {
 }
 
 class ChatMessage {
-  final String senderName;
-  final String messageContent;
-  final String timeSent;
-
   ChatMessage(
       {required this.senderName,
       required this.messageContent,
       required this.timeSent});
+
+  final String messageContent;
+  final String senderName;
+  final String timeSent;
 }
 
 class MyChatPage extends StatefulWidget {
@@ -135,15 +134,64 @@ class MyChatPage extends StatefulWidget {
 
 class _MyChatPageState extends State<MyChatPage> {
   MyAppState? appState;
-  String _currentRoom = '';
-  List<ChatMessage> _messages = [];
-  Map<String, String> roomNames = {};
   List<Challenge> challengeList = <Challenge>[];
-
+  TextEditingController roomNameController = TextEditingController();
+  Map<String, String> roomNames = {};
   IO.Socket? socket;
 
-  TextEditingController roomNameController = TextEditingController();
+  String _currentRoom = '';
+  List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    appState = context.read<MyAppState>();
+    // socket = appState!.socket;
+
+    appState?.setUserName2();
+    socket = IO.io('http://localhost:4000');
+    socket!.connect()
+      ..onConnectError((data) {
+        print('Failed to connect to server: $data');
+      })
+      ..onConnect((data) {
+        print('Connected to server');
+      });
+
+    socket!.on("ROOMS", (rooms) {
+      if (mounted) {
+        setState(() {
+          roomNames.clear();
+          final roomsJsonString = jsonEncode(rooms);
+          final roomsJson = jsonDecode(roomsJsonString);
+          roomsJson.forEach((roomId, roomData) {
+            roomNames[roomId] = roomData["name"];
+            print(roomNames);
+          });
+        });
+      }
+    });
+
+    socket!.on("ROOM_MESSAGE", (data) {
+      final roomMessageJsonString = jsonEncode(data);
+      final roomMessageJson = jsonDecode(roomMessageJsonString);
+      ChatMessage chatMessage = ChatMessage(
+        senderName: roomMessageJson['username'],
+        messageContent: roomMessageJson['message'],
+        timeSent: roomMessageJson['time'],
+      );
+      if (mounted) {
+        setState(() {
+          _messages.insert(0, chatMessage);
+          _textController.clear();
+        });
+      }
+    });
+
+    if (mounted) getChallenges();
+  }
 
   void getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
@@ -197,6 +245,15 @@ class _MyChatPageState extends State<MyChatPage> {
     }
   }
 
+  String? getKeyFromValue(Map<String, String> map, String targetValue) {
+    for (var entry in map.entries) {
+      if (entry.value == targetValue) {
+        return entry.key;
+      }
+    }
+    return null;
+  }
+
   void _handleSubmitted(ChatMessage chatMessage) {
     if (_currentRoom.isNotEmpty) {
       socket!.emit("SEND_ROOM_MESSAGE", {
@@ -211,71 +268,9 @@ class _MyChatPageState extends State<MyChatPage> {
     }
   }
 
-  String? getKeyFromValue(Map<String, String> map, String targetValue) {
-    for (var entry in map.entries) {
-      if (entry.value == targetValue) {
-        return entry.key;
-      }
-    }
-    return null;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    appState = context.read<MyAppState>();
-    // socket = appState!.socket;
-
-    appState?.setUserName2();
-    socket = IO.io('http://localhost:4000');
-    socket!.connect()
-      ..onConnectError((data) {
-        print('Failed to connect to server: $data');
-      })
-      ..onConnect((data) {
-        print('Connected to server');
-      });
-
-    socket!.on("ROOMS", (rooms) {
-      if (mounted) {
-        setState(() {
-          roomNames.clear();
-          final roomsJsonString = jsonEncode(rooms);
-          final roomsJson = jsonDecode(roomsJsonString);
-          roomsJson.forEach((roomId, roomData) {
-            roomNames[roomId] = roomData["name"];
-            print(roomNames);
-          });
-        });
-      }
-    });
-
-    socket!.on("ROOM_MESSAGE", (data) {
-      final roomMessageJsonString = jsonEncode(data);
-      final roomMessageJson = jsonDecode(roomMessageJsonString);
-      ChatMessage chatMessage = ChatMessage(
-        senderName: roomMessageJson['username'],
-        messageContent: roomMessageJson['message'],
-        timeSent: roomMessageJson['time'],
-      );
-      if (mounted) {
-        setState(() {
-          _messages.insert(0, chatMessage);
-          _textController.clear();
-        });
-      }
-    });
-
-    if (mounted) getChallenges();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('FLUTTER CHAT CLIENT'),
-      // ),
       body: Row(
         children: [
           Flexible(
@@ -285,42 +280,75 @@ class _MyChatPageState extends State<MyChatPage> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(12.0),
                     child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: roomNameController,
-                            style: const TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintText: 'Enter a room name',
-                              hintStyle: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                        // children: [
+                        //   Expanded(
+                        //     child: TextField(
+                        //       controller: roomNameController,
+                        //       style: const TextStyle(color: Colors.white),
+                        //       decoration: const InputDecoration(
+                        //         hintText: 'Enter a room name',
+                        //         hintStyle: TextStyle(color: Colors.white),
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   SizedBox(width: 16.0),
+                        //   ElevatedButton(
+                        //     onPressed: () {
+                        //       createRoom(roomNameController.text);
+                        //     },
+                        //     child: Text('Create Room'),
+                        //   ),
+                        // ],
                         ),
-                        SizedBox(width: 16.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            createRoom(roomNameController.text);
-                          },
-                          child: Text('Create Room'),
-                        ),
-                      ],
-                    ),
                   ),
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     itemCount: roomNames.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return ElevatedButton(
+                  //         onPressed: () {
+                  //           setState(() {
+                  //             if (_currentRoom !=
+                  //                 roomNames.values.elementAt(index)) {
+                  //               _currentRoom =
+                  //                   roomNames.values.elementAt(index);
+                  //               socket!.emit("JOIN_ROOM",
+                  //                   getKeyFromValue(roomNames, _currentRoom));
+                  //               _messages = [];
+                  //             }
+                  //           });
+                  //         },
+                  //         child: Text(roomNames.values.elementAt(index)),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemCount: roomNames.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(height: 12.0);
+                      },
                       itemBuilder: (BuildContext context, int index) {
                         return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                            onPrimary: Colors.white,
+                            textStyle: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.normal),
+                          ),
                           onPressed: () {
                             setState(() {
                               if (_currentRoom !=
                                   roomNames.values.elementAt(index)) {
                                 _currentRoom =
                                     roomNames.values.elementAt(index);
-                                socket!.emit("JOIN_ROOM",
-                                    getKeyFromValue(roomNames, _currentRoom));
+                                socket!.emit(
+                                  "JOIN_ROOM",
+                                  getKeyFromValue(roomNames, _currentRoom),
+                                );
                                 _messages = [];
                               }
                             });
@@ -360,9 +388,9 @@ class _MyChatPageState extends State<MyChatPage> {
                           margin: EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 16.0),
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(color: Colors.redAccent)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
