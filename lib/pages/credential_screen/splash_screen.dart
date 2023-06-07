@@ -1,6 +1,18 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../../models/user.dart';
+
+void main() async {
+  await dotenv.load();
+}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +30,26 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _navigatetohome() async {
     await Future.delayed(const Duration(milliseconds: 2000), () {});
-    Navigator.pushNamed(context, '/login_screen');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString("idUser");
+    String? email = prefs.getString("email");
+    String? password = prefs.getString("password");
+    if (username == null) {
+      Navigator.pushNamed(context, '/login_screen');
+    } else {
+      var response = await Dio().post(
+          'http://${dotenv.env['API_URL']}/auth/login',
+          data: {"email": email, "password": password});
+      Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
+      User u = User.fromJson(payload);
+      var data = json.decode(response.toString());
+      prefs.setString('token', data['token']);
+      prefs.setString('idUser', u.idUser);
+      prefs.setString('name', u.name);
+      prefs.setString('surname', u.surname);
+      prefs.setString('username', u.username);
+      Navigator.pushNamed(context, '/navbar');
+    }
   }
 
   @override

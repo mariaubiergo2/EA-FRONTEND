@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,6 +11,8 @@ import 'package:ea_frontend/models/challenge.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../pages/challenge_screen.dart';
 
 void main() async {
   await dotenv.load();
@@ -25,6 +30,9 @@ class MapsWidget extends State<MapScreen> {
 
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
+  String? selectedChallengeId;
+  String? nameChallenge;
+  String? descrChallenge;
 
   Position? userLocation;
   bool showUserLocation = false;
@@ -60,15 +68,13 @@ class MapsWidget extends State<MapScreen> {
         challengeList = challengeList;
       });
     }
-    buildChallengeMarkers();
+    fetchAndBuildMarkers();
   }
 
-  void buildChallengeMarkers() {
+  void fetchAndBuildMarkers() {
     final newMarkers = challengeList.map((challenge) {
       final lat = double.parse(challenge.lat);
       final long = double.parse(challenge.long);
-      final snackBar =
-          SnackBar(content: Text("Este reto es: ${challenge.name}"));
       return Marker(
         height: 35,
         width: 35,
@@ -76,7 +82,32 @@ class MapsWidget extends State<MapScreen> {
         rotate: true,
         builder: (context) => GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            setState(() {
+              selectedChallengeId = challenge.id;
+              nameChallenge = challenge.name;
+              descrChallenge = challenge.descr;
+            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context); // Cerrar la pantalla actual
+                  },
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                    child: Container(
+                      color: Colors.black.withOpacity(0.5),
+                      child: MyChallengePage(
+                        selectedChallengeId: selectedChallengeId,
+                        nameChallenge: nameChallenge,
+                        descrChallenge: descrChallenge,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
           },
           child: Image.asset(
             'images/marker_advanced.png',
@@ -237,7 +268,7 @@ class MapsWidget extends State<MapScreen> {
       return;
     }
 
-    buildChallengeMarkers();
+    fetchAndBuildMarkers();
     listenToLocationUpdates();
   }
 
@@ -274,7 +305,7 @@ class MapsWidget extends State<MapScreen> {
       );
       allmarkers.add(userMarker);
     }
-    buildChallengeMarkers();
+    fetchAndBuildMarkers();
   }
 
   void onTapContainer() {
