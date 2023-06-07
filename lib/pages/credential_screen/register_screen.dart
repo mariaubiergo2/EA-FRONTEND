@@ -368,36 +368,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                     content: SingleChildScrollView(
                                       child: Column(
-                                        children: const [
+                                        children: [
                                           Text(
-                                            style: TextStyle(fontSize: 13.5),
+                                            style:
+                                                const TextStyle(fontSize: 13.5),
                                             textAlign: TextAlign.justify,
-                                            '''
-Acceptance of Terms: By accessing and using this app/service, you agree to be bound by these Terms of Use.
-
-User Responsibilities: You are responsible for the proper use of the app/service and complying with any applicable laws and regulations.
-
-Intellectual Property: All content and materials provided by the app/service are protected by intellectual property laws and remain the property of the app/service owner.
-
-Limitation of Liability: The app/service owner is not liable for any damages or losses incurred while using the app/service.
-
-Termination: The app/service owner reserves the right to terminate or suspend your access to the app/service at any time without prior notice.
-
-Information Collection: We may collect personal information, such as name and email address, for the purpose of providing and improving the app/service.
-
-Information Usage: We use the collected information to personalize your experience, send updates, and analyze app/service usage patterns.
-
-Data Sharing: We do not sell or disclose your personal information to third parties, except in cases required by law or with your consent.
-
-Data Security: We implement reasonable security measures to protect your personal information from unauthorized access, alteration, or disclosure.
-
-Cookies: The app/service may use cookies or similar technologies to enhance user experience and collect usage data.
-
-Third-Party Links: The app/service may contain links to third-party websites or services, which have their own privacy practices. We are not responsible for the privacy practices or content of these third parties.
-
-Updates to Privacy Policy: We may update the Privacy Policy from time to time, and it is your responsibility to review it periodically.
-
-''',
+                                            AppLocalizations.of(context)!
+                                                .gigaterms,
                                           ),
                                         ],
                                       ),
@@ -415,9 +392,9 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                                 .withOpacity(0.2),
                                           ),
                                         ),
-                                        child: const Text(
-                                          'Close',
-                                          style: TextStyle(
+                                        child: Text(
+                                          AppLocalizations.of(context)!.close,
+                                          style: const TextStyle(
                                             color: Color.fromARGB(
                                                 255, 222, 66, 66),
                                           ),
