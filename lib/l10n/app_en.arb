@@ -16,5 +16,14 @@
   "home": "Home",
   "discover": "Discover",
   "chat": "Chat",
-  "profile": "Profile"
+  "profile": "Profile",
+
+  "@---------------- LOGIN ------------------": {
+  },
+  "email": "Email Adress",
+  "pass": "Passowrd",
+  "login": "LON IN",
+  "continuewith": "Oe continue with",
+  "dont_have_account": "Don't have an account?",
+  "signin": "Sign Up"
 }

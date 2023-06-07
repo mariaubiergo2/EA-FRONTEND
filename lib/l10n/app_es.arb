@@ -15,5 +15,14 @@
   "home": "Inicio",
   "discover": "Descubre",
   "chat": "Chat",
-  "profile": "Perfil"
+  "profile": "Perfil",
+
+  "@---------------- LOGIN ------------------": {
+  },
+  "email": "Dirección de email",
+  "pass": "Contraseña",
+  "login": "Inicia Sessión",
+  "continuewith": "O continua con",
+  "dont_have_account": "No tienes cuenta?",
+  "signin": "Registrate"
 }

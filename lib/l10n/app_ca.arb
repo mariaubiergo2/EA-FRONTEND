@@ -15,5 +15,14 @@
   "home": "Inici",
   "discover": "Descobreix",
   "chat": "Xat",
-  "profile": "Perfil"
+  "profile": "Perfil",
+
+  "@---------------- LOGIN ------------------": {
+  },
+  "email": "Adreça d'email",
+  "pass": "Contrassenya",
+  "login": "Inicia Sessió",
+  "continuewith": "O continua amb",
+  "dont_have_account": "No tens compte?",
+  "signin": "Registra't"
 }
