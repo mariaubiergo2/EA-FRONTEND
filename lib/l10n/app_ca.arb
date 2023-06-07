@@ -20,9 +20,30 @@
   "@---------------- LOGIN ------------------": {
   },
   "email": "Adreça d'email",
-  "pass": "Contrassenya",
+  "pass": "Contrasenya",
   "login": "Inicia Sessió",
   "continuewith": "O continua amb",
   "dont_have_account": "No tens compte?",
-  "signin": "Registra't"
+  "signin": "Registra't",
+
+  "@---------------- REGISTER ------------------": {
+  },
+  "name": "Nom",
+  "surname": "Cognom",
+  "username": "Nom d'usuari",
+  "email2": "Adreça d'email",
+  "pass2": "Contrasenya",
+  "pass22": "Repeteix la contrasenya",
+  "i_accept": "Accepto els ",
+  "terms": "Termes d'ús i les Polítiques de Privacitat",
+  "signup": "REGISTRA't",
+  "have_account": "Ja tens un compte?",
+  "login2": "Inicia Sessió",
+  "@--- CHECK PASS ---": {
+  },
+  "enterpass": "Sisplau, escriu una contrasenya",
+  "shortpass": "La contrasenya es massa curta",
+  "charpass": "La contrasenya haria de tindre al menys 6 caracters",
+  "numpass": "La contrasenya hauria de tindre al menys un numero",
+  "greatpass": "La contrasenya está perfecte!"
 }

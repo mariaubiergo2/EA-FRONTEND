@@ -24,5 +24,26 @@
   "login": "Inicia Sessión",
   "continuewith": "O continua con",
   "dont_have_account": "No tienes cuenta?",
-  "signin": "Registrate"
+  "signin": "Registrate",
+
+  "@---------------- REGISTER ------------------": {
+  },
+  "name": "Nombre",
+  "surname": "Apellido",
+  "username": "Nombre de usuario",
+  "email2": "Dirección de email",
+  "pass2": "Contraseña",
+  "pass22": "Repita la contraseña",
+  "i_accept": "Acepto los ",
+  "terms": "Terminos de uso y Politicas de Privacidad",
+  "signup": "REGISTRASE",
+  "have_account": "Ya tienes una cuenta?",
+  "login2": "Inicia sessión",
+  "@--- CHECK PASS ---": {
+  },
+  "enterpass": "Porfavor, escriba una contraseña",
+  "shortpass": "La contraseña es demasiado corta",
+  "charpass": "La contraseña deberia tener al menos 6 caracteres",
+  "numpass": "La contraseña deberiatener al menos 1 numero",
+  "greatpass": "La contraseña está perfecta!"
 }

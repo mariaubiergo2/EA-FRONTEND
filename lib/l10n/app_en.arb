@@ -25,5 +25,26 @@
   "login": "LON IN",
   "continuewith": "Oe continue with",
   "dont_have_account": "Don't have an account?",
-  "signin": "Sign Up"
+  "signin": "Sign Up",
+
+  "@---------------- REGISTER ------------------": {
+  },
+  "name": "Name",
+  "surname": "Surname",
+  "username": "Username",
+  "email2": "Email Address",
+  "pass2": "Password",
+  "pass22": "Repeat your password",
+  "i_accept": "I accept the ",
+  "terms": "Terms of use and Privacy Policy",
+  "signup": "SIGN UP",
+  "have_account": "Already have an account?",
+  "login2": "Log In",
+  "@--- CHECK PASS ---": {
+  },
+  "enterpass": "Please enter a password",
+  "shortpass": "Your password is too short",
+  "charpass": "Your password should have at least 6 characters",
+  "numpass": "Your password should contain at least one number",
+  "greatpass": "Your password is great!"
 }
