@@ -92,7 +92,7 @@ class MapsWidget extends State<MapScreen> {
               builder: (BuildContext context) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pop(context); // Cerrar la pantalla actual
+                    Navigator.pop(context);
                   },
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),

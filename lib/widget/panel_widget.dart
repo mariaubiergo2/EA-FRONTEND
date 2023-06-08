@@ -132,7 +132,7 @@ class _PanelWidgetState extends State<PanelWidget> {
 
             const SizedBox(height: 40), //AQUI IRÁ LOS MODOS
             Expanded(
-              child: buildChallenges(context, challengeList),
+              child: buildChallenges12(context, challengeList),
             ),
           ],
         ),
@@ -141,7 +141,7 @@ class _PanelWidgetState extends State<PanelWidget> {
   }
 }
 
-Widget buildChallenges(BuildContext context, List<Challenge> challengeList) {
+Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   return CustomScrollView(
     // MediaQuery.of(context).size.height - 100,
     slivers: [

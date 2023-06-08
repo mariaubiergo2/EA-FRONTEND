@@ -281,14 +281,14 @@ class _NavBarWebState extends State<NavBarWeb> {
             left: 0,
             right: 0,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+              padding: const EdgeInsets.fromLTRB(35, 35, 35, 0),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   color: const Color.fromARGB(255, 25, 25, 25),
                 ),
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 17.0, vertical: 15.0),
+                    horizontal: 22.0, vertical: 20.0),
                 child: GNav(
                   gap: 15,
                   backgroundColor: const Color.fromARGB(255, 25, 25, 25),
@@ -308,13 +308,13 @@ class _NavBarWebState extends State<NavBarWeb> {
                     GButton(
                       margin: EdgeInsets.only(left: 15),
                       icon: Icons.map_rounded,
-                      iconSize: 22,
+                      iconSize: 25,
                       text: 'Map',
                     ),
                     GButton(
                       margin: EdgeInsets.only(left: 15),
                       icon: Icons.manage_search_rounded,
-                      iconSize: 27,
+                      iconSize: 29,
                       text: 'Discover',
                     ),
                     GButton(
@@ -335,11 +335,11 @@ class _NavBarWebState extends State<NavBarWeb> {
             ),
           ),
           Positioned(
-            top: 42.5,
-            right: 47.5,
+            top: 56.5,
+            right: 57.5,
             child: Container(
               width: 125,
-              height: 40,
+              height: 41,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 color: const Color.fromARGB(255, 222, 66, 66),

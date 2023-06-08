@@ -107,7 +107,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Image.asset(
-                  'images/marker.png',
+                  'images/marker_advanced.png',
                   height: 120,
                   width: 120,
                 ),
