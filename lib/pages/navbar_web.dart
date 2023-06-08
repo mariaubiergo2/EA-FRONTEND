@@ -263,6 +263,9 @@ final screens = [
   const MakeFriendsScreen(),
   const ProfileScreen(),
 ];
+void onTapContainer() {
+  // Lógica para manejar el evento de pulsación del botón
+}
 
 class _NavBarWebState extends State<NavBarWeb> {
   @override
@@ -287,12 +290,13 @@ class _NavBarWebState extends State<NavBarWeb> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 17.0, vertical: 15.0),
                 child: GNav(
-                  gap: 5,
+                  gap: 15,
                   backgroundColor: const Color.fromARGB(255, 25, 25, 25),
                   color: Colors.white,
                   activeColor: Colors.white,
                   tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
                   selectedIndex: _currentIndex,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   onTabChange: (index) => setState(() => _currentIndex = index),
                   padding: const EdgeInsets.fromLTRB(14, 8.5, 14, 8.5),
                   tabs: const [
@@ -302,19 +306,61 @@ class _NavBarWebState extends State<NavBarWeb> {
                       text: 'Home',
                     ),
                     GButton(
+                      margin: EdgeInsets.only(left: 15),
                       icon: Icons.map_rounded,
                       iconSize: 22,
                       text: 'Map',
                     ),
                     GButton(
+                      margin: EdgeInsets.only(left: 15),
                       icon: Icons.manage_search_rounded,
                       iconSize: 27,
                       text: 'Discover',
                     ),
                     GButton(
-                      icon: Icons.login_rounded,
-                      iconSize: 24,
-                      text: 'LOG IN',
+                      margin: EdgeInsets.only(left: 15),
+                      icon: Icons.contact_mail_rounded,
+                      iconSize: 27,
+                      text: 'Contact',
+                    ),
+                    GButton(
+                      margin: EdgeInsets.only(left: 15),
+                      icon: Icons.info_rounded,
+                      iconSize: 27,
+                      text: 'About',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 42.5,
+            right: 47.5,
+            child: Container(
+              width: 125,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: const Color.fromARGB(255, 222, 66, 66),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.5),
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.login_rounded,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                    SizedBox(width: 16.5),
+                    Text(
+                      'LOG IN',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ],
                 ),

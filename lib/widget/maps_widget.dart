@@ -1,18 +1,16 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
-
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ea_frontend/models/challenge.dart';
 import 'package:dio/dio.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
-
+import 'package:latlong2/latlong.dart';
+import 'package:flutter/material.dart';
 import '../pages/challenge_screen.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:ea_frontend/models/challenge.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   await dotenv.load();
@@ -26,18 +24,20 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapsWidget extends State<MapScreen> {
-  List<Marker> allmarkers = [];
-
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
+
+  List<Marker> allmarkers = [];
+
   String? selectedChallengeId;
   String? nameChallenge;
   String? descrChallenge;
 
-  Position? userLocation;
-  bool showUserLocation = false;
-
   LocationPermission? permission;
+
+  bool showUserLocation = false;
+  Position? userLocation;
+
   late MapController mapController;
 
   @override
@@ -119,7 +119,7 @@ class MapsWidget extends State<MapScreen> {
     allmarkers.addAll(newMarkers);
   }
 
-  Future<void> getLocationPermission() async {
+  void getLocationPermission() async {
     bool serviceEnabled;
     LocationPermission checkPermissions;
 
@@ -267,28 +267,22 @@ class MapsWidget extends State<MapScreen> {
       );
       return;
     }
-
-    fetchAndBuildMarkers();
     listenToLocationUpdates();
   }
 
   void listenToLocationUpdates() {
     Geolocator.getPositionStream().listen((Position position) {
-      if (mounted) {
-        setState(() {
-          userLocation = position;
-          showUserLocation = true;
-          updateMarkers();
-        });
-      }
+      setState(() {
+        userLocation = position;
+        showUserLocation = true;
+        updateMarkers();
+      });
     }, onError: (e) {
-      if (mounted) {
-        setState(() {
-          userLocation = null;
-          showUserLocation = false;
-          updateMarkers();
-        });
-      }
+      setState(() {
+        userLocation = null;
+        showUserLocation = false;
+        updateMarkers();
+      });
     });
   }
 
@@ -311,7 +305,7 @@ class MapsWidget extends State<MapScreen> {
   void onTapContainer() {
     if (showUserLocation && userLocation != null) {
       final center = LatLng(userLocation!.latitude, userLocation!.longitude);
-      mapController.move(center, 16.0);
+      mapController.move(center, 18.25);
     } else {
       getLocationPermission();
     }
@@ -326,7 +320,11 @@ class MapsWidget extends State<MapScreen> {
           options: MapOptions(
             center: LatLng(41.27561, 1.98722),
             zoom: 16.0,
-            maxZoom: 18.0,
+            maxZoom: 18.25,
+            maxBounds: LatLngBounds(
+              LatLng(41, 1.65),
+              LatLng(41.6, 2.35),
+            ),
           ),
           nonRotatedChildren: [
             RichAttributionWidget(

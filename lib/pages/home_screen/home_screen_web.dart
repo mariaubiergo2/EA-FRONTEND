@@ -1,4 +1,3 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,7 +14,7 @@ void main() async {
 }
 
 class HomeScreenWeb extends StatefulWidget {
-  const HomeScreenWeb({super.key});
+  const HomeScreenWeb({Key? key});
 
   @override
   State<HomeScreenWeb> createState() => _HomeScreenWebState();
@@ -30,10 +29,94 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          'Home web',
-          style: TextStyle(fontSize: 24),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/wallpaper_web.png'),
+            fit: BoxFit.none,
+          ),
+        ),
+        child: Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: 1.15, // Ajusta la relación de aspecto de la imagen
+                child: Padding(
+                  padding:
+                      const EdgeInsets.all(25), // Añade márgenes horizontales
+                  child: Image.asset(
+                    'images/meet_our_app.png',
+                    fit: BoxFit
+                        .contain, // Ajusta la imagen dentro del espacio disponible
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(25, 0, 15, 25),
+                    child: Container(
+                      height: 75,
+                      width: 1070,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: Image.asset('images/google_play.png',
+                                    height: 45),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(12.5, 0, 0, 0),
+                                child: Image.asset('images/app_store.png',
+                                    height: 45),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                  child: Image.asset('images/twitter.png',
+                                      height: 35),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 0, 20, 0),
+                                  child: Image.asset('images/reddit.png',
+                                      height: 35),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 0, 25, 0),
+                                  child: Image.asset('images/discord.png',
+                                      height: 40),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
