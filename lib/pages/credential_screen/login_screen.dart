@@ -115,7 +115,7 @@ class LoginScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Center(
           child: SizedBox(
@@ -124,7 +124,7 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: EdgeInsets.all(15.0),
                 child: Column(children: [
                   //Logo
                   Padding(
@@ -132,7 +132,9 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Image.asset(
-                          'images/eetac_go.png',
+                          Theme.of(context).brightness == Brightness.light
+                              ? 'images/light_image.png'
+                              : 'images/dark_image.png',
                           height: 185,
                         ),
                       ],
@@ -169,11 +171,11 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Row(
-                      children: const [
+                      children: [
                         Expanded(
                           child: Divider(
                             thickness: 1,
-                            color: Color.fromARGB(255, 242, 242, 242),
+                            color: Theme.of(context).dividerColor,
                           ),
                         ),
                         Padding(
@@ -181,14 +183,17 @@ class LoginScreen extends StatelessWidget {
                           child: Text(
                             'Or continue with',
                             style: TextStyle(
-                                color: Color.fromARGB(255, 242, 242, 242),
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
                                 fontSize: 17),
                           ),
                         ),
                         Expanded(
                           child: Divider(
                             thickness: 1,
-                            color: Color.fromARGB(255, 242, 242, 242),
+                            color: Theme.of(context).dividerColor,
                           ),
                         ),
                       ],
@@ -221,10 +226,10 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "Don't have an account?",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 242, 242, 242),
+                        color: Theme.of(context).textTheme.bodyText1?.color,
                         fontSize: 17),
                   ),
                   const SizedBox(width: 4),
