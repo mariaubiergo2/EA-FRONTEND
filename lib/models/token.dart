@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Token {
   Token({
     required this.value,

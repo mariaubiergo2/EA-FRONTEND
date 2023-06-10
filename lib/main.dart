@@ -1,18 +1,21 @@
-import 'package:ea_frontend/pages/credential_screen/splash_screen.dart';
+import 'package:ea_frontend/mobile/credential_screen/splash_mobile.dart';
+import 'package:ea_frontend/web/navbar_web_logged.dart';
+import 'package:ea_frontend/web/profile_screen/profile_web.dart';
 import 'package:flutter/material.dart';
-import 'package:ea_frontend/pages/navbar_mobile.dart';
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:ea_frontend/pages/challenge_screen.dart';
-import 'package:ea_frontend/pages/profile_screen/friends_screen.dart';
-import 'package:ea_frontend/pages/credential_screen/login_screen.dart';
-import 'package:ea_frontend/pages/home_screen/qr_screen.dart';
-import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
-import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
-import 'package:ea_frontend/pages/navbar_mobile.dart';
-import 'package:ea_frontend/pages/navbar_web.dart';
+import 'services/firebase_options.dart';
+import 'package:ea_frontend/mobile/home_screen/challenge_mobile.dart';
+import 'package:ea_frontend/mobile/profile_screen/friends_mobile.dart';
+import 'package:ea_frontend/mobile/credential_screen/login_mobile.dart';
+import 'package:ea_frontend/mobile/home_screen/qr_mobile.dart';
+import 'package:ea_frontend/mobile/profile_screen/makefriends_mobile.dart';
+import 'package:ea_frontend/mobile/credential_screen/register_mobile.dart';
+import 'package:ea_frontend/web/navbar_web_default.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:ea_frontend/web/credential_screen/login_web.dart';
+import 'package:ea_frontend/web/navbar_web_logged.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'EETAC Go',
-        //home: const SplashScreen(),
+        home: const SplashScreen(),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
@@ -47,7 +50,15 @@ class MyApp extends StatelessWidget {
 
             case '/qr_screen':
               return MaterialPageRoute(builder: (context) => const MyQR());
-
+            case '/profile_web':
+              return MaterialPageRoute(
+                  builder: (context) => const ProfileScreenWeb());
+            case '/login_web':
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreenWeb());
+            case '/navbar_web_logged':
+              return MaterialPageRoute(
+                  builder: (context) => const NavBarWebLogged());
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
@@ -56,7 +67,8 @@ class MyApp extends StatelessWidget {
                   builder: (context) => const NavBarMobile());
             default:
               if (kIsWeb) {
-                return MaterialPageRoute(builder: (context) => NavBarWeb());
+                return MaterialPageRoute(
+                    builder: (context) => const NavBarWebDefault());
               } else {
                 return MaterialPageRoute(
                     builder: (context) => const LoginScreen());

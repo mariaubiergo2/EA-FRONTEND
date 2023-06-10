@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ea_frontend/models/user.dart';
 
 List<Challenge> subjectFromJson(String str) =>

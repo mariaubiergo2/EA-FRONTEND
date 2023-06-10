@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
-import '../pages/challenge_screen.dart';
+import '../../mobile/home_screen/challenge_mobile.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +35,7 @@ class MapsWidget extends State<MapScreen> {
 
   LocationPermission? permission;
 
+  bool serviceEnabled = false;
   bool showUserLocation = false;
   Position? userLocation;
 
@@ -50,7 +51,7 @@ class MapsWidget extends State<MapScreen> {
     getLocationPermission();
   }
 
-  Future<void> getChallenges() async {
+  void getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
@@ -120,10 +121,8 @@ class MapsWidget extends State<MapScreen> {
   }
 
   void getLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission checkPermissions;
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
     if (!serviceEnabled) {
       // ignore: use_build_context_synchronously
       showDialog(
@@ -191,6 +190,7 @@ class MapsWidget extends State<MapScreen> {
       return;
     }
 
+    LocationPermission checkPermissions;
     checkPermissions = await Geolocator.checkPermission();
 
     if (checkPermissions == LocationPermission.denied) {
@@ -271,12 +271,22 @@ class MapsWidget extends State<MapScreen> {
   }
 
   void listenToLocationUpdates() {
-    Geolocator.getPositionStream().listen((Position position) {
-      setState(() {
-        userLocation = position;
-        showUserLocation = true;
-        updateMarkers();
-      });
+    Geolocator.getPositionStream().listen((Position position) async {
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+      if (serviceEnabled) {
+        setState(() {
+          userLocation = position;
+          showUserLocation = true;
+          updateMarkers();
+        });
+      } else {
+        setState(() {
+          userLocation = null;
+          showUserLocation = false;
+          updateMarkers();
+        });
+      }
     }, onError: (e) {
       setState(() {
         userLocation = null;

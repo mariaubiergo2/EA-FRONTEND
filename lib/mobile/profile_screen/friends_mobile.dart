@@ -5,8 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../models/user.dart';
-import '../../widget/friend_widget.dart';
-import '../../widget/panel_widget.dart';
+import 'package:ea_frontend/widget/profile_screen/friend_widget.dart';
+import '../../widget/home_map_screen/sliding_up_panel_widget.dart';
 import '../navbar_mobile.dart';
 import 'dart:ui' as ui;
 

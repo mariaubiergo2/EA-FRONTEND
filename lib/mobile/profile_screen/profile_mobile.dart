@@ -10,7 +10,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user.dart' as user_ea;
-import '../../widget/card_user_widget.dart';
+import '../../widget/profile_screen/card_user_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

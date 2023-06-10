@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/challenge.dart';
+import 'package:ea_frontend/models/challenge.dart';
 
 class MyChallengePage extends StatefulWidget {
   final String? selectedChallengeId;
@@ -24,9 +23,11 @@ class MyChallengePage extends StatefulWidget {
 class _MyChallengePageState extends State<MyChallengePage> {
   Challenge? challenge;
   String? _token = "";
+  // ignore: unused_field
   String? _idChallenge = "";
   String? _name = "";
   String? _descr = "";
+  // ignore: unused_field
   String? _exp = "";
   bool isButtonPressed = false;
 
@@ -62,7 +63,6 @@ class _MyChallengePageState extends State<MyChallengePage> {
   Future<void> callApi() async {
     String path =
         'http://${dotenv.env['API_URL']}/challenge/get/${widget.selectedChallengeId}';
-    print(path);
     var response = await Dio().get(
       path,
       options: Options(

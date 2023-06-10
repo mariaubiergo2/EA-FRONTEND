@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 //Screens
-import 'package:ea_frontend/pages/home_screen/home_screen.dart';
-import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
-import 'package:ea_frontend/pages/profile_screen/profile_screen.dart';
-import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
+import 'package:ea_frontend/mobile/home_screen/home_mobile.dart';
+import 'package:ea_frontend/mobile/chat_screen/chat_mobile.dart';
+import 'package:ea_frontend/mobile/profile_screen/profile_mobile.dart';
+import 'package:ea_frontend/mobile/profile_screen/makefriends_mobile.dart';
 
 class NavBarMobile extends StatefulWidget {
   const NavBarMobile({Key? key}) : super(key: key);
