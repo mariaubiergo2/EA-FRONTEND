@@ -17,8 +17,11 @@ import 'package:ea_frontend/web/navbar_web_default.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:ea_frontend/web/credential_screen/login_web.dart';
+import 'package:ea_frontend/web/navbar_web_logged.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
