@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 class User {
-  User(
-      {required this.idUser,
-      required this.name,
-      required this.surname,
-      required this.username,
-      this.email,
-      this.password,
-      this.exp,
-      this.level});
+  User({
+    required this.idUser,
+    required this.name,
+    required this.surname,
+    required this.username,
+    this.email,
+    this.password,
+    this.exp,
+    this.level
+  });
 
   final String idUser;
   final String name;

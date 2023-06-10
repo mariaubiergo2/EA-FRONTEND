@@ -36,10 +36,8 @@ dependencies:
   flutter_bcrypt: ^1.0.8
   dbcrypt: ^2.0.0
   flutter_map: ^4.0.0
-  geolocator: ^8.1.2
-  permission_handler: ^10.2.0
   latlong2: ^0.8.1
-  url_launcher: ^6.1.11
+  url_launcher: ^6.1.10
   sliding_up_panel: ^2.0.0+1
   lit_starfield: ^0.1.1
   web_socket_channel: ^2.4.0
