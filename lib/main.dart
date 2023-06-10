@@ -15,6 +15,8 @@ import 'package:ea_frontend/pages/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/pages/navbar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   await dotenv.load();
@@ -23,6 +25,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  //supportedLocales: L10n.all,
 
   // This widget is the root of your application.
   @override
@@ -61,7 +64,15 @@ class MyApp extends StatelessWidget {
           // Other dark theme properties
         ),
         themeMode: ThemeMode.system,
-        home: const SplashScreen(),
+        //home: const SplashScreen(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('es'), Locale('ca')],
+        // locale: const Locale('es'),
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':

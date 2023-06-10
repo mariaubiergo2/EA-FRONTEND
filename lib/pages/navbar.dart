@@ -6,6 +6,7 @@ import 'package:ea_frontend/pages/home_screen/home_screen.dart';
 import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/profile_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -41,23 +42,29 @@ class _NavBarState extends State<NavBar> {
             selectedIndex: _currentIndex,
             onTabChange: (index) => {setState(() => _currentIndex = index)},
             padding: const EdgeInsets.fromLTRB(14, 8.5, 14, 8.5),
-            tabs: const [
+            tabs: [
               GButton(
                 icon: Icons.home_filled,
                 iconSize: 25,
-                text: 'Home',
+                // text: 'Home',
+                text: AppLocalizations.of(context)!.home,
               ),
               GButton(
-                  icon: Icons.chat_bubble_rounded, iconSize: 22, text: 'Chat'),
+                icon: Icons.chat_bubble_rounded,
+                iconSize: 22,
+                text: AppLocalizations.of(context)!.chat,
+              ),
               GButton(
                 icon: Icons.manage_search_rounded,
                 iconSize: 27,
-                text: 'Discover',
+                // text: 'Discover',
+                text: AppLocalizations.of(context)!.discover,
               ),
               GButton(
                 icon: Icons.person_rounded,
                 iconSize: 24,
-                text: 'Profile',
+                // text: 'Profile',
+                text: AppLocalizations.of(context)!.profile,
               ),
             ]),
       ),

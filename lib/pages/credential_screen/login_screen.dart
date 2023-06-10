@@ -14,6 +14,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   await dotenv.load();
@@ -146,7 +147,8 @@ class LoginScreen extends StatelessWidget {
                   //Email address textfield
                   CredentialTextField(
                       controller: emailController,
-                      labelText: "Email address",
+                      labelText: AppLocalizations.of(context)!.email,
+                      // labelText: "Email address",
                       obscureText: false),
 
                   const SizedBox(height: 10),
@@ -154,14 +156,16 @@ class LoginScreen extends StatelessWidget {
                   //Password textfield
                   PasswordTextField(
                       controller: passwordController,
-                      labelText: "Password",
+                      labelText: AppLocalizations.of(context)!.pass,
+                      // labelText: "Password",
                       obscureText: true),
 
                   const SizedBox(height: 20),
 
                   //Log in button
                   CredentialButton(
-                    buttonText: "LOG IN",
+                    buttonText: AppLocalizations.of(context)!.login,
+                    // buttonText: "LOG IN",
                     onTap: logIn,
                   ),
 
@@ -179,9 +183,10 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Text(
-                            'Or continue with',
+                            AppLocalizations.of(context)!.continuewith,
+                            // 'Or continue with',
                             style: TextStyle(
                                 color: Theme.of(context)
                                     .textTheme
@@ -227,7 +232,8 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account?",
+                    AppLocalizations.of(context)!.dont_have_account,
+                    // "Don't have an account?",
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1?.color,
                         fontSize: 17),
@@ -237,9 +243,10 @@ class LoginScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, '/register_screen');
                     },
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.signin,
+                      // "Sign Up",
+                      style: const TextStyle(
                           color: Color.fromARGB(255, 222, 66, 66),
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold,
