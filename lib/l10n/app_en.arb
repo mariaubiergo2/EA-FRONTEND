@@ -20,10 +20,10 @@
 
   "@---------------- LOGIN ------------------": {
   },
-  "email": "Email Adress",
-  "pass": "Passowrd",
-  "login": "LON IN",
-  "continuewith": "Oe continue with",
+  "email": "Email Address",
+  "pass": "Password",
+  "login": "LOG IN",
+  "continuewith": "Or continue with",
   "dont_have_account": "Don't have an account?",
   "signin": "Sign Up",
 

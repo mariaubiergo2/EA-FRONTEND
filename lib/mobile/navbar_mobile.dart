@@ -35,13 +35,13 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: Container(
-        color: const Color.fromARGB(255, 25, 25, 25),
+        color: Theme.of(context).backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
         child: GNav(
             gap: 15,
-            backgroundColor: const Color.fromARGB(255, 25, 25, 25),
-            color: Colors.white,
-            activeColor: Colors.white,
+            backgroundColor: Theme.of(context).backgroundColor,
+            color: Theme.of(context).dividerColor,
+            activeColor: Theme.of(context).backgroundColor,
             tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
             selectedIndex: _currentIndex,
             onTabChange: (index) => {setState(() => _currentIndex = index)},

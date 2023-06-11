@@ -189,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Center(
           child: SizedBox(
@@ -243,8 +243,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: passwordController,
                           obscureText: passwordVisible,
                           cursorColor: const Color.fromARGB(255, 222, 66, 66),
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 67, 67, 67),
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2?.color,
                               fontSize: 17),
                           decoration: InputDecoration(
                             suffixIcon: Padding(
@@ -313,8 +314,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       Text(
                         AppLocalizations.of(context)!.enterpass,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 242, 242, 242),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1?.color,
                             fontSize: 14),
                       ),
 
@@ -333,8 +334,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Checkbox(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5)),
-                              side: const BorderSide(
-                                  color: Color.fromARGB(255, 242, 242, 242)),
+                              side: BorderSide(
+                                  color: Theme.of(context).dividerColor),
                               checkColor:
                                   const Color.fromARGB(255, 242, 242, 242),
                               activeColor:
@@ -349,8 +350,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Text(
                             AppLocalizations.of(context)!.i_accept,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 242, 242, 242),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
                                 fontSize: 14),
                           ),
                           GestureDetector(
@@ -406,8 +410,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               );
                             },
                             child: Text(AppLocalizations.of(context)!.terms,
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.color,
                                   fontSize: 14,
                                   decoration: TextDecoration.underline,
                                   fontWeight: FontWeight.bold,
@@ -432,8 +439,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           Text(
                             AppLocalizations.of(context)!.have_account,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 242, 242, 242),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
                                 fontSize: 17),
                           ),
                           const SizedBox(width: 4),

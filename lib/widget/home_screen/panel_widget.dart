@@ -1,3 +1,5 @@
+//import 'dart:js';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/models/challenge.dart';
@@ -58,11 +60,11 @@ class _PanelWidgetState extends State<PanelWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(color: Color.fromARGB(255, 25, 25, 25)),
+        decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
         child: Column(
           children: <Widget>[
             const SizedBox(height: 10),
-            buildDragHandle(),
+            buildDragHandle(context),
             const SizedBox(height: 40), //AQUI IRÁ LOS MODOS
             Expanded(
               child: buildChallenges12(context, challengeList),
@@ -99,14 +101,14 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   );
 }
 
-Widget buildDragHandle() => GestureDetector(
+Widget buildDragHandle(context) => GestureDetector(
       onTap: togglePanel,
       child: Center(
         child: Container(
           width: 135,
           height: 4,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 242, 242, 242),
+            color: Theme.of(context).dividerColor,
             borderRadius: BorderRadius.circular(12),
           ),
         ),

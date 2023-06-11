@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
 
-  final TextStyle _normalText = const TextStyle(
+  final TextStyle _normalText = TextStyle(
       color: Color.fromARGB(255, 242, 242, 242),
       fontWeight: FontWeight.normal,
       fontSize: 18);
@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
             child: Center(
           child: SizedBox(
@@ -195,16 +195,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 30),
                     Text(
                       '$_name $_surname',
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 242, 242, 242),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1?.color,
                           fontWeight: FontWeight.w500,
                           fontSize: 30),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       '$_username',
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 242, 242, 242),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1?.color,
                           fontSize: 13),
                     ),
                     const SizedBox(height: 30),
@@ -216,8 +216,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           '${AppLocalizations.of(context)!.level} $_level',
                           // 'Level ' + _level.toString(),
                           textAlign: TextAlign.left,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 242, 242, 242),
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1?.color,
                               fontSize: 14),
                         ),
                       ],
@@ -366,9 +367,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     AppLocalizations.of(context)!.edit_account,
                                     // "Edit accotunt",
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 242, 242, 242),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.color,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -392,9 +395,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     AppLocalizations.of(context)!.information,
                                     // "Information",
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 242, 242, 242),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.color,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -419,9 +424,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     AppLocalizations.of(context)!
                                         .delete_account,
                                     // "Delete account",
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 242, 242, 242),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.color,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -453,9 +460,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: Text(
                                         AppLocalizations.of(context)!.log_out,
                                         // "LogOut",
-                                        style: const TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 242, 242, 242),
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 15),
                                       ))

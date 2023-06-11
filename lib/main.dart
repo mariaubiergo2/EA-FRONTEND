@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
-import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/mobile/navbar_mobile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
-import 'package:ea_frontend/mobile/home_screen/home_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
 import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
@@ -19,9 +17,7 @@ import 'package:ea_frontend/web/navbar_web_default.dart';
 import 'package:ea_frontend/web/credential_screen/login_web.dart';
 import 'package:ea_frontend/web/navbar_web_logged.dart';
 import 'services/firebase_service.dart';
-import 'package:ea_frontend/web/navbar_web_default.dart';
 import 'package:ea_frontend/web/profile_screen/profile_web.dart';
-import 'package:ea_frontend/web/navbar_web_logged.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +47,9 @@ class MyApp extends StatelessWidget {
             bodyText1: TextStyle(
               color: Color.fromARGB(255, 25, 25, 25),
             ),
+            bodyText2: TextStyle(
+              color: Color.fromARGB(255, 25, 25, 25),
+            ),
             headline6: TextStyle(
               color: Colors.red,
             ),
@@ -63,6 +62,9 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             bodyText1: TextStyle(
               color: Color.fromARGB(255, 242, 242, 242),
+            ),
+            bodyText2: TextStyle(
+              color: Color.fromARGB(255, 25, 25, 25),
             ),
             headline6: TextStyle(
               color: Colors.red,
