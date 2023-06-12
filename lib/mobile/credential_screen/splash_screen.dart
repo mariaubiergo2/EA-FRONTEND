@@ -35,8 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String? username = prefs.getString("idUser");
     String? email = prefs.getString("email");
     String? password = prefs.getString("password");
-    print(email);
-    if (email == null) {
+    if (username == null) {
       Navigator.pushNamed(context, '/login_screen');
     } else {
       var response = await Dio().post(
