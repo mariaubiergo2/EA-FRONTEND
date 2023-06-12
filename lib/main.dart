@@ -55,12 +55,6 @@ class MyApp extends StatelessWidget {
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
-            case '/takepicture_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const TakePictureScreen()); 
-            case '/gallery_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const GalleryScreen());
             case '/navbar':
               return MaterialPageRoute(builder: (context) => const NavBar());
             default:
