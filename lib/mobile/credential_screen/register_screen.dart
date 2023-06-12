@@ -374,8 +374,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       child: Column(
                                         children: [
                                           Text(
-                                            style:
-                                                const TextStyle(fontSize: 13.5),
+                                            style: TextStyle(
+                                              fontSize: 13.5,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1
+                                                  ?.color,
+                                            ),
                                             textAlign: TextAlign.justify,
                                             AppLocalizations.of(context)!
                                                 .gigaterms,

@@ -41,7 +41,7 @@ class _NavBarState extends State<NavBar> {
             gap: 15,
             backgroundColor: Theme.of(context).backgroundColor,
             color: Theme.of(context).dividerColor,
-            activeColor: Theme.of(context).backgroundColor,
+            activeColor: Color.fromARGB(255, 242, 242, 242),
             tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
             selectedIndex: _currentIndex,
             onTabChange: (index) => {setState(() => _currentIndex = index)},
