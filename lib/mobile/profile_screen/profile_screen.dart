@@ -1,5 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
-
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -250,10 +250,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _seeOptions = false;
                                 _seeFollowers = false;
                                 _textStyleFollowing = _highlightedText;
-                                _textStyleFollowers = _normalText;
+                                _textStyleFollowers = TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.color,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18);
                               } else {
                                 _seeOptions = true;
-                                _textStyleFollowing = _normalText;
+                                _textStyleFollowing = TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.color,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18);
                               }
                             });
                           },
@@ -273,10 +285,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _seeOptions = false;
                                 _seeFollowing = false;
                                 _textStyleFollowers = _highlightedText;
-                                _textStyleFollowing = _normalText;
+                                _textStyleFollowing = TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.color,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18);
                               } else {
                                 _seeOptions = true;
-                                _textStyleFollowers = _normalText;
+                                _textStyleFollowers = TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.color,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18);
                               }
                             });
                           },
