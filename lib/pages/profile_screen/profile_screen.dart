@@ -113,23 +113,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          //   Expanded(
-          //   child: AspectRatio(
-          //     aspectRatio: _controller!.value.aspectRatio,
-          //     child: CameraPreview(_controller!),
-          //   ),
-          // ),
-          // IconButton(onPressed: takePicture
-          // , icon: Icon(Icons.camera_alt)),
             InkWell(
               onTap: () {
                 Navigator.pushNamed(context, '/takepicture_screen');
               },
-              child: 
-              //   AspectRatio(
-              //   aspectRatio: _controller.value.aspectRatio,
-              //   child: CameraPreview(_controller),
-            
+              child:             
                 const Icon(
                   Icons.camera_alt,
                   color: Color.fromARGB(255, 7, 119, 255),
@@ -140,7 +128,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: 20,
             ),
             InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/gallery_screen');
+            },
             child: const Icon(
               Icons.image,
               color: Color.fromARGB(255, 7, 119, 255),

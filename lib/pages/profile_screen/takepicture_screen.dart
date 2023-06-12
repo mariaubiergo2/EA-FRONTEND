@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
@@ -38,15 +37,20 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     
   }
 
-  Future getCameras() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    // Obtain a list of the available cameras on the device.
-    var _cameras = await availableCameras();
-    // _firstCamera = _cameras!.first;
+  Future<void> getCameras() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Obtain a list of the available cameras on the device.
+  var cameras = await makeAvailableCameras();
 
-    // Get a specific camera from the list of available cameras.
-    _firstcamera = _cameras.first;
-  }
+  // Get a specific camera from the list of available cameras.
+  _firstcamera = cameras.first;
+}
+
+Future<dynamic> makeAvailableCameras() async{
+  var cameras = await availableCameras();
+  return cameras;
+}
+
 
   @override
   void dispose() {

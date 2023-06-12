@@ -3,6 +3,7 @@ import 'package:ea_frontend/pages/challenge_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/login_screen.dart';
 import 'package:ea_frontend/pages/home_screen/qr_screen.dart';
+import 'package:ea_frontend/pages/profile_screen/gallery_screen.dart';
 import 'package:ea_frontend/pages/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/register_screen.dart';
 import 'package:ea_frontend/pages/credential_screen/splash_screen.dart';
@@ -56,7 +57,10 @@ class MyApp extends StatelessWidget {
                   builder: (context) => const MakeFriendsScreen());
             case '/takepicture_screen':
               return MaterialPageRoute(
-                  builder: (context) => const TakePictureScreen());
+                  builder: (context) => const TakePictureScreen()); 
+            case '/gallery_screen':
+              return MaterialPageRoute(
+                  builder: (context) => const GalleryScreen());
             case '/navbar':
               return MaterialPageRoute(builder: (context) => const NavBar());
             default:
