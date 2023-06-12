@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
