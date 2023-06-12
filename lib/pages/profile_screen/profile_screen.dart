@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -115,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/takepicture_screen');
+                pickImageFromGallery(ImageSource.camera);
               },
               child:             
                 const Icon(
@@ -129,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/gallery_screen');
+              pickImageFromGallery(ImageSource.gallery);
             },
             child: const Icon(
               Icons.image,
@@ -142,31 +146,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         )
       ]),
     );
-  }
-
-// void takePhoto(ImageSource source, ImagePicker picker) async{
-//     final pickedFile = await picker.getImage(
-//       source: source,
-//     );
-//     setState(() {
-//       _imageFile = pickedFile!;
-//     });
-//   }
-
-
-  Future<void> takePicture() async {
-    // if (!_controller!.value.isInitialized) {
-    //   return;
-    // }
-
-    // try {
-    //   await _controller!.takePicture().then((XFile file) {
-    //     // Do something with the captured image file
-    //     // e.g., save it to local storage or display it in the app
-    //   });
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   Future clearInfo() async {
@@ -253,6 +232,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         followersList = users.map((user) => User.fromJson2(user)).toList();
       });
     } catch (e) {
+    }
+  }
+
+    Future<void> pickImageFromGallery(ImageSource source) async {
+    try {
+      final imagePicker = ImagePicker();
+      final pickedImage = await imagePicker.pickImage(source: source);
+      if (pickedImage != null) {
+        // Do something with the picked image
+        final imageTemporary = File(pickedImage.path);
+        print(imageTemporary);
+      }
+    } on PlatformException catch (e) {
+      print('Failed to pick the image: $e');
     }
   }
 
