@@ -3,7 +3,7 @@
  "@---------------- PROFILE ------------------": {
   },
   "@@locale": "en",
-  "edit_account": "Edit Account",
+  "edit_account": "Edit account",
   "information": "Information",
   "delete_account": "Delete account",
   "log_out": "Log out",
@@ -14,8 +14,8 @@
   "@---------------- NAVBAR ------------------": {
   },
   "home": "Home",
-  "discover": "Discover",
   "chat": "Chat",
+  "discover": "Discover",
   "profile": "Profile",
 
   "@---------------- LOGIN ------------------": {
