@@ -4,14 +4,17 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../../models/user.dart';
 import '../../models/user.dart' as user_ea;
 import '../../widget/profile_screen/card_user_widget.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _name = "";
   String? _surname = "";
   String? _username = "";
+  // ignore: unused_field
   String? _token = "";
   String? _followers = "";
   String? _following = "";
@@ -61,6 +65,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future clearInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+  }
+
+  Widget imageProfile() {
+    return Stack(
+      children: [
+        const CircleAvatar(
+          radius: 80,
+          backgroundImage: AssetImage('images/example.png'),
+        ),
+        Positioned(
+          bottom: 5.0,
+          right: 5.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet()),
+              );
+            },
+            child: const Icon(
+              Icons.camera_enhance,
+              color: Colors.amber,
+              size: 25.0,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(children: [
+        const Text(
+          "Choose a profile photo",
+          style: TextStyle(fontSize: 18),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                pickImageFromGallery(ImageSource.camera);
+              },
+              child: const Icon(
+                Icons.camera_alt,
+                color: Color.fromARGB(255, 7, 119, 255),
+                size: 25.0,
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            InkWell(
+              onTap: () {
+                pickImageFromGallery(ImageSource.gallery);
+              },
+              child: const Icon(
+                Icons.image,
+                color: Color.fromARGB(255, 7, 119, 255),
+                size: 25.0,
+                semanticLabel: "Gallery",
+              ),
+            ),
+          ],
+        )
+      ]),
+    );
+  }
+
+  Future<void> pickImageFromGallery(ImageSource source) async {
+    try {
+      final imagePicker = ImagePicker();
+      final pickedImage = await imagePicker.pickImage(source: source);
+      if (pickedImage != null) {
+        // Do something with the picked image
+        final imageTemporary = File(pickedImage.path);
+        print(imageTemporary);
+      }
+    } on PlatformException catch (e) {
+      print('Failed to pick the image: $e');
+    }
   }
 
   Future getUserInfo() async {
@@ -184,14 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          100.0), // Ajusta el radio según tus necesidades
-                      child: Image.asset(
-                        'images/example.png',
-                        height: 150,
-                      ),
-                    ),
+                    imageProfile(),
                     const SizedBox(height: 30),
                     Text(
                       '$_name $_surname',

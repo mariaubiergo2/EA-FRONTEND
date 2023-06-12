@@ -1,23 +1,23 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:ea_frontend/mobile/navbar_mobile.dart';
+import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
+import 'package:ea_frontend/web/navbar_web_logged.dart';
+import 'package:ea_frontend/web/navbar_web_default.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
+import 'package:ea_frontend/web/profile_screen/profile_web.dart';
+import 'package:ea_frontend/web/credential_screen/login_web.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
-import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:ea_frontend/web/navbar_web_default.dart';
-import 'package:ea_frontend/web/credential_screen/login_web.dart';
-import 'package:ea_frontend/web/navbar_web_logged.dart';
-import 'services/firebase_service.dart';
-import 'package:ea_frontend/web/profile_screen/profile_web.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -107,6 +107,7 @@ class MyApp extends StatelessWidget {
             case '/profile_web':
               return MaterialPageRoute(
                   builder: (context) => const ProfileScreenWeb());
+
             case '/login_web':
               return MaterialPageRoute(
                   builder: (context) => const LoginScreenWeb());
