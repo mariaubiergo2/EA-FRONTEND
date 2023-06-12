@@ -33,13 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _seeOptions = true;
   List<User> followingList = [];
   List<User> followersList = [];
-  // PickedFile? _imageFile;
-  // final ImagePicker _picker = ImagePicker();
-  // List<CameraDescription>? _cameras;
-  // CameraController? _controller;
-  // CameraImage? _image;
-  CameraDescription? _firstCamera;
-
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
