@@ -1,16 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../models/user.dart' as user_ea;
+import '../../models/user.dart';
 import '../../widget/profile_screen/card_user_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -32,14 +29,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _seeFollowing = false;
   bool _seeFollowers = false;
   bool _seeOptions = true;
-  List<user_ea.User> followingList = [];
-  List<user_ea.User> followersList = [];
-  FirebaseAuth auth = FirebaseAuth.instance;
+  List<User> followingList = [];
+  List<User> followersList = [];
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
 
-  final TextStyle _normalText = TextStyle(
+  final TextStyle _normalText = const TextStyle(
       color: Color.fromARGB(255, 242, 242, 242),
       fontWeight: FontWeight.normal,
       fontSize: 18);
@@ -117,8 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
       var users = response.data as List;
       setState(() {
-        followingList =
-            users.map((user) => user_ea.User.fromJson2(user)).toList();
+        followingList = users.map((user) => User.fromJson2(user)).toList();
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -151,8 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
       var users = response.data as List;
       setState(() {
-        followersList =
-            users.map((user) => user_ea.User.fromJson2(user)).toList();
+        followersList = users.map((user) => User.fromJson2(user)).toList();
       });
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -172,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: const Color.fromARGB(255, 25, 25, 25),
         body: SafeArea(
             child: Center(
           child: SizedBox(
@@ -195,16 +189,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 30),
                     Text(
                       '$_name $_surname',
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 242, 242, 242),
                           fontWeight: FontWeight.w500,
                           fontSize: 30),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       '$_username',
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 242, 242, 242),
                           fontSize: 13),
                     ),
                     const SizedBox(height: 30),
@@ -213,12 +207,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          '${AppLocalizations.of(context)!.level} $_level',
-                          // 'Level ' + _level.toString(),
+                          'Level ' + _level.toString(),
                           textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText1?.color,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 242, 242, 242),
                               fontSize: 14),
                         ),
                       ],
@@ -250,33 +242,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _seeOptions = false;
                                 _seeFollowers = false;
                                 _textStyleFollowing = _highlightedText;
-                                _textStyleFollowers = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
+                                _textStyleFollowers = _normalText;
                               } else {
                                 _seeOptions = true;
-                                _textStyleFollowing = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
+                                _textStyleFollowing = _normalText;
                               }
                             });
                           },
                           child: Text(
-                            "$_following\n${AppLocalizations.of(context)!.following}",
-                            // "$_following\nFollowing",
+                            "$_following\nFollowing",
                             textAlign: TextAlign.center,
                             style: _textStyleFollowing,
                           ),
                         ),
-                        const SizedBox(width: 100),
+                        SizedBox(width: 100),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -285,28 +264,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 _seeOptions = false;
                                 _seeFollowing = false;
                                 _textStyleFollowers = _highlightedText;
-                                _textStyleFollowing = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
+                                _textStyleFollowing = _normalText;
                               } else {
                                 _seeOptions = true;
-                                _textStyleFollowers = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
+                                _textStyleFollowers = _normalText;
                               }
                             });
                           },
                           child: Text(
-                            "$_followers\n${AppLocalizations.of(context)!.followers}",
-                            // "$_followers\nFollowers",
+                            "$_followers\nFollowers",
                             textAlign: TextAlign.center,
                             style: _textStyleFollowers,
                           ),
@@ -338,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 following: true,
                               );
                             } catch (e) {
-                              return const SizedBox();
+                              return SizedBox();
                             }
                           },
                         ),
@@ -363,7 +329,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 following: true,
                               );
                             } catch (e) {
-                              return const SizedBox(); // Return an empty SizedBox if the index is out of range
+                              return SizedBox(); // Return an empty SizedBox if the index is out of range
                             }
                           },
                         ),
@@ -388,14 +354,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 25),
-                                  Text(
-                                    AppLocalizations.of(context)!.edit_account,
-                                    // "Edit accotunt",
+                                  const Text(
+                                    "Edit accotunt",
                                     style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -416,14 +379,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 25),
-                                  Text(
-                                    AppLocalizations.of(context)!.information,
-                                    // "Information",
+                                  const Text(
+                                    "Information",
                                     style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -444,15 +404,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 25),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .delete_account,
-                                    // "Delete account",
+                                  const Text(
+                                    "Delete account",
                                     style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
+                                        color:
+                                            Color.fromARGB(255, 242, 242, 242),
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
@@ -475,20 +431,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const SizedBox(width: 20),
                                   TextButton(
                                       onPressed: () {
-                                        auth.signOut();
-                                        GoogleSignIn().signOut();
                                         clearInfo();
                                         Navigator.pushNamed(
                                             context, '/login_screen');
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)!.log_out,
-                                        // "LogOut",
+                                        "LogOut",
                                         style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
+                                            color: Color.fromARGB(
+                                                255, 242, 242, 242),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 15),
                                       ))

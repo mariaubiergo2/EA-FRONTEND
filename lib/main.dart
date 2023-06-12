@@ -1,14 +1,14 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use
-
-import 'package:flutter/material.dart';
-import 'package:ea_frontend/mobile/navbar_mobile.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
+import 'package:ea_frontend/mobile/home_screen/home_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
 import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
+import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,12 +25,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load();
-  runApp(const MyApp());
+  //  WidgetsFlutterBinding.ensureInitialized();
+  // // Obtain a list of the available cameras on the device.
+  // final cameras = await availableCameras();
+  // // Get a specific camera from the list of available cameras.
+  // final firstCamera = cameras.first;
+  // // runApp(MyApp(camera: firstCamera));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  //supportedLocales: L10n.all,
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -93,14 +100,11 @@ class MyApp extends StatelessWidget {
             case '/challenge_screen':
               return MaterialPageRoute(
                   builder: (context) => const MyChallengePage());
-
             case '/qr_screen':
               return MaterialPageRoute(builder: (context) => const MyQR());
-
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
-
             case '/navbar':
               return MaterialPageRoute(builder: (context) => const NavBar());
 
