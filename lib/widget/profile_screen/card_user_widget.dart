@@ -94,39 +94,44 @@ class _MyUserCard extends State<MyUserCard> {
     }
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: <Widget>[
           Container(
-            height: 72,
+            height: 70,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: const Color.fromARGB(255, 242, 242, 242),
               borderRadius: BorderRadius.circular(16),
             ),
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.fromLTRB(10.0, 8, 8, 8),
+            padding: const EdgeInsets.fromLTRB(22.5, 8, 8, 8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 40,
-                  child: ClipOval(
-                    child: Image.asset(
-                      'images/google.png', //attr1 in the future, when the profile has an image
-                      fit: BoxFit.cover,
-                      width: 40,
-                      height: 40,
+                Padding(
+                  padding: const EdgeInsets.only(right: 13.5),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: const Color.fromARGB(
+                        255, 242, 242, 242), // Cambia el color de fondo aquí
+                    child: ClipOval(
+                      child: Image.asset(
+                        'images/default.png', //attr1 in the future, when the profile has an image
+                        fit: BoxFit.fill,
+                        width: 40,
+                        height: 40,
+                      ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 22.5, 0),
                   child: Container(
-                    width: 1,
-                    height: 100,
+                    width: 0.75,
+                    height: 47.5,
                     color: const Color.fromARGB(255, 222, 66, 66),
                   ),
                 ),
@@ -134,11 +139,11 @@ class _MyUserCard extends State<MyUserCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.attr1,
+                      widget.attr2,
                       style: const TextStyle(
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 24,
+                        color: Color.fromARGB(255, 25, 25, 25),
+                        fontSize: 22.5,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -146,15 +151,15 @@ class _MyUserCard extends State<MyUserCard> {
                       'Level ${widget.attr3}',
                       style: const TextStyle(
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 12,
+                        color: Color.fromARGB(255, 25, 25, 25),
+                        fontSize: 13.5,
                       ),
                     ),
                   ],
                 ),
                 // Spacer(),
                 // Expanded(
-                //   child: 
+                //   child:
                 //   Align(
                 //     widthFactor: 2,
                 //     alignment: Alignment.centerRight,

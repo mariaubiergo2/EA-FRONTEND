@@ -43,7 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
 
+  // ignore: prefer_const_constructors
   final TextStyle _normalText = TextStyle(
+      // ignore: prefer_const_constructors
       color: Color.fromARGB(255, 242, 242, 242),
       fontWeight: FontWeight.normal,
       fontSize: 18);
@@ -71,12 +73,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Stack(
       children: [
         const CircleAvatar(
-          radius: 80,
-          backgroundImage: AssetImage('images/example.png'),
+          radius: 55,
+          backgroundImage: AssetImage('images/default.png'),
         ),
         Positioned(
-          bottom: 5.0,
-          right: 5.0,
+          bottom: 0,
+          right: 0,
           child: InkWell(
             onTap: () {
               showModalBottomSheet(
@@ -84,63 +86,93 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 builder: ((builder) => bottomSheet()),
               );
             },
-            child: const Icon(
-              Icons.camera_enhance,
-              color: Colors.amber,
-              size: 25.0,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.amber,
+                shape: BoxShape.circle,
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(9.0),
+                child: Icon(
+                  Icons.camera_enhance_rounded,
+                  color: Color.fromARGB(255, 242, 242, 242),
+                  size: 20.0,
+                ),
+              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
   Widget bottomSheet() {
     return Container(
-      height: 100.0,
+      height: 175,
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
+      padding: const EdgeInsets.fromLTRB(0, 35, 0, 0),
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 25, 25, 25),
       ),
-      child: Column(children: [
-        const Text(
-          "Choose a profile photo",
-          style: TextStyle(fontSize: 18),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () {
-                pickImageFromGallery(ImageSource.camera);
-              },
-              child: const Icon(
-                Icons.camera_alt,
-                color: Color.fromARGB(255, 7, 119, 255),
-                size: 25.0,
+      child: Column(
+        children: [
+          const Text(
+            "Choose a profile photo",
+            style: TextStyle(
+                fontSize: 18, color: Color.fromARGB(255, 242, 242, 242)),
+          ),
+          const SizedBox(
+            height: 35,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 222, 66, 66),
+                  shape: BoxShape.circle,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    pickImageFromGallery(ImageSource.camera);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                      size: 22.0,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            InkWell(
-              onTap: () {
-                pickImageFromGallery(ImageSource.gallery);
-              },
-              child: const Icon(
-                Icons.image,
-                color: Color.fromARGB(255, 7, 119, 255),
-                size: 25.0,
-                semanticLabel: "Gallery",
+              const SizedBox(
+                width: 35,
               ),
-            ),
-          ],
-        )
-      ]),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 222, 66, 66),
+                  shape: BoxShape.circle,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    pickImageFromGallery(ImageSource.gallery);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Icon(
+                      Icons.image,
+                      color: Colors.white,
+                      size: 22.0,
+                      semanticLabel: "Gallery",
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -267,329 +299,400 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: SafeArea(
-            child: Center(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SafeArea(
+        child: Center(
           child: SizedBox(
             width: 1080,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                    Widget>[
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    imageProfile(),
-                    const SizedBox(height: 30),
-                    Text(
-                      '$_name $_surname',
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      '$_username',
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color,
-                          fontSize: 13),
-                    ),
-                    const SizedBox(height: 30),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${AppLocalizations.of(context)!.level} $_level',
-                          // 'Level ' + _level.toString(),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText1?.color,
-                              fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: LinearProgressIndicator(
-                        minHeight: 10,
-                        value: _level.toDouble() / 100,
-                        backgroundColor: Colors.white,
-                        color: Colors.amber,
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    const Divider(
-                      color: Color.fromARGB(255, 52, 52, 52),
-                      height: 0.05,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _seeFollowing = !_seeFollowing;
-                              if (_seeFollowing) {
-                                _seeOptions = false;
-                                _seeFollowers = false;
-                                _textStyleFollowing = _highlightedText;
-                                _textStyleFollowers = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
-                              } else {
-                                _seeOptions = true;
-                                _textStyleFollowing = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
-                              }
-                            });
-                          },
-                          child: Text(
-                            "$_following\n${AppLocalizations.of(context)!.following}",
-                            // "$_following\nFollowing",
-                            textAlign: TextAlign.center,
-                            style: _textStyleFollowing,
-                          ),
-                        ),
-                        const SizedBox(width: 100),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _seeFollowers = !_seeFollowers;
-                              if (_seeFollowers) {
-                                _seeOptions = false;
-                                _seeFollowing = false;
-                                _textStyleFollowers = _highlightedText;
-                                _textStyleFollowing = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
-                              } else {
-                                _seeOptions = true;
-                                _textStyleFollowers = TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.color,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18);
-                              }
-                            });
-                          },
-                          child: Text(
-                            "$_followers\n${AppLocalizations.of(context)!.followers}",
-                            // "$_followers\nFollowers",
-                            textAlign: TextAlign.center,
-                            style: _textStyleFollowers,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    const Divider(
-                      color: Color.fromARGB(255, 52, 52, 52),
-                      height: 0.05,
-                    ),
-                    const SizedBox(height: 30),
-                    // Following scroll page
-                    Visibility(
-                      visible: _seeFollowing, // not visible if set false
-                      child: Container(
-                        height: 250,
-                        child: ListView.builder(
-                          itemCount: followingList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            try {
-                              return MyUserCard(
-                                idUserSession: _idUser!,
-                                idCardUser: followingList[index].idUser,
-                                attr1:
-                                    '${followingList[index].name} ${followingList[index].surname}',
-                                attr2: followingList[index].username,
-                                attr3: followingList[index].level.toString(),
-                                following: true,
-                              );
-                            } catch (e) {
-                              return const SizedBox();
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    // Followers scroll view
-                    Visibility(
-                      visible: _seeFollowers, // not visible if set false
-                      child: Container(
-                        height: 250,
-                        child: ListView.builder(
-                          itemCount: followersList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            try {
-                              return MyUserCard(
-                                idUserSession: _idUser!,
-                                idCardUser: followersList[index].idUser,
-                                attr1:
-                                    '${followersList[index].name} ${followersList[index].surname}',
-                                attr2: followersList[index].username,
-                                attr3: followersList[index].level.toString(),
-                                following: true,
-                              );
-                            } catch (e) {
-                              return const SizedBox(); // Return an empty SizedBox if the index is out of range
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-
-                    Visibility(
-                      visible: _seeOptions,
+                      padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromARGB(255, 222, 66, 66),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 25),
-                                  Text(
-                                    AppLocalizations.of(context)!.edit_account,
-                                    // "Edit accotunt",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
-                                  ),
-                                ]),
+                          imageProfile(),
+                          const SizedBox(height: 25),
+                          Text(
+                            '$_name $_surname',
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 25),
                           ),
-                          const SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromARGB(255, 222, 66, 66),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 25),
-                                  Text(
-                                    AppLocalizations.of(context)!.information,
-                                    // "Information",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
-                                  ),
-                                ]),
+                          const SizedBox(height: 5),
+                          Text(
+                            '$_username',
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.color,
+                                fontSize: 20),
                           ),
-                          const SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromARGB(255, 222, 66, 66),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 25),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .delete_account,
-                                    // "Delete account",
+                          const SizedBox(height: 10),
+
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Align(
+                                alignment: Alignment
+                                    .centerLeft, // Alinea el contenido a la izquierda
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 17.0),
+                                  child: Text(
+                                    '${AppLocalizations.of(context)!.level} $_level',
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
-                                  ),
-                                ]),
-                          ),
-                          const SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromARGB(255, 222, 66, 66),
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.color,
+                                      fontSize: 14,
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
-                                  TextButton(
-                                      onPressed: () {
-                                        auth.signOut();
-                                        GoogleSignIn().signOut();
-                                        clearInfo();
-                                        Navigator.pushNamed(
-                                            context, '/login_screen');
-                                      },
-                                      child: Text(
-                                        AppLocalizations.of(context)!.log_out,
-                                        // "LogOut",
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
-                                      ))
-                                ]),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      5.0), // Establece los bordes redondeados
+                                  child: LinearProgressIndicator(
+                                    minHeight: 10,
+                                    value: _level.toDouble() / 100,
+                                    backgroundColor: Colors.white,
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 30),
+                              const Divider(
+                                color: Color.fromARGB(255, 52, 52, 52),
+                                height: 0.05,
+                              ),
+                              const SizedBox(height: 20),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _seeFollowing = !_seeFollowing;
+                                    if (_seeFollowing) {
+                                      _seeOptions = false;
+                                      _seeFollowers = false;
+                                      _textStyleFollowing = _highlightedText;
+                                      _textStyleFollowers = TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 18);
+                                    } else {
+                                      _seeOptions = true;
+                                      _textStyleFollowing = TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 18);
+                                    }
+                                  });
+                                },
+                                child: Text(
+                                  "$_following\n${AppLocalizations.of(context)!.following}",
+                                  // "$_following\nFollowing",
+                                  textAlign: TextAlign.center,
+                                  style: _textStyleFollowing,
+                                ),
+                              ),
+                              const SizedBox(width: 100),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _seeFollowers = !_seeFollowers;
+                                    if (_seeFollowers) {
+                                      _seeOptions = false;
+                                      _seeFollowing = false;
+                                      _textStyleFollowers = _highlightedText;
+                                      _textStyleFollowing = TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 18);
+                                    } else {
+                                      _seeOptions = true;
+                                      _textStyleFollowers = TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 18);
+                                    }
+                                  });
+                                },
+                                child: Text(
+                                  "$_followers\n${AppLocalizations.of(context)!.followers}",
+                                  // "$_followers\nFollowers",
+                                  textAlign: TextAlign.center,
+                                  style: _textStyleFollowers,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          const Divider(
+                            color: Color.fromARGB(255, 52, 52, 52),
+                            height: 0.05,
+                          ),
+                          const SizedBox(height: 35),
+                          // Following scroll page
+                          Visibility(
+                            visible: _seeFollowing, // not visible if set false
+                            child: SizedBox(
+                              height: 300,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: followingList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  try {
+                                    return MyUserCard(
+                                      idUserSession: _idUser!,
+                                      idCardUser: followingList[index].idUser,
+                                      attr1:
+                                          '${followingList[index].name} ${followingList[index].surname}',
+                                      attr2: followingList[index].username,
+                                      attr3:
+                                          followingList[index].level.toString(),
+                                      following: true,
+                                    );
+                                  } catch (e) {
+                                    return const SizedBox();
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                          // Followers scroll view
+                          Visibility(
+                            visible: _seeFollowers, // not visible if set false
+                            child: SizedBox(
+                              height: 300,
+                              child: ListView.builder(
+                                itemCount: followersList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  try {
+                                    return MyUserCard(
+                                      idUserSession: _idUser!,
+                                      idCardUser: followersList[index].idUser,
+                                      attr1:
+                                          '${followersList[index].name} ${followersList[index].surname}',
+                                      attr2: followersList[index].username,
+                                      attr3:
+                                          followersList[index].level.toString(),
+                                      following: true,
+                                    );
+                                  } catch (e) {
+                                    return const SizedBox(); // Return an empty SizedBox if the index is out of range
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+
+                          Visibility(
+                            visible: _seeOptions,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              // Acción cuando se presione el icono
+                                            },
+                                            icon: const Icon(Icons.edit_rounded,
+                                                color: Colors.white, size: 22),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .edit_account,
+                                          // "Edit accotunt",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1
+                                                  ?.color,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15),
+                                        ),
+                                      ]),
+                                ),
+                                const SizedBox(height: 25),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              // Acción cuando se presione el icono
+                                            },
+                                            icon: const Icon(Icons.info_rounded,
+                                                color: Colors.white, size: 22),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .information,
+                                          // "Information",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1
+                                                  ?.color,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15),
+                                        ),
+                                      ]),
+                                ),
+                                const SizedBox(height: 25),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              // Acción cuando se presione el icono
+                                            },
+                                            icon: const Icon(
+                                                Icons.delete_forever_rounded,
+                                                color: Colors.white,
+                                                size: 22),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .delete_account,
+                                          // "Delete account",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1
+                                                  ?.color,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15),
+                                        ),
+                                      ]),
+                                ),
+                                const SizedBox(height: 25),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              // Acción cuando se presione el icono
+                                            },
+                                            icon: const Icon(
+                                                Icons.logout_rounded,
+                                                color: Colors.white,
+                                                size: 22),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 20),
+                                        TextButton(
+                                            onPressed: () {
+                                              auth.signOut();
+                                              GoogleSignIn().signOut();
+                                              clearInfo();
+                                              Navigator.pushNamed(
+                                                  context, '/login_screen');
+                                            },
+                                            child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .log_out,
+                                              // "LogOut",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1
+                                                      ?.color,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15),
+                                            ))
+                                      ]),
+                                ),
+                                const SizedBox(height: 57),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ]),
+                  ]),
+            ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 }

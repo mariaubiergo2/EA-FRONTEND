@@ -111,43 +111,108 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              'You may know...',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: const Color.fromARGB(255, 25, 25, 25),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25, 35, 25, 35),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 22.5),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 242, 242, 242),
+                            borderRadius: BorderRadius.circular(100.0),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 17.5),
+                            child: TextFormField(
+                              cursorColor:
+                                  const Color.fromARGB(255, 222, 66, 66),
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 25, 25, 25)),
+                              decoration: const InputDecoration(
+                                hintText: 'Search for a user...',
+                                hintStyle: TextStyle(
+                                    color: Color.fromARGB(255, 146, 146, 146)),
+                                border: InputBorder.none,
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 12.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Material(
+                      borderRadius: BorderRadius.circular(100.0),
+                      color: const Color.fromARGB(255, 222, 66, 66),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(100.0),
+                        onTap: () {
+                          // Acción del botón
+                        },
+                        child: const SizedBox(
+                          width:
+                              49.5, // Establece un tamaño fijo para el Container
+                          height:
+                              49.5, // Establece un tamaño fijo para el Container
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5.0),
+                            child: Icon(
+                              Icons.send_rounded,
+                              color: Colors.white,
+                              size: 23.0, // Cambia el tamaño del icono
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            try {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: MyUserCard(
+                                  idUserSession: _idUser!,
+                                  idCardUser: notFriendsList[index].idUser,
+                                  attr1: notFriendsList[index].name,
+                                  attr2: notFriendsList[index].username,
+                                  attr3: notFriendsList[index].level.toString(),
+                                  following: false,
+                                ),
+                              );
+                            } catch (e) {
+                              return const SizedBox();
+                            }
+                          },
+                          childCount: notFriendsList.length,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                try {
-                  return MyUserCard(
-                    idUserSession: _idUser!,
-                    idCardUser: notFriendsList[index].idUser,
-                    attr1: notFriendsList[index].name,
-                    attr2: notFriendsList[index].username,
-                    attr3: notFriendsList[index].level.toString(),
-                    following: false,
-                  );
-                } catch (e) {
-                  return SizedBox(); // Return an empty SizedBox if the index is out of range
-                }
-              },
-              childCount: notFriendsList.length,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
