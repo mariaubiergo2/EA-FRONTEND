@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import '../../widget/data.dart';
 import '../../widget/home_screen/maps_widget.dart';
 import '../../widget/home_screen/panel_widget.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -15,8 +16,13 @@ void main() async {
 }
 
 class HomeScreen extends StatefulWidget {
+  final Data? data;
+
   //const LoginScreen({super.key, required String title});
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+    this.data,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -83,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
       ),
-      body: MapScreen(),
+      body: MapScreen(data: widget.data),
     ));
   }
 }

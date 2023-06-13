@@ -12,12 +12,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 
+import '../data.dart';
+
 void main() async {
   await dotenv.load();
 }
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  final Data? data;
+
+  const MapScreen({
+    Key? key,
+    this.data,
+    }) : super(key: key);
 
   @override
   State<MapScreen> createState() => MapsWidget();
@@ -323,12 +330,18 @@ class MapsWidget extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var loc = LatLng(41.27561, 1.98722);
+    if (widget.data!=null){
+      loc = widget.data!.latlong;
+    }
+
     return Stack(
       children: [
         FlutterMap(
           mapController: mapController,
           options: MapOptions(
-            center: LatLng(41.27561, 1.98722),
+            center: loc,           
+            // center: LatLng(41.27561, 1.98722),
             zoom: 16.0,
             maxZoom: 18.25,
             maxBounds: LatLngBounds(

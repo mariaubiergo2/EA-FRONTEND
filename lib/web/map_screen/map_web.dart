@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 import 'dart:ui';
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/widget/data.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -15,7 +16,7 @@ void main() async {
 }
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  const MapScreen({Key? key, required Data data}) : super(key: key);
 
   @override
   State<MapScreen> createState() => MapsWidget();

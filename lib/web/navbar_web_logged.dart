@@ -19,7 +19,7 @@ int _currentIndex = 0;
 
 final screens = [
   const HomeScreenWeb(),
-  const MapScreen(),
+  // const MapScreen(),
   const MakeFriendsScreen(),
   const ProfileScreenWeb(),
 ];

@@ -1,11 +1,18 @@
+import 'package:ea_frontend/web/map_screen/map_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:latlong2/latlong.dart';
+
+import '../../mobile/home_screen/home_screen.dart';
+import '../data.dart';
 
 class MyChallengeCard extends StatelessWidget {
   final int index;
   final String attr1;
   final String attr2;
   final String attr3;
+  final String lat;
+  final String long;
 
   const MyChallengeCard({
     Key? key,
@@ -13,6 +20,8 @@ class MyChallengeCard extends StatelessWidget {
     required this.attr1, //name of the challenge
     required this.attr2, //description of the challenge
     required this.attr3,
+    required this.lat,
+    required this.long,
   }) : super(key: key);
 
   @override
@@ -119,6 +128,26 @@ class MyChallengeCard extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 14,
                             ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                final dat = Data(
+                                  latlong: LatLng(41.37561, 1.99),
+                                  attr1: "40",
+                                  attr2: "2",
+                                  attr3: "20.0");
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeScreen(data: dat),
+                                  ),
+                                );                       
+                              },
+                              child: const Text("Hey!"),
                           ),
                           const SizedBox(
                             width: 10,

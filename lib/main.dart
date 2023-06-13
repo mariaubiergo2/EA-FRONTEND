@@ -1,24 +1,24 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use
-
-import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
-import 'package:flutter/material.dart';
-import 'services/firebase_service.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:ea_frontend/mobile/navbar_mobile.dart';
-import 'package:ea_frontend/web/navbar_web_logged.dart';
-import 'package:ea_frontend/web/navbar_web_default.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
-import 'package:ea_frontend/web/profile_screen/profile_web.dart';
-import 'package:ea_frontend/web/credential_screen/login_web.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
+import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
+import 'package:ea_frontend/web/map_screen/map_web.dart';
+import 'package:ea_frontend/widget/data.dart';
+import 'package:flutter/material.dart';
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:ea_frontend/web/navbar_web_default.dart';
+import 'package:ea_frontend/web/credential_screen/login_web.dart';
+import 'package:ea_frontend/web/navbar_web_logged.dart';
+import 'package:latlong2/latlong.dart';
+import 'services/firebase_service.dart';
+import 'package:ea_frontend/web/profile_screen/profile_web.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +26,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  //supportedLocales: L10n.all,
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,29 +87,22 @@ class MyApp extends StatelessWidget {
             case '/register_screen':
               return MaterialPageRoute(
                   builder: (context) => const RegisterScreen());
-
             case '/friends_screen':
               return MaterialPageRoute(
                   builder: (context) => const FriendsScreen());
-
             case '/challenge_screen':
               return MaterialPageRoute(
                   builder: (context) => const MyChallengePage());
-
             case '/qr_screen':
               return MaterialPageRoute(builder: (context) => const MyQR());
-
             case '/makefriends_screen':
               return MaterialPageRoute(
                   builder: (context) => const MakeFriendsScreen());
-
             case '/navbar':
               return MaterialPageRoute(builder: (context) => const NavBar());
-
             case '/profile_web':
               return MaterialPageRoute(
                   builder: (context) => const ProfileScreenWeb());
-
             case '/login_web':
               return MaterialPageRoute(
                   builder: (context) => const LoginScreenWeb());
