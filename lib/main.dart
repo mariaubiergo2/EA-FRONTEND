@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
-import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +16,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
+import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 
@@ -35,96 +35,90 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'EETAC Go',
-        theme: ThemeData.light().copyWith(
-          brightness: Brightness.light,
-          backgroundColor: Color.fromARGB(255, 242, 242, 242),
-          dividerColor: Color.fromARGB(255, 25, 25, 25),
-          buttonTheme: ButtonThemeData(
-              buttonColor: Color.fromARGB(255, 222, 66, 66),
-              textTheme: ButtonTextTheme.primary),
-          textTheme: TextTheme(
-            bodyText1: TextStyle(
-              color: Color.fromARGB(255, 25, 25, 25),
-            ),
-            bodyText2: TextStyle(
-              color: Color.fromARGB(255, 25, 25, 25),
-            ),
-            headline6: TextStyle(
-              color: Colors.red,
-            ),
+      debugShowCheckedModeBanner: false,
+      title: 'EETAC Go',
+      theme: ThemeData.light().copyWith(
+        brightness: Brightness.light,
+        backgroundColor: Color.fromARGB(255, 242, 242, 242),
+        dividerColor: Color.fromARGB(255, 25, 25, 25),
+        buttonTheme: ButtonThemeData(
+            buttonColor: Color.fromARGB(255, 222, 66, 66),
+            textTheme: ButtonTextTheme.primary),
+        textTheme: TextTheme(
+          bodyText1: TextStyle(
+            color: Color.fromARGB(255, 25, 25, 25),
+          ),
+          bodyText2: TextStyle(
+            color: Color.fromARGB(255, 25, 25, 25),
+          ),
+          headline6: TextStyle(
+            color: Colors.red,
           ),
         ),
-        darkTheme: ThemeData.dark().copyWith(
-          brightness: Brightness.dark,
-          backgroundColor: Color.fromARGB(255, 25, 25, 25),
-          dividerColor: Color.fromARGB(255, 242, 242, 242),
-          textTheme: TextTheme(
-            bodyText1: TextStyle(
-              color: Color.fromARGB(255, 242, 242, 242),
-            ),
-            bodyText2: TextStyle(
-              color: Color.fromARGB(255, 25, 25, 25),
-            ),
-            headline6: TextStyle(
-              color: Colors.red,
-            ),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        brightness: Brightness.dark,
+        backgroundColor: Color.fromARGB(255, 25, 25, 25),
+        dividerColor: Color.fromARGB(255, 242, 242, 242),
+        textTheme: TextTheme(
+          bodyText1: TextStyle(
+            color: Color.fromARGB(255, 242, 242, 242),
+          ),
+          bodyText2: TextStyle(
+            color: Color.fromARGB(255, 25, 25, 25),
+          ),
+          headline6: TextStyle(
+            color: Colors.red,
           ),
         ),
-        themeMode: ThemeMode.system,
-        //home: const SplashScreen(),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en'), Locale('es'), Locale('ca')],
-        onGenerateRoute: (RouteSettings settings) {
-          switch (settings.name) {
-            case '/register_screen':
+      ),
+      themeMode: ThemeMode.system,
+      //home: const SplashScreen(),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('es'), Locale('ca')],
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          //----------------------- M O B I L E -----------------------//
+
+          case '/register_screen':
+            return MaterialPageRoute(
+                builder: (context) => const RegisterScreen());
+
+          case '/qr_screen':
+            return MaterialPageRoute(builder: (context) => const MyQR());
+
+          case '/navbar':
+            return MaterialPageRoute(builder: (context) => const NavBar());
+
+          //-------------------------- W E B --------------------------//
+
+          case '/navbar_web_logged':
+            return MaterialPageRoute(
+                builder: (context) => const NavBarWebLogged());
+
+          case '/login_web':
+            return MaterialPageRoute(
+                builder: (context) => const LoginScreenWeb());
+
+          case '/profile_web':
+            return MaterialPageRoute(
+                builder: (context) => const ProfileScreenWeb());
+
+          default:
+            if (kIsWeb) {
               return MaterialPageRoute(
-                  builder: (context) => const RegisterScreen());
-
-            case '/friends_screen':
+                  builder: (context) => const NavBarWebDefault());
+            } else {
               return MaterialPageRoute(
-                  builder: (context) => const FriendsScreen());
-
-            case '/challenge_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const MyChallengePage());
-
-            case '/qr_screen':
-              return MaterialPageRoute(builder: (context) => const MyQR());
-
-            case '/makefriends_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const MakeFriendsScreen());
-
-            case '/navbar':
-              return MaterialPageRoute(builder: (context) => const NavBar());
-
-            case '/profile_web':
-              return MaterialPageRoute(
-                  builder: (context) => const ProfileScreenWeb());
-
-            case '/login_web':
-              return MaterialPageRoute(
-                  builder: (context) => const LoginScreenWeb());
-            case '/navbar_web_logged':
-              return MaterialPageRoute(
-                  builder: (context) => const NavBarWebLogged());
-
-            default:
-              if (kIsWeb) {
-                return MaterialPageRoute(
-                    builder: (context) => const NavBarWebDefault());
-              } else {
-                return MaterialPageRoute(
-                    builder: (context) => const LoginScreen());
-              }
-          }
-        });
+                  builder: (context) => const LoginScreen());
+            }
+        }
+      },
+    );
   }
 }

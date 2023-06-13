@@ -12,14 +12,14 @@ void main() async {
   await dotenv.load();
 }
 
-class MakeFriendsScreen extends StatefulWidget {
-  const MakeFriendsScreen({super.key});
+class DiscoverScreen extends StatefulWidget {
+  const DiscoverScreen({super.key});
 
   @override
-  State<MakeFriendsScreen> createState() => _MakeFriendsScreen();
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _MakeFriendsScreen extends State<MakeFriendsScreen> {
+class _DiscoverScreenState extends State<DiscoverScreen> {
   List<User> friendsList = [];
   List<User> notFriendsList = [];
   List<User> filteredUsers = [];
