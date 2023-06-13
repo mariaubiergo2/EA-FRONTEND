@@ -5,8 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../models/user.dart';
-import 'package:ea_frontend/widget/profile_screen/friend_widget.dart';
-import '../../widget/home_map_screen/sliding_up_panel_widget.dart';
+import '../../widget/profile_screen/friend_widget.dart';
+import '../../widget/home_screen/panel_widget.dart';
 import '../navbar_mobile.dart';
 import 'dart:ui' as ui;
 
@@ -84,7 +84,7 @@ class _FriendsScreen extends State<FriendsScreen> {
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = windowSize.height * 0.8;
     return Scaffold(
-      drawer: const NavBarMobile(),
+      drawer: const NavBar(),
       appBar: AppBar(
         title: const Text('EETAC -  GO'),
       ),

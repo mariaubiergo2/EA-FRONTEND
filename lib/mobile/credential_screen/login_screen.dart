@@ -14,6 +14,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   await dotenv.load();
@@ -71,7 +72,7 @@ class LoginScreen extends StatelessWidget {
               ));
             }
 
-            Navigator.pushNamed(context, '/navbar_mobile');
+            Navigator.pushNamed(context, '/navbar');
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
@@ -115,7 +116,7 @@ class LoginScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Center(
           child: SizedBox(
@@ -125,7 +126,7 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(15.0),
                   child: Column(children: [
                     //Logo
                     Padding(
@@ -133,7 +134,9 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Image.asset(
-                            'images/eetac_go.png',
+                            Theme.of(context).brightness == Brightness.light
+                                ? 'images/light_image.png'
+                                : 'images/dark_image.png',
                             height: 185,
                           ),
                         ],
@@ -145,7 +148,8 @@ class LoginScreen extends StatelessWidget {
                     //Email address textfield
                     CredentialTextField(
                         controller: emailController,
-                        labelText: "Email address",
+                        labelText: AppLocalizations.of(context)!.email,
+                        // labelText: "Email address",
                         obscureText: false),
 
                     const SizedBox(height: 10),
@@ -153,14 +157,16 @@ class LoginScreen extends StatelessWidget {
                     //Password textfield
                     PasswordTextField(
                         controller: passwordController,
-                        labelText: "Password",
+                        labelText: AppLocalizations.of(context)!.pass,
+                        // labelText: "Password",
                         obscureText: true),
 
                     const SizedBox(height: 20),
 
                     //Log in button
                     CredentialButton(
-                      buttonText: "LOG IN",
+                      buttonText: AppLocalizations.of(context)!.login,
+                      // buttonText: "LOG IN",
                       onTap: logIn,
                     ),
 
@@ -170,26 +176,30 @@ class LoginScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Row(
-                        children: const [
+                        children: [
                           Expanded(
                             child: Divider(
                               thickness: 1,
-                              color: Color.fromARGB(255, 242, 242, 242),
+                              color: Theme.of(context).dividerColor,
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Text(
-                              'Or continue with',
+                              AppLocalizations.of(context)!.continuewith,
+                              // 'Or continue with',
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.color,
                                   fontSize: 17),
                             ),
                           ),
                           Expanded(
                             child: Divider(
                               thickness: 1,
-                              color: Color.fromARGB(255, 242, 242, 242),
+                              color: Theme.of(context).dividerColor,
                             ),
                           ),
                         ],
@@ -221,10 +231,11 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Don't have an account?",
+                    Text(
+                      AppLocalizations.of(context)!.dont_have_account,
+                      // "Don't have an account?",
                       style: TextStyle(
-                          color: Color.fromARGB(255, 242, 242, 242),
+                          color: Theme.of(context).textTheme.bodyText1?.color,
                           fontSize: 17),
                     ),
                     const SizedBox(width: 4),
@@ -232,9 +243,10 @@ class LoginScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, '/register_screen');
                       },
-                      child: const Text(
-                        "Sign Up",
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.signin,
+                        // "Sign Up",
+                        style: const TextStyle(
                             color: Color.fromARGB(255, 222, 66, 66),
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.bold,

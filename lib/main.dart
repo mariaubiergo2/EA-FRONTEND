@@ -1,21 +1,24 @@
-import 'package:ea_frontend/mobile/credential_screen/splash_mobile.dart';
-import 'package:ea_frontend/web/navbar_web_logged.dart';
-import 'package:ea_frontend/web/profile_screen/profile_web.dart';
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
+
+import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ea_frontend/mobile/navbar_mobile.dart';
+import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'services/firebase_options.dart';
-import 'package:ea_frontend/mobile/home_screen/challenge_mobile.dart';
-import 'package:ea_frontend/mobile/profile_screen/friends_mobile.dart';
-import 'package:ea_frontend/mobile/credential_screen/login_mobile.dart';
-import 'package:ea_frontend/mobile/home_screen/qr_mobile.dart';
-import 'package:ea_frontend/mobile/profile_screen/makefriends_mobile.dart';
-import 'package:ea_frontend/mobile/credential_screen/register_mobile.dart';
-import 'package:ea_frontend/web/navbar_web_default.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:ea_frontend/web/credential_screen/login_web.dart';
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
 import 'package:ea_frontend/web/navbar_web_logged.dart';
+import 'package:ea_frontend/web/navbar_web_default.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
+import 'package:ea_frontend/web/profile_screen/profile_web.dart';
+import 'package:ea_frontend/web/credential_screen/login_web.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
+import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
+import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
+import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
+import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,43 +31,91 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
+  //supportedLocales: L10n.all,
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'EETAC Go',
-        home: const SplashScreen(),
+        theme: ThemeData.light().copyWith(
+          brightness: Brightness.light,
+          backgroundColor: Color.fromARGB(255, 242, 242, 242),
+          dividerColor: Color.fromARGB(255, 25, 25, 25),
+          buttonTheme: ButtonThemeData(
+              buttonColor: Color.fromARGB(255, 222, 66, 66),
+              textTheme: ButtonTextTheme.primary),
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+              color: Color.fromARGB(255, 25, 25, 25),
+            ),
+            bodyText2: TextStyle(
+              color: Color.fromARGB(255, 25, 25, 25),
+            ),
+            headline6: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+        darkTheme: ThemeData.dark().copyWith(
+          brightness: Brightness.dark,
+          backgroundColor: Color.fromARGB(255, 25, 25, 25),
+          dividerColor: Color.fromARGB(255, 242, 242, 242),
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+              color: Color.fromARGB(255, 242, 242, 242),
+            ),
+            bodyText2: TextStyle(
+              color: Color.fromARGB(255, 25, 25, 25),
+            ),
+            headline6: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+        themeMode: ThemeMode.system,
+        //home: const SplashScreen(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('es'), Locale('ca')],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/register_screen':
               return MaterialPageRoute(
                   builder: (context) => const RegisterScreen());
+
             case '/friends_screen':
               return MaterialPageRoute(
                   builder: (context) => const FriendsScreen());
+
             case '/challenge_screen':
               return MaterialPageRoute(
                   builder: (context) => const MyChallengePage());
 
             case '/qr_screen':
               return MaterialPageRoute(builder: (context) => const MyQR());
+
+            case '/makefriends_screen':
+              return MaterialPageRoute(
+                  builder: (context) => const MakeFriendsScreen());
+
+            case '/navbar':
+              return MaterialPageRoute(builder: (context) => const NavBar());
+
             case '/profile_web':
               return MaterialPageRoute(
                   builder: (context) => const ProfileScreenWeb());
+
             case '/login_web':
               return MaterialPageRoute(
                   builder: (context) => const LoginScreenWeb());
             case '/navbar_web_logged':
               return MaterialPageRoute(
                   builder: (context) => const NavBarWebLogged());
-            case '/makefriends_screen':
-              return MaterialPageRoute(
-                  builder: (context) => const MakeFriendsScreen());
-            case '/navbar_mobile':
-              return MaterialPageRoute(
-                  builder: (context) => const NavBarMobile());
+
             default:
               if (kIsWeb) {
                 return MaterialPageRoute(

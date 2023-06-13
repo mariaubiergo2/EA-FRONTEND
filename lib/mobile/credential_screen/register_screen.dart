@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../widget/credential_screen/credential_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   await dotenv.load();
@@ -35,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   RegExp numReg = RegExp(r".*[0-9].*");
   RegExp letterReg = RegExp(r".*[A-Aa-z].*");
   late String password;
-  String text = "Please enter a password";
+  String text = "";
   Color colorPasswordIndicator = Colors.black;
 
   bool passwordVisible = false;
@@ -155,32 +156,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (password.isEmpty) {
         setState(() {
           strength = 0;
-          text = "Please enter a password";
+          text = AppLocalizations.of(context)!.enterpass;
         });
       } else if (password.length < 4) {
         setState(() {
           strength = 1 / 5;
           colorPasswordIndicator = const Color.fromARGB(255, 222, 66, 66);
-          text = "Your password is too short";
+          text = AppLocalizations.of(context)!.shortpass;
         });
       } else if (password.length < 6) {
         setState(() {
           strength = 2 / 4;
           colorPasswordIndicator = Colors.orange;
-          text = "Your password should have at least 6 characters";
+          text = AppLocalizations.of(context)!.charpass;
         });
       } else {
         if (!letterReg.hasMatch(password) || !numReg.hasMatch(password)) {
           setState(() {
             strength = 3 / 4;
             colorPasswordIndicator = Colors.amber;
-            text = "Your password should contain at least one number";
+            text = AppLocalizations.of(context)!.numpass;
           });
         } else {
           setState(() {
             strength = 1;
             colorPasswordIndicator = Colors.green;
-            text = "Your password is great!";
+            text = AppLocalizations.of(context)!.greatpass;
             _isStrong = true;
           });
         }
@@ -188,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Center(
           child: SizedBox(
@@ -198,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Column(
                           children: [
                             const SizedBox(height: 5),
@@ -206,7 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             //Name textfield
                             CredentialTextField(
                                 controller: nameController,
-                                labelText: "Name",
+                                labelText: AppLocalizations.of(context)!.name,
                                 obscureText: false),
 
                             const SizedBox(height: 10),
@@ -214,7 +215,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             //Surname textfield
                             CredentialTextField(
                                 controller: surnameController,
-                                labelText: "Surname",
+                                labelText:
+                                    AppLocalizations.of(context)!.surname,
                                 obscureText: false),
 
                             const SizedBox(height: 10),
@@ -222,7 +224,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             //Username textfield
                             CredentialTextField(
                                 controller: usernameController,
-                                labelText: "Username",
+                                labelText:
+                                    AppLocalizations.of(context)!.username,
                                 obscureText: false),
 
                             const SizedBox(height: 10),
@@ -230,7 +233,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             //Email address textfield
                             CredentialTextField(
                                 controller: emailController,
-                                labelText: "Email address",
+                                labelText: AppLocalizations.of(context)!.email2,
                                 obscureText: false),
 
                             const SizedBox(height: 10),
@@ -245,8 +248,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 obscureText: passwordVisible,
                                 cursorColor:
                                     const Color.fromARGB(255, 222, 66, 66),
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 67, 67, 67),
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.color,
                                     fontSize: 17),
                                 decoration: InputDecoration(
                                   suffixIcon: Padding(
@@ -280,7 +286,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                   ),
-                                  labelText: "Password",
+                                  labelText:
+                                      AppLocalizations.of(context)!.pass2,
                                   labelStyle: const TextStyle(
                                       color: Color.fromARGB(255, 146, 146, 146),
                                       fontSize: 17),
@@ -317,9 +324,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const SizedBox(height: 5),
 
                             Text(
-                              text,
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 242, 242, 242),
+                              AppLocalizations.of(context)!.enterpass,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.color,
                                   fontSize: 14),
                             ),
 
@@ -328,7 +338,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             //Password textfield
                             PasswordTextField(
                                 controller: passControllerVerify,
-                                labelText: "Repeat your password",
+                                labelText: AppLocalizations.of(context)!.pass22,
                                 obscureText: true),
 
                             Row(
@@ -339,9 +349,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: Checkbox(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
-                                    side: const BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 242, 242, 242)),
+                                    side: BorderSide(
+                                        color: Theme.of(context).dividerColor),
                                     checkColor: const Color.fromARGB(
                                         255, 242, 242, 242),
                                     activeColor:
@@ -354,10 +363,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     },
                                   ),
                                 ),
-                                const Text(
-                                  'I accept the ',
+                                Text(
+                                  AppLocalizations.of(context)!.i_accept,
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 242, 242, 242),
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.color,
                                       fontSize: 14),
                                 ),
                                 GestureDetector(
@@ -366,47 +378,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text(
-                                              style: TextStyle(
+                                          title: Text(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              'Terms of use and Privacy Policy'),
+                                              AppLocalizations.of(context)!
+                                                  .terms),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20.0),
                                           ),
                                           content: SingleChildScrollView(
                                             child: Column(
-                                              children: const [
+                                              children: [
                                                 Text(
-                                                  style:
-                                                      TextStyle(fontSize: 13.5),
+                                                  style: TextStyle(
+                                                    fontSize: 13.5,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText1
+                                                        ?.color,
+                                                  ),
                                                   textAlign: TextAlign.justify,
-                                                  '''
-Acceptance of Terms: By accessing and using this app/service, you agree to be bound by these Terms of Use.
-
-User Responsibilities: You are responsible for the proper use of the app/service and complying with any applicable laws and regulations.
-
-Intellectual Property: All content and materials provided by the app/service are protected by intellectual property laws and remain the property of the app/service owner.
-
-Limitation of Liability: The app/service owner is not liable for any damages or losses incurred while using the app/service.
-
-Termination: The app/service owner reserves the right to terminate or suspend your access to the app/service at any time without prior notice.
-
-Information Collection: We may collect personal information, such as name and email address, for the purpose of providing and improving the app/service.
-
-Information Usage: We use the collected information to personalize your experience, send updates, and analyze app/service usage patterns.
-
-Data Sharing: We do not sell or disclose your personal information to third parties, except in cases required by law or with your consent.
-
-Data Security: We implement reasonable security measures to protect your personal information from unauthorized access, alteration, or disclosure.
-
-Cookies: The app/service may use cookies or similar technologies to enhance user experience and collect usage data.
-
-Third-Party Links: The app/service may contain links to third-party websites or services, which have their own privacy practices. We are not responsible for the privacy practices or content of these third parties.
-
-Updates to Privacy Policy: We may update the Privacy Policy from time to time, and it is your responsibility to review it periodically.
-
-''',
+                                                  AppLocalizations.of(context)!
+                                                      .gigaterms,
                                                 ),
                                               ],
                                             ),
@@ -425,9 +419,10 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                                           .withOpacity(0.2),
                                                 ),
                                               ),
-                                              child: const Text(
-                                                'Close',
-                                                style: TextStyle(
+                                              child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .close,
+                                                style: const TextStyle(
                                                   color: Color.fromARGB(
                                                       255, 222, 66, 66),
                                                 ),
@@ -438,11 +433,13 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                       },
                                     );
                                   },
-                                  child: const Text(
-                                      "Terms of use and Privacy Policy",
+                                  child: Text(
+                                      AppLocalizations.of(context)!.terms,
                                       style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 242, 242, 242),
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.color,
                                         fontSize: 14,
                                         decoration: TextDecoration.underline,
                                         fontWeight: FontWeight.bold,
@@ -455,7 +452,7 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
 
                             //Sign up button
                             CredentialButton(
-                              buttonText: "SIGN UP",
+                              buttonText: AppLocalizations.of(context)!.signup,
                               onTap: signUp,
                             ),
 
@@ -465,10 +462,13 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
-                                  "Already have an account?",
+                                Text(
+                                  AppLocalizations.of(context)!.have_account,
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 242, 242, 242),
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.color,
                                       fontSize: 17),
                                 ),
                                 const SizedBox(width: 4),
@@ -477,9 +477,9 @@ Updates to Privacy Policy: We may update the Privacy Policy from time to time, a
                                     Navigator.pushNamed(
                                         context, '/login_screen');
                                   },
-                                  child: const Text(
-                                    "Log In",
-                                    style: TextStyle(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.login2,
+                                    style: const TextStyle(
                                         color: Color.fromARGB(255, 222, 66, 66),
                                         decoration: TextDecoration.underline,
                                         fontWeight: FontWeight.bold,

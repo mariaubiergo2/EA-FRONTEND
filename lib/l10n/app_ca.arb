@@ -1,0 +1,51 @@
+{
+  "@---------------- PROFILE ------------------": {
+  },
+  "@@locale": "ca",
+  "edit_account": "Editar compte",
+  "information": "Informació",
+  "delete_account": "Eliminar compte",
+  "log_out": "Tancar sessió",
+  "following": "Seguits",
+  "followers": "Seguidors",
+  "level": "Nivell",
+
+  "@---------------- NAVBAR ------------------": {
+  },
+  "home": "Inici",
+  "chat": "Xat",
+  "discover": "Descobreix",
+  "profile": "Perfil",
+
+  "@---------------- LOGIN ------------------": {
+  },
+  "email": "Adreça electrònica",
+  "pass": "Contrasenya",
+  "login": "INICIA SESSIÓ",
+  "continuewith": "O continua amb",
+  "dont_have_account": "No tens cap compte?",
+  "signin": "Registra't",
+
+  "@---------------- REGISTER ------------------": {
+  },
+  "name": "Nom",
+  "surname": "Cognom",
+  "username": "Nom d'usuari",
+  "email2": "Adreça electrònica",
+  "pass2": "Contrasenya",
+  "pass22": "Repeteix la contrasenya",
+  "i_accept": "Accepto els ",
+  "terms": "Termes d'ús i les Polítiques de Privacitat",
+  "signup": "REGISTRA'T",
+  "have_account": "Ja tens un compte?",
+  "login2": "INICIA SESSIÓ",
+  "@--- CHECK PASS ---": {
+  },
+  "enterpass": "Si us play, introduïu una contrasenya",
+  "shortpass": "La contrasenya és massa curta",
+  "charpass": "La contrasenya hauria de tenir almenys 6 caràcters",
+  "numpass": "La contrasenya hauria de contenir almenys un número",
+  "greatpass": "La contrasenya està perfecta!",
+  "gigaterms": "Acceptació de les condicions: En accedir i utilitzar aquesta aplicació / servei, accepteu quedar vinculat per aquestes Condicions d'ús.\n\nResponsabilitats de l'usuari: Vostè és responsable de l'ús adequat de l'aplicació / servei i de complir amb les lleis i regulacions aplicables.\n\nPropietat intel·lectual: Tot el contingut i els materials proporcionats per l'aplicació / servei estan protegits per les lleis de propietat intel·lectual i resten propietat del propietari de l'aplicació / servei.\n\nLimitació de responsabilitat: El propietari de l'aplicació / servei no es fa responsable de cap dany o pèrdua inclosos en l'ús de l'aplicació / servei.\n\nTerminació: El propietari de l'aplicació / servei es reserva el dret de finalitzar o suspendre el vostre accés a l'aplicació / servei en qualsevol moment sense previ avís.\n\nRecopilació d'informació: Podem recopilar informació personal, com ara el nom i la adreça de correu electrònic, amb la finalitat de proporcionar i millorar l'aplicació / servei.\n\nÚs de la informació: Utilitzem la informació recopilada per personalitzar la vostra experiència, enviar actualitzacions i analitzar els patrons d'ús de l'aplicació / servei.\n\nCompartició de dades: No venem ni divulguem la vostra informació personal a tercers, excepte en els casos requerits per la llei o amb el vostre consentiment.\n\nSeguretat de les dades: Implementem mesures de seguretat raonables per protegir la vostra informació personal contra l'accés no autoritzat, l'alteració o la divulgació.\n\nGaletes: L'aplicació / servei pot utilitzar galetes o tecnologies similars per millorar l'experiència de l'usuari i recopilar dades d'ús.\n\nEnllaços de tercers: L'aplicació / servei pot contenir enllaços a llocs web o serveis de tercers, que tenen les seves pròpies pràctiques de privadesa. No ens fem responsables de les pràctiques de privadesa o el contingut d'aquests tercers.\n\nActualitzacions de la política de privadesa: Podem actualitzar la política de privadesa de tant en tant, i és responsabilitat vostra revisar-la periòdicament.",
+  "close": "Tancar"
+}

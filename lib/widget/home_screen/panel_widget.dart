@@ -1,11 +1,12 @@
+//import 'dart:js';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/challenge.dart';
-import 'package:ea_frontend/widget/home_map_screen/card_challenge_widget.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ea_frontend/widget/home_screen/card_challenge_widget.dart';
 
 void main() async {
   await dotenv.load();
@@ -59,12 +60,11 @@ class _PanelWidgetState extends State<PanelWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(color: Color.fromARGB(255, 25, 25, 25)),
+        decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
         child: Column(
           children: <Widget>[
             const SizedBox(height: 10),
-            buildDragHandle(),
-
+            buildDragHandle(context),
             const SizedBox(height: 40), //AQUI IRÁ LOS MODOS
             Expanded(
               child: buildChallenges12(context, challengeList),
@@ -101,14 +101,14 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   );
 }
 
-Widget buildDragHandle() => GestureDetector(
+Widget buildDragHandle(context) => GestureDetector(
       onTap: togglePanel,
       child: Center(
         child: Container(
           width: 135,
           height: 4,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 242, 242, 242),
+            color: Theme.of(context).dividerColor,
             borderRadius: BorderRadius.circular(12),
           ),
         ),

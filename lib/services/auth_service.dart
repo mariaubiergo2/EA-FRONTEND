@@ -117,7 +117,7 @@ class AuthService {
       //Intentamos login en API
       final bool registerOK = await SignInViaGoogle(user!);
       if (registerOK) {
-        Navigator.pushNamed(context, '/navbar_mobile');
+        Navigator.pushNamed(context, '/navbar');
       }
 
       return userCredential;

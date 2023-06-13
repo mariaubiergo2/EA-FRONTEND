@@ -1,11 +1,11 @@
+import 'package:ea_frontend/web/profile_screen/profile_web.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 //Screens
 import 'package:ea_frontend/web/home_screen/home_web.dart';
 import 'package:ea_frontend/web/map_screen/map_web.dart';
-import 'package:ea_frontend/mobile/profile_screen/profile_mobile.dart';
-import 'package:ea_frontend/mobile/profile_screen/makefriends_mobile.dart';
+import 'package:ea_frontend/web/profile_screen/makefriends_mobile.dart';
 
 class NavBarWebLogged extends StatefulWidget {
   const NavBarWebLogged({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ final screens = [
   const HomeScreenWeb(),
   const MapScreen(),
   const MakeFriendsScreen(),
-  const ProfileScreen(),
+  const ProfileScreenWeb(),
 ];
 void onTapContainer() {
   // Lógica para manejar el evento de pulsación del botón

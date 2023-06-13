@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import '../../widget/home_map_screen/map_widget.dart';
-import '../../widget/home_map_screen/sliding_up_panel_widget.dart';
+import '../../widget/home_screen/maps_widget.dart';
+import '../../widget/home_screen/panel_widget.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:ea_frontend/models/challenge.dart';
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     //en que porcentage de la pantalla se inicia el panel deslizante
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.055;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.06;
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.78;
     return Scaffold(
