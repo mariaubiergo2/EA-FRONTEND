@@ -57,7 +57,7 @@ class MyHomePage extends StatelessWidget {
   void setIdandconnect(BuildContext context) {
     var appState = context.watch<MyAppState>();
     appState.setUserName2();
-    appState.socket = IO.io('http://localhost:4000');
+    appState.socket = IO.io('http://${dotenv.env['API_URL_SOCKET']}');
     appState.socket!.connect()
       ..onConnectError((data) {
         print('Failed to connect to server: $data');
@@ -92,7 +92,7 @@ class MyHomePage extends StatelessWidget {
               //     _nameController.text); // set the user name in app state
               appState.setUserName2();
               // setIdandconnect(context);
-              appState.socket = IO.io('http://localhost:4000');
+              appState.socket = IO.io('http://${dotenv.env['API_URL_SOCKET']}');
               appState.socket!.connect()
                 ..onConnectError((data) {
                   debugPrint('Failed to connect to server: $data');
@@ -151,7 +151,7 @@ class _MyChatPageState extends State<MyChatPage> {
     // socket = appState!.socket;
 
     appState?.setUserName2();
-    socket = IO.io('http://localhost:4000');
+    socket = IO.io('http://${dotenv.env['API_URL_SOCKET']}');
     socket!.connect()
       ..onConnectError((data) {
         print('Failed to connect to server: $data');

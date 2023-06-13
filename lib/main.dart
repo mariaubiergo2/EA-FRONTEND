@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
                   builder: (context) => const NavBarWebLogged());
 
             default:
-              if (!kIsWeb) {
+              if (kIsWeb) {
                 return MaterialPageRoute(
                     builder: (context) => const NavBarWebDefault());
               } else {
