@@ -7,7 +7,7 @@ import 'package:ea_frontend/mobile/home_screen/home_screen.dart';
 import 'package:ea_frontend/mobile/chat_screen/forum_screen.dart';
 // import 'package:ea_frontend/pages/chat_screen/prueba_chats.dart';
 import 'package:ea_frontend/mobile/profile_screen/profile_screen.dart';
-import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
+import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavBar extends StatefulWidget {

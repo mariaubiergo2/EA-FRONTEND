@@ -17,7 +17,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
-import 'package:ea_frontend/mobile/profile_screen/makefriends_screen.dart';
+import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 
 void main() async {
