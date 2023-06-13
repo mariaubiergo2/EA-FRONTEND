@@ -22,6 +22,7 @@ class MakeFriendsScreen extends StatefulWidget {
 class _MakeFriendsScreen extends State<MakeFriendsScreen> {
   List<User> friendsList = [];
   List<User> notFriendsList = [];
+  List<User> filteredUsers = [];
   String? _idUser = "";
 
   @override
@@ -94,6 +95,7 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
 
       setState(() {
         notFriendsList = users.map((user) => User.fromJson2(user)).toList();
+        filteredUsers = notFriendsList;
       });
     } catch (e) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -109,6 +111,16 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
     }
   }
 
+  void _runFilter(String enteredKeyword) {
+    setState(() {
+      filteredUsers = notFriendsList
+          .where((user) => user.username
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,53 +134,25 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 22.5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 242, 242, 242),
-                            borderRadius: BorderRadius.circular(100.0),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 17.5),
-                            child: TextFormField(
-                              cursorColor:
-                                  const Color.fromARGB(255, 222, 66, 66),
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 25, 25, 25)),
-                              decoration: const InputDecoration(
-                                hintText: 'Search for a user...',
-                                hintStyle: TextStyle(
-                                    color: Color.fromARGB(255, 146, 146, 146)),
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 12.0),
-                              ),
-                            ),
-                          ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 242, 242, 242),
+                          borderRadius: BorderRadius.circular(100.0),
                         ),
-                      ),
-                    ),
-                    Material(
-                      borderRadius: BorderRadius.circular(100.0),
-                      color: const Color.fromARGB(255, 222, 66, 66),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(100.0),
-                        onTap: () {
-                          // Acción del botón
-                        },
-                        child: const SizedBox(
-                          width:
-                              49.5, // Establece un tamaño fijo para el Container
-                          height:
-                              49.5, // Establece un tamaño fijo para el Container
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Icon(
-                              Icons.send_rounded,
-                              color: Colors.white,
-                              size: 23.0, // Cambia el tamaño del icono
+                        child: TextFormField(
+                          onChanged: (value) => _runFilter(value),
+                          cursorColor: const Color.fromARGB(255, 222, 66, 66),
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 25, 25, 25)),
+                          decoration: const InputDecoration(
+                            hintText: 'Search for a user...',
+                            hintStyle: TextStyle(
+                                color: Color.fromARGB(255, 146, 146, 146)),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.fromLTRB(18.5, 14, 0, 0),
+                            suffixIcon: Icon(
+                              Icons.search_rounded,
+                              color: Color.fromARGB(255, 222, 66, 66),
                             ),
                           ),
                         ),
@@ -191,10 +175,10 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
                                     horizontal: 16.0),
                                 child: MyUserCard(
                                   idUserSession: _idUser!,
-                                  idCardUser: notFriendsList[index].idUser,
-                                  attr1: notFriendsList[index].name,
-                                  attr2: notFriendsList[index].username,
-                                  attr3: notFriendsList[index].level.toString(),
+                                  idCardUser: filteredUsers[index].idUser,
+                                  attr1: filteredUsers[index].name,
+                                  attr2: filteredUsers[index].username,
+                                  attr3: filteredUsers[index].level.toString(),
                                   following: false,
                                 ),
                               );
@@ -202,7 +186,7 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
                               return const SizedBox();
                             }
                           },
-                          childCount: notFriendsList.length,
+                          childCount: filteredUsers.length,
                         ),
                       ),
                     ],
