@@ -2,7 +2,7 @@
 {
  "@---------------- PROFILE ------------------": {
   },
-  "@@locale": "zn",
+  "@@locale": "zh",
   "edit_account": "编辑主页",
   "information": "信息",
   "delete_account": "删除账户",
