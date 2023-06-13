@@ -113,11 +113,10 @@ class _MakeFriendsScreen extends State<MakeFriendsScreen> {
 
   void _runFilter(String enteredKeyword) {
     setState(() {
-      filteredUsers = notFriendsList
-          .where((user) => user.username
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
+      filteredUsers = notFriendsList.where((user) {
+        final lowerCaseKeyword = enteredKeyword.toLowerCase();
+        return user.username.toLowerCase().startsWith(lowerCaseKeyword);
+      }).toList();
     });
   }
 
