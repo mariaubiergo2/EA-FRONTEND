@@ -2,7 +2,6 @@ import 'package:ea_frontend/web/map_screen/map_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:latlong2/latlong.dart';
-
 import '../../mobile/home_screen/home_screen.dart';
 import '../data.dart';
 
@@ -88,15 +87,33 @@ class MyChallengeCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            attr1,
-                            style: const TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 25, 25, 25),
-                              fontSize: 16,
+                          GestureDetector(
+                            onTap: () {
+                              final dat = Data(
+                                latlong: LatLng(double.parse(lat), double.parse(long)),
+                                attr1: "40",
+                                attr2: "2",
+                                attr3: "20.0");
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(data: dat),
+                                ),
+                              );                       
+                            },
+                            child: Text(
+                              attr1,
+                              style: const TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 25, 25, 25),
+                                fontSize: 16,
+                              ),
                             ),
                           ),
+
+                          
                           const SizedBox(height: 8),
                           Text(
                             attr2,
@@ -131,23 +148,6 @@ class MyChallengeCard extends StatelessWidget {
                           ),
                           const SizedBox(
                             width: 10,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                final dat = Data(
-                                  latlong: LatLng(41.37561, 1.99),
-                                  attr1: "40",
-                                  attr2: "2",
-                                  attr3: "20.0");
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(data: dat),
-                                  ),
-                                );                       
-                              },
-                              child: const Text("Hey!"),
                           ),
                           const SizedBox(
                             width: 10,
