@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+//import 'dart:html';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -81,6 +83,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     String path =
         'http://${dotenv.env['API_URL']}/user/friends/unfollowing/$_idUser';
     try {
+      print(
+          "----------------------HACEMOS PETICION AMIGOS-------------------------------------");
       var response = await Dio().get(
         path,
         options: Options(
@@ -90,7 +94,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           },
         ),
       );
-
+      print(
+          "----------------------RECIBO PETICION AMIGOS-------------------------------------");
       var users = response.data as List;
 
       setState(() {

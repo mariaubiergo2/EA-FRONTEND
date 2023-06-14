@@ -273,19 +273,20 @@ class MapsWidget extends State<MapScreen> {
   void listenToLocationUpdates() {
     Geolocator.getPositionStream().listen((Position position) async {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
-      if (serviceEnabled) {
-        setState(() {
-          userLocation = position;
-          showUserLocation = true;
-          updateMarkers();
-        });
-      } else {
-        setState(() {
-          userLocation = null;
-          showUserLocation = false;
-          updateMarkers();
-        });
+      if (mounted) {
+        if (serviceEnabled) {
+          setState(() {
+            userLocation = position;
+            showUserLocation = true;
+            updateMarkers();
+          });
+        } else {
+          setState(() {
+            userLocation = null;
+            showUserLocation = false;
+            updateMarkers();
+          });
+        }
       }
     }, onError: (e) {
       setState(() {
