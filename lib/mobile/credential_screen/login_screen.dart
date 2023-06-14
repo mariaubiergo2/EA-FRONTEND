@@ -15,6 +15,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 void main() async {
   await dotenv.load();
@@ -72,7 +73,7 @@ class LoginScreen extends StatelessWidget {
               ));
             }
 
-            Navigator.pushNamed(context, '/navbar');
+            Navigator.pushReplacementNamed(context, '/navbar');
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
@@ -117,146 +118,162 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            width: 1080,
-            child: SingleChildScrollView(
+      body: DoubleBackToCloseApp(
+        snackBar: SnackBar(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+            content: const Text(
+              'Tap back again to leave',
+              textAlign: TextAlign.center,
+            ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(milliseconds: 850)),
+        child: SafeArea(
+          child: Center(
+            child: SizedBox(
+              width: 1080,
+              child: SingleChildScrollView(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Column(children: [
-                    //Logo
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 47.0),
+                      padding: EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          Image.asset(
-                            Theme.of(context).brightness == Brightness.light
-                                ? 'images/light_image.png'
-                                : 'images/dark_image.png',
-                            height: 185,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    //Email address textfield
-                    CredentialTextField(
-                        controller: emailController,
-                        labelText: AppLocalizations.of(context)!.email,
-                        // labelText: "Email address",
-                        obscureText: false),
-
-                    const SizedBox(height: 10),
-
-                    //Password textfield
-                    PasswordTextField(
-                        controller: passwordController,
-                        labelText: AppLocalizations.of(context)!.pass,
-                        // labelText: "Password",
-                        obscureText: true),
-
-                    const SizedBox(height: 20),
-
-                    //Log in button
-                    CredentialButton(
-                      buttonText: AppLocalizations.of(context)!.login,
-                      // buttonText: "LOG IN",
-                      onTap: logIn,
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    //Or continue with
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Theme.of(context).dividerColor,
+                          // Logo
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 47.0),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? 'images/light_image.png'
+                                      : 'images/dark_image.png',
+                                  height: 185,
+                                ),
+                              ],
                             ),
                           ),
+
+                          const SizedBox(height: 5),
+
+                          // Email address textfield
+                          CredentialTextField(
+                            controller: emailController,
+                            labelText: AppLocalizations.of(context)!.email,
+                            obscureText: false,
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          // Password textfield
+                          PasswordTextField(
+                            controller: passwordController,
+                            labelText: AppLocalizations.of(context)!.pass,
+                            obscureText: true,
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Log in button
+                          CredentialButton(
+                            buttonText: AppLocalizations.of(context)!.login,
+                            onTap: logIn,
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Or continue with
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                              AppLocalizations.of(context)!.continuewith,
-                              // 'Or continue with',
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.color,
-                                  fontSize: 17),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Theme.of(context).dividerColor,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Theme.of(context).dividerColor,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.continuewith,
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.color,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Theme.of(context).dividerColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ]),
-                ),
 
-                const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                //Google
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: GestureDetector(
-                      onTap: () => AuthService().signInWithGoogle(context),
-                      child: Image.asset(
-                        'images/google.png',
-                        height: 65,
+                    // Google
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: GestureDetector(
+                          onTap: () => AuthService().signInWithGoogle(context),
+                          child: Image.asset(
+                            'images/google.png',
+                            height: 65,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
 
-                //Don't have an account?
-                const SizedBox(height: 20),
+                    // Don't have an account?
+                    const SizedBox(height: 20),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.dont_have_account,
-                      // "Don't have an account?",
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color,
-                          fontSize: 17),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/register_screen');
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.signin,
-                        // "Sign Up",
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 222, 66, 66),
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.dont_have_account,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1?.color,
+                            fontSize: 17,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/register_screen');
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.signin,
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 222, 66, 66),
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            )),
+              ),
+            ),
           ),
         ),
       ),

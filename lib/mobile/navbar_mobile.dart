@@ -4,12 +4,13 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 //Screens
 import 'package:ea_frontend/mobile/home_screen/home_screen.dart';
 // import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
-import 'package:ea_frontend/mobile/chat_screen/forum_screen.dart';
+import 'package:ea_frontend/mobile/chat_screen/hub_screen.dart';
 // import 'package:ea_frontend/pages/chat_screen/prueba_chats.dart';
 import 'package:ea_frontend/mobile/chat_screen/chat_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/profile_screen.dart';
 import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -23,8 +24,7 @@ int _currentIndex = 0;
 
 final screens = [
   const HomeScreen(),
-  // const ChatScreen(),
-  const MyApp(),
+  const HubScreen(),
   // Chat(),
   const DiscoverScreen(),
   const ProfileScreen(),
@@ -34,7 +34,20 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[_currentIndex],
+      body: DoubleBackToCloseApp(
+        snackBar: SnackBar(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 18.5),
+          content: const Text(
+            'Tap back again to leave',
+            textAlign: TextAlign.center,
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(milliseconds: 850),
+        ),
+        child: screens[_currentIndex],
+      ),
       bottomNavigationBar: Container(
         color: Theme.of(context).backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),

@@ -13,11 +13,8 @@ import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:ea_frontend/web/profile_screen/profile_web.dart';
 import 'package:ea_frontend/web/credential_screen/login_web.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ea_frontend/mobile/home_screen/challenge_screen.dart';
-import 'package:ea_frontend/mobile/profile_screen/friends_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
-import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 
 void main() async {

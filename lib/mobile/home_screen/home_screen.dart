@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     //en que porcentage de la pantalla se inicia el panel deslizante
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.06;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.055;
     //hasta que porcentage de la pantalla lega el panel
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.78;
     return Scaffold(

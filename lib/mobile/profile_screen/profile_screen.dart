@@ -520,7 +520,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
-                                  child: Row(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Acción cuando se presione el contenedor
+                                    },
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -532,33 +536,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color: Color.fromARGB(
                                                 255, 222, 66, 66),
                                           ),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              // Acción cuando se presione el icono
-                                            },
-                                            icon: const Icon(Icons.edit_rounded,
-                                                color: Colors.white, size: 22),
+                                          child: const Icon(
+                                            Icons.edit_rounded,
+                                            color: Colors.white,
+                                            size: 22,
                                           ),
                                         ),
                                         const SizedBox(width: 25),
                                         Text(
                                           AppLocalizations.of(context)!
                                               .edit_account,
-                                          // "Edit accotunt",
+                                          // "Edit account",
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  ?.color,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15),
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
                                         ),
-                                      ]),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(height: 25),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
-                                  child: Row(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Acción cuando se presione el contenedor
+                                    },
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -570,12 +579,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color: Color.fromARGB(
                                                 255, 222, 66, 66),
                                           ),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              // Acción cuando se presione el icono
-                                            },
-                                            icon: const Icon(Icons.info_rounded,
-                                                color: Colors.white, size: 22),
+                                          child: const Icon(
+                                            Icons.info_rounded,
+                                            color: Colors.white,
+                                            size: 22,
                                           ),
                                         ),
                                         const SizedBox(width: 25),
@@ -584,19 +591,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               .information,
                                           // "Information",
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  ?.color,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15),
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
                                         ),
-                                      ]),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(height: 25),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
-                                  child: Row(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Acción cuando se presione el contenedor
+                                    },
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -608,14 +622,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color: Color.fromARGB(
                                                 255, 222, 66, 66),
                                           ),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              // Acción cuando se presione el icono
-                                            },
-                                            icon: const Icon(
-                                                Icons.delete_forever_rounded,
-                                                color: Colors.white,
-                                                size: 22),
+                                          child: const Icon(
+                                            Icons.delete_forever_rounded,
+                                            color: Colors.white,
+                                            size: 22,
                                           ),
                                         ),
                                         const SizedBox(width: 25),
@@ -624,19 +634,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               .delete_account,
                                           // "Delete account",
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  ?.color,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15),
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
                                         ),
-                                      ]),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(height: 25),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
-                                  child: Row(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Acción cuando se presione el contenedor
+                                      auth.signOut();
+                                      GoogleSignIn().signOut();
+                                      clearInfo();
+                                      Navigator.pushReplacementNamed(
+                                          context, '/login_screen');
+                                    },
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -648,40 +670,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color: Color.fromARGB(
                                                 255, 222, 66, 66),
                                           ),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              // Acción cuando se presione el icono
-                                            },
-                                            icon: const Icon(
-                                                Icons.logout_rounded,
-                                                color: Colors.white,
-                                                size: 22),
+                                          child: const Icon(
+                                            Icons.logout_rounded,
+                                            color: Colors.white,
+                                            size: 22,
                                           ),
                                         ),
                                         const SizedBox(width: 20),
-                                        TextButton(
-                                            onPressed: () {
-                                              auth.signOut();
-                                              GoogleSignIn().signOut();
-                                              clearInfo();
-                                              Navigator.pushNamed(
-                                                  context, '/login_screen');
-                                            },
-                                            child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .log_out,
-                                              // "LogOut",
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1
-                                                      ?.color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15),
-                                            ))
-                                      ]),
+                                        Text(
+                                          AppLocalizations.of(context)!.log_out,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(height: 57),
+                                const SizedBox(height: 65),
                               ],
                             ),
                           ),

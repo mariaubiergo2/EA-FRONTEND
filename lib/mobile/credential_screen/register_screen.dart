@@ -434,16 +434,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     );
                                   },
                                   child: Text(
-                                      AppLocalizations.of(context)!.terms,
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.color,
-                                        fontSize: 14,
-                                        decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.bold,
-                                      )),
+                                    AppLocalizations.of(context)!.terms,
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          ?.color,
+                                      fontSize: 14,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

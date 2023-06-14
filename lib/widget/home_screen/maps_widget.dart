@@ -359,8 +359,8 @@ class MapsWidget extends State<MapScreen> {
           ],
         ),
         Positioned(
-          bottom: 145.0,
-          right: 25.0,
+          bottom: 152.5,
+          right: 30.0,
           child: ElevatedButton(
             onPressed: onTapContainer,
             style: ElevatedButton.styleFrom(
