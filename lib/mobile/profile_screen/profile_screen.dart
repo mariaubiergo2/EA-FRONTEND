@@ -537,7 +537,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 255, 222, 66, 66),
                                           ),
                                           child: const Icon(
-                                            Icons.edit_rounded,
+                                            Icons.menu_book_rounded,
                                             color: Colors.white,
                                             size: 22,
                                           ),
@@ -545,7 +545,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         const SizedBox(width: 25),
                                         Text(
                                           AppLocalizations.of(context)!
-                                              .edit_account,
+                                              .information,
                                           // "Edit account",
                                           style: TextStyle(
                                             color: Theme.of(context)
@@ -580,7 +580,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 255, 222, 66, 66),
                                           ),
                                           child: const Icon(
-                                            Icons.info_rounded,
+                                            Icons.edit_rounded,
                                             color: Colors.white,
                                             size: 22,
                                           ),
@@ -588,8 +588,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         const SizedBox(width: 25),
                                         Text(
                                           AppLocalizations.of(context)!
-                                              .information,
-                                          // "Information",
+                                              .edit_account,
+                                          // "Edit account",
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme

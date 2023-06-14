@@ -2,8 +2,8 @@
   "@---------------- PROFILE ------------------": {
   },
   "@@locale": "es",
-  "edit_account": "Editar cuenta",
   "information": "Información",
+  "edit_account": "Editar cuenta",
   "delete_account": "Eliminar cuenta",
   "log_out": "Cerrar sesión",
   "following": "Seguidos",
