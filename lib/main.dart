@@ -70,14 +70,19 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      //home: const SplashScreen(),
+      home: SplashScreen(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('en'), Locale('es'), Locale('ca')],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('es'),
+        Locale('ca'),
+        Locale('zh')
+      ],
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           //----------------------- M O B I L E -----------------------//
