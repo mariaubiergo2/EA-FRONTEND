@@ -1,13 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/user.dart';
@@ -459,7 +456,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color.fromARGB(255, 52, 52, 52),
                             height: 0.05,
                           ),
-                          const SizedBox(height: 35),
+                          const SizedBox(height: 32.5),
                           // Following scroll page
                           Visibility(
                             visible: _seeFollowing, // not visible if set false
@@ -603,7 +600,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 28.5),
+                                const Divider(
+                                  color: Color.fromARGB(255, 52, 52, 52),
+                                  height: 0.05,
+                                ),
+                                const SizedBox(height: 28.5),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -692,7 +694,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 65),
+                                const SizedBox(height: 33.5),
                               ],
                             ),
                           ),
