@@ -2,8 +2,8 @@
   "@---------------- PROFILE ------------------": {
   },
   "@@locale": "ca",
+  "information": "Historial",
   "edit_account": "Editar compte",
-  "information": "Informació",
   "delete_account": "Eliminar compte",
   "log_out": "Tancar sessió",
   "following": "Seguits",

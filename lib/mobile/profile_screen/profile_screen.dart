@@ -25,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _name = "";
   String? _surname = "";
   String? _username = "";
+  String? _deleteUsername = "";
   // ignore: unused_field
   String? _token = "";
   String? _followers = "";
@@ -92,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.all(9.0),
                 child: Icon(
                   Icons.camera_enhance_rounded,
-                  color: Color.fromARGB(255, 242, 242, 242),
+                  color: Colors.white,
                   size: 20.0,
                 ),
               ),
@@ -290,6 +291,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //     contentType: ContentType.failure,
       //   ),
       // ));
+    }
+  }
+
+  Future deleteUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://${dotenv.env['API_URL']}/user/disable/$_idUser';
+    try {
+      var response = await Dio().get(
+        path,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        SnackBar(
+          backgroundColor: Colors.green,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+          content: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  'Account successfully deleted',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
+            ],
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+        );
+      } else {
+        SnackBar(
+          backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+          showCloseIcon: true,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+          content: const Text(
+            'Unable to delete your account. Try again later',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+        );
+      }
+    } catch (e) {
+      SnackBar(
+        backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+        showCloseIcon: true,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+        content: const Text(
+          'Unable to delete your account. Try again later',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 
@@ -610,7 +691,139 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      // Acción cuando se presione el contenedor
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                            title:
+                                                const Text('Eliminar cuenta'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Text(
+                                                    '¿Estás seguro de que quieres eliminar tu cuenta? \n\nEscribe tu usuario para confirmar:'),
+                                                const SizedBox(height: 30),
+                                                TextField(
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      _deleteUsername = value;
+                                                    });
+                                                  },
+                                                  cursorColor:
+                                                      const Color.fromARGB(
+                                                          255, 222, 66, 66),
+                                                  style: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 25, 25, 25),
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                    hintText: _username,
+                                                    hintStyle: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 146, 146, 146),
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100.0),
+                                                      borderSide:
+                                                          BorderSide.none,
+                                                    ),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                                .fromLTRB(
+                                                            18.5, 14, 0, 0),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    const Color.fromARGB(
+                                                        255, 222, 66, 66),
+                                                  ),
+                                                ),
+                                                child: const Text('Cancelar'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  if (_username ==
+                                                      _deleteUsername) {
+                                                    deleteUser();
+                                                    auth.signOut();
+                                                    GoogleSignIn().signOut();
+                                                    clearInfo();
+                                                    Navigator
+                                                        .pushReplacementNamed(
+                                                            context,
+                                                            '/login_screen');
+                                                  } else {
+                                                    Navigator.of(context).pop();
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        backgroundColor:
+                                                            Colors.amber,
+                                                        elevation:
+                                                            10, // Ajusta el valor de elevación según sea necesario
+                                                        showCloseIcon: true,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        margin: const EdgeInsets
+                                                                .fromLTRB(
+                                                            20, 0, 20, 22.5),
+                                                        content: const Text(
+                                                          'Nombre de usuario incorrecto',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        closeIconColor:
+                                                            Colors.black,
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 3),
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    const Color.fromARGB(
+                                                        255, 222, 66, 66),
+                                                  ),
+                                                ),
+                                                child: const Text('Confirmar'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -634,7 +847,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Text(
                                           AppLocalizations.of(context)!
                                               .delete_account,
-                                          // "Delete account",
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme

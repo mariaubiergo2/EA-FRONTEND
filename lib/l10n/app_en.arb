@@ -3,8 +3,8 @@
  "@---------------- PROFILE ------------------": {
   },
   "@@locale": "en",
+  "information": "History",
   "edit_account": "Edit account",
-  "information": "Information",
   "delete_account": "Delete account",
   "log_out": "Log out",
   "following": "Following",

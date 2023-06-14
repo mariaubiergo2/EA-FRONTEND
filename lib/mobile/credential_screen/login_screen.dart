@@ -75,42 +75,62 @@ class LoginScreen extends StatelessWidget {
 
             Navigator.pushReplacementNamed(context, '/navbar');
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: 'Attention!',
-                message: 'Wrong credentials. Try again with other values.',
-                contentType: ContentType.failure,
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Wrong credentials. Try again with other values',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
               ),
-            ));
+            );
           }
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: 'Attention!',
-                message: 'Wrong credentials. Try again with other values.',
-                contentType: ContentType.failure,
+              backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'Wrong credentials. Try again with other values',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
             ),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Atention!',
-              message: 'Empty credentials. Please, try again.',
-              contentType: ContentType.failure,
+            backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+            showCloseIcon: true,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+            content: const Text(
+              'Empty credentials. Please, try again',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
           ),
         );
       }

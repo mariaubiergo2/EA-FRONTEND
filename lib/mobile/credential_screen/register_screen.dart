@@ -57,60 +57,104 @@ class _RegisterScreenState extends State<RegisterScreen> {
             (emailController.text == '') ||
             (passwordController.text == '') ||
             (passControllerVerify.text == '')) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Attention!',
-              message: 'Check that there are no empty fields.',
-              contentType: ContentType.failure,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'Check that there are no empty fields',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
             ),
-          ));
+          );
         } else if (!EmailValidator.validate(emailController.text)) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Attention!',
-              message: 'Invalid email address.',
-              contentType: ContentType.failure,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.amber,
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'Invalid email address',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              closeIconColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
             ),
-          ));
+          );
         } else if (!_isStrong) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Attention!',
-              message: 'The password is not strong enough.',
-              contentType: ContentType.failure,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.amber,
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'The password is not strong enough',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              closeIconColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
             ),
-          ));
+          );
         } else if (passControllerVerify.text != passwordController.text) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Attention!',
-              message: 'Passwords don\'t match.',
-              contentType: ContentType.failure,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.amber,
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'Passwords don\'t match',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              closeIconColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
             ),
-          ));
+          );
         } else if (!_isChecked) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Attention!',
-              message: 'The terms of use and privacy policy must be accepted.',
-              contentType: ContentType.failure,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.amber,
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'The terms of use and privacy policy must be accepted',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              closeIconColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
             ),
-          ));
+          );
         } else {
           var response = await Dio()
               .post("http://${dotenv.env['API_URL']}/auth/register", data: {
@@ -121,32 +165,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "password": passwordController.text,
           });
           if (response.statusCode == 200) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Account successfully created',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+
             Navigator.pushNamed(context, '/login_screen');
           }
           if (response.statusCode == 400) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: AwesomeSnackbarContent(
-                title: 'Unable!',
-                message: 'Check that there are valid values.',
-                contentType: ContentType.failure,
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Check that there are valid values',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
               ),
-            ));
+            );
           }
         }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'Unable!',
-            message: 'Unable to create an account. Try again later.',
-            contentType: ContentType.failure,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+            showCloseIcon: true,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+            content: const Text(
+              'Unable to create an account. Try again later',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
           ),
-        ));
+        );
       }
     }
 
