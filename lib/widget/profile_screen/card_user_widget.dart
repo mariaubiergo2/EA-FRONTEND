@@ -161,7 +161,7 @@ class _MyUserCardState extends State<MyUserCard> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 22.5, 0),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
                   child: Container(
                     width: 0.75,
                     height: 47.5,
@@ -174,7 +174,9 @@ class _MyUserCardState extends State<MyUserCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.attr2,
+                        widget.attr2.length > 12
+                            ? '${widget.attr2.substring(0, 12)}...'
+                            : widget.attr2,
                         style: const TextStyle(
                           fontStyle: FontStyle.normal,
                           color: Color.fromARGB(255, 25, 25, 25),
