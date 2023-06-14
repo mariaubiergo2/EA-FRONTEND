@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
 class Data {
-  final LatLng latlong;
-  final String attr1;
-  final String attr2;
-  final String attr3;
+  final LatLng latlong; //Lat y long de donde quieres hacer zoom
+  final String attr1; //Unused
+  final String attr2; //Unused
+  final String attr3; //Unused
 
   const Data({
     required this.latlong,
