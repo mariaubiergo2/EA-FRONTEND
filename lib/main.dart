@@ -48,8 +48,11 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(
             color: Color.fromARGB(255, 25, 25, 25),
           ),
+          headline1: TextStyle(
+            color: Color.fromARGB(255, 217, 217, 217),
+          ),
           headline6: TextStyle(
-            color: Colors.red,
+            color: Color.fromARGB(255, 222, 66, 66),
           ),
         ),
       ),
@@ -64,13 +67,16 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(
             color: Color.fromARGB(255, 25, 25, 25),
           ),
+          headline1: TextStyle(
+            color: Color.fromARGB(255, 242, 242, 242),
+          ),
           headline6: TextStyle(
             color: Colors.red,
           ),
         ),
       ),
       themeMode: ThemeMode.system,
-      //home: SplashScreen(),
+      home: SplashScreen(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

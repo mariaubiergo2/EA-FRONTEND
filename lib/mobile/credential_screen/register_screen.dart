@@ -196,8 +196,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
 
             Navigator.pushNamed(context, '/login_screen');
-          }
-          if (response.statusCode == 400) {
+          } else if (response.statusCode == 220) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Email address not available. Try another one',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          } else if (response.statusCode == 400) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: const Color.fromARGB(255, 222, 66, 66),

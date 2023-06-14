@@ -29,22 +29,21 @@ class LoginScreen extends StatelessWidget {
     //Text editing controllers
     final passwordController = TextEditingController();
     final emailController = TextEditingController();
-
     //Login with Google
 
     //Login method
     void logIn() async {
       if ((emailController.text != '') && (passwordController.text != '')) {
         try {
-          var response = await Dio()
-              .post('http://${dotenv.env['API_URL']}/auth/login', data: {
-            "email": emailController.text,
-            "password": passwordController.text
-          });
-
+          var response = await Dio().post(
+            'http://${dotenv.env['API_URL']}/auth/login',
+            data: {
+              "email": emailController.text,
+              "password": passwordController.text
+            },
+          );
           if (response.statusCode == 200) {
             Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
-
             User u = User.fromJson(payload);
             var data = json.decode(response.toString());
 
@@ -61,19 +60,83 @@ class LoginScreen extends StatelessWidget {
               // prefs.setInt('exp', u.exp!);
               prefs.setInt('level', u.level!);
             } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Attention!',
-                  message: 'Error $e',
-                  contentType: ContentType.failure,
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                  showCloseIcon: true,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                  content: Text(
+                    'Error $e',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 3),
                 ),
-              ));
+              );
             }
-
             Navigator.pushReplacementNamed(context, '/navbar');
+          } else if (response.statusCode == 220) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Disabled account',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          } else if (response.statusCode == 221) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Account not found',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          } else if (response.statusCode == 222) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Wrong credentials. Try again with other values',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+              ),
+            );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
