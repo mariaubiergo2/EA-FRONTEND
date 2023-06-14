@@ -43,7 +43,7 @@ class _MyUserCard extends State<MyUserCard> {
     //getFriends();
   }
 
-  Future setFollowingState() async {
+  setFollowingState() async {
     if (widget.following) {
       buttonText = "Following";
     } else {
@@ -51,16 +51,19 @@ class _MyUserCard extends State<MyUserCard> {
     }
   }
 
-  Future followOrUnfollow() async {
+  followOrUnfollow() async {
     if (widget.following) {
       buttonText = "Following";
+
+      stopFollowing();
     } else {
+      buttonText = "Follow";
       startFollowing();
     }
-    setFollowingState();
+    //setFollowingState();
   }
 
-  Future startFollowing() async {
+  startFollowing() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     String path =
@@ -71,12 +74,6 @@ class _MyUserCard extends State<MyUserCard> {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token",
           }));
-
-      // var registros = response.data as List;
-
-      // for (var sub in registros) {
-      //   userList.add(User.fromJson2(sub));
-      // }
       setState(() {
         // following = true;
       });
@@ -87,6 +84,34 @@ class _MyUserCard extends State<MyUserCard> {
         backgroundColor: Colors.transparent,
         content: AwesomeSnackbarContent(
           title: 'Unable to follow!',
+          message: 'Try again later.',
+          contentType: ContentType.failure,
+        ),
+      ));
+    }
+  }
+
+  stopFollowing() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path =
+        'http://${dotenv.env['API_URL']}/user/follow/delete/${widget.idUserSession}/${widget.idCardUser}';
+    try {
+      var response = await Dio().post(path,
+          options: Options(headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          }));
+      setState(() {
+        // following = true;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: 'Unable to unfollow!',
           message: 'Try again later.',
           contentType: ContentType.failure,
         ),

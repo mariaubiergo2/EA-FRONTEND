@@ -206,9 +206,11 @@ class _MyChatPageState extends State<MyChatPage> {
     for (var sub in registros) {
       challengeList.add(Challenge.fromJson(sub));
     }
-    setState(() {
-      challengeList = challengeList;
-    });
+    if (mounted) {
+      setState(() {
+        challengeList = challengeList;
+      });
+    }
     setChallengeRooms();
   }
 
