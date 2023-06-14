@@ -530,12 +530,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           height: 40,
                                           decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Color.fromARGB(
-                                                255, 222, 66, 66),
+                                            color: Colors.white,
                                           ),
                                           child: const Icon(
                                             Icons.menu_book_rounded,
-                                            color: Colors.white,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
                                             size: 22,
                                           ),
                                         ),
@@ -573,12 +573,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           height: 40,
                                           decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Color.fromARGB(
-                                                255, 222, 66, 66),
+                                            color: Colors.white,
                                           ),
                                           child: const Icon(
                                             Icons.edit_rounded,
-                                            color: Colors.white,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
                                             size: 22,
                                           ),
                                         ),
