@@ -30,92 +30,102 @@ class MyUserCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MyUserCard> createState() => _MyUserCard();
+  State<MyUserCard> createState() => _MyUserCardState();
 }
 
-class _MyUserCard extends State<MyUserCard> {
-  String buttonText = "";
+class _MyUserCardState extends State<MyUserCard> {
+  late String buttonText;
+  late bool isFollowing;
 
   @override
   void initState() {
     super.initState();
     setFollowingState();
-    //getFriends();
   }
 
-  setFollowingState() async {
-    if (widget.following) {
-      buttonText = "Following";
+  void setFollowingState() {
+    isFollowing = widget.following;
+    buttonText = isFollowing ? "Following" : "Follow";
+  }
+
+  Future<void> followOrUnfollow() async {
+    setState(() {
+      isFollowing = !isFollowing;
+      buttonText = isFollowing ? "Following" : "Follow";
+    });
+
+    if (isFollowing) {
+      await startFollowing();
     } else {
-      buttonText = "Follow";
+      await stopFollowing();
     }
   }
 
-  followOrUnfollow() async {
-    if (widget.following) {
-      buttonText = "Following";
-
-      stopFollowing();
-    } else {
-      buttonText = "Follow";
-      startFollowing();
-    }
-    //setFollowingState();
-  }
-
-  startFollowing() async {
+  Future<void> startFollowing() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     String path =
         'http://${dotenv.env['API_URL']}/user/follow/add/${widget.idUserSession}/${widget.idCardUser}';
     try {
-      var response = await Dio().post(path,
-          options: Options(headers: {
+      var response = await Dio().post(
+        path,
+        options: Options(
+          headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token",
-          }));
+          },
+        ),
+      );
       setState(() {
-        // following = true;
+        buttonText = "Following";
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Unable to follow!',
-          message: 'Try again later.',
-          contentType: ContentType.failure,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Unable to follow!',
+            message: 'Try again later.',
+            contentType: ContentType.failure,
+          ),
         ),
-      ));
+      );
     }
   }
 
-  stopFollowing() async {
+  Future<void> stopFollowing() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
     String path =
         'http://${dotenv.env['API_URL']}/user/follow/delete/${widget.idUserSession}/${widget.idCardUser}';
     try {
-      var response = await Dio().post(path,
-          options: Options(headers: {
+      var response = await Dio().post(
+        path,
+        options: Options(
+          headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token",
-          }));
+          },
+        ),
+      );
       setState(() {
-        // following = true;
+        buttonText = "Follow";
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Unable to unfollow!',
-          message: 'Try again later.',
-          contentType: ContentType.failure,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Unable to unfollow!',
+            message: 'Try again later.',
+            contentType: ContentType.failure,
+          ),
         ),
-      ));
+      );
     }
   }
 
@@ -132,19 +142,17 @@ class _MyUserCard extends State<MyUserCard> {
               borderRadius: BorderRadius.circular(16),
             ),
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.fromLTRB(22.5, 8, 8, 8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 13.5),
+                  padding: const EdgeInsets.only(left: 18.5, right: 8.5),
                   child: CircleAvatar(
                     radius: 20,
-                    backgroundColor: const Color.fromARGB(
-                        255, 242, 242, 242), // Cambia el color de fondo aquí
+                    backgroundColor: const Color.fromARGB(255, 242, 242, 242),
                     child: ClipOval(
                       child: Image.asset(
-                        'images/default.png', //attr1 in the future, when the profile has an image
+                        'images/default.png',
                         fit: BoxFit.fill,
                         width: 40,
                         height: 40,
@@ -160,56 +168,57 @@ class _MyUserCard extends State<MyUserCard> {
                     color: const Color.fromARGB(255, 222, 66, 66),
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.attr2,
-                      style: const TextStyle(
-                        fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 25, 25, 25),
-                        fontSize: 22.5,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.attr2,
+                        style: const TextStyle(
+                          fontStyle: FontStyle.normal,
+                          color: Color.fromARGB(255, 25, 25, 25),
+                          fontSize: 22.5,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Level ${widget.attr3}',
-                      style: const TextStyle(
-                        fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 25, 25, 25),
-                        fontSize: 13.5,
+                      const SizedBox(height: 8),
+                      Text(
+                        'Level ${widget.attr3}',
+                        style: const TextStyle(
+                          fontStyle: FontStyle.normal,
+                          color: Color.fromARGB(255, 25, 25, 25),
+                          fontSize: 13.5,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Spacer(),
                 Expanded(
                   child: Align(
-                    widthFactor: 2,
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: followOrUnfollow,
-                      child: Container(
-                        height: 30,
-                        width: 110,
-                        padding: const EdgeInsets.all(2),
-                        margin: const EdgeInsets.symmetric(horizontal: 1),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 242, 242, 242),
-                            width: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 222, 66, 66),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Color.fromARGB(255, 222, 66, 66),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                          child: Text(
-                            buttonText,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 242, 242, 242),
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                          child: Center(
+                            child: isFollowing
+                                ? const Icon(
+                                    Icons.check,
+                                    color: Color.fromARGB(255, 242, 242, 242),
+                                    size: 20,
+                                  )
+                                : const Icon(
+                                    Icons.add,
+                                    color: Color.fromARGB(255, 242, 242, 242),
+                                    size: 20,
+                                  ),
                           ),
                         ),
                       ),
