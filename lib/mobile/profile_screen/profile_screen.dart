@@ -16,6 +16,7 @@ import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
 import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'dart:ui';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -412,6 +413,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
+                          const SizedBox(height: 15),
                           imageProfile(),
                           const SizedBox(height: 25),
                           Text(
@@ -563,12 +565,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color.fromARGB(255, 52, 52, 52),
                             height: 0.05,
                           ),
-                          const SizedBox(height: 32.5),
+                          const SizedBox(height: 20),
                           // Following scroll page
                           Visibility(
                             visible: _seeFollowing, // not visible if set false
                             child: SizedBox(
-                              height: 300,
+                              height: 325,
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: followingList.length,
@@ -595,7 +597,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Visibility(
                             visible: _seeFollowers, // not visible if set false
                             child: SizedBox(
-                              height: 300,
+                              height: 325,
                               child: ListView.builder(
                                 itemCount: followersList.length,
                                 itemBuilder: (BuildContext context, int index) {
@@ -729,158 +731,181 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25.0),
-                                            ),
-                                            title:
-                                                const Text('Eliminar cuenta'),
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                    '¿Estás seguro de que quieres eliminar tu cuenta? \n\nAl eliminar tu cuenta, esta quedará inaccesible y no podrás utilizarla. \n\nPara reactivarla, será necesario contactar con nuestro equipo de soporte. \n\nPor favor, considera esta opción con cuidado antes de confirmar la eliminación. \n\n\nEscribe tu nombre de usuario para confirmar:',
-                                                    textAlign:
-                                                        TextAlign.justify,
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1
-                                                            ?.color)),
-                                                const SizedBox(height: 45),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 2.0),
-                                                  child: TextField(
-                                                    onChanged: (value) {
-                                                      if (mounted) {
-                                                        setState(() {
-                                                          _deleteUsername =
-                                                              value;
-                                                        });
-                                                      }
-                                                    },
-                                                    cursorColor:
-                                                        const Color.fromARGB(
-                                                            255, 222, 66, 66),
-                                                    style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 25, 25, 25),
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                      filled: true,
-                                                      fillColor:
-                                                          Theme.of(context)
-                                                              .textTheme
-                                                              .headline1
-                                                              ?.color,
-                                                      hintText: _username,
-                                                      hintStyle:
-                                                          const TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 146, 146, 146),
-                                                      ),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    100.0),
-                                                        borderSide:
-                                                            BorderSide.none,
-                                                      ),
-                                                      contentPadding:
-                                                          const EdgeInsets
-                                                                  .fromLTRB(
-                                                              18.5, 14, 0, 0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    const Color.fromARGB(
-                                                        255, 222, 66, 66),
-                                                  ),
-                                                ),
-                                                child: const Text('Cancelar'),
+                                          return Stack(children: [
+                                            Container(
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 4, sigmaY: 4),
+                                                child: Container(),
                                               ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  if (_username ==
-                                                      _deleteUsername) {
-                                                    deleteUser();
-                                                    auth.signOut();
-                                                    GoogleSignIn().signOut();
-                                                    clearInfo();
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        PageTransition(
-                                                            type:
-                                                                PageTransitionType
-                                                                    .leftToRight,
-                                                            child:
-                                                                const LoginScreen()));
-                                                  } else {
-                                                    Navigator.of(context).pop();
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Colors.amber,
-                                                        showCloseIcon: true,
-                                                        shape:
-                                                            RoundedRectangleBorder(
+                                            ),
+                                            AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              title:
+                                                  const Text('Eliminar cuenta'),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                      '¿Estás seguro de que quieres eliminar tu cuenta? \n\nAl eliminar tu cuenta, esta quedará inaccesible y no podrás utilizarla. \n\nPara reactivarla, será necesario contactar con nuestro equipo de soporte. \n\nPor favor, considera esta opción con cuidado antes de confirmar la eliminación. \n\n\nEscribe tu nombre de usuario para confirmar:',
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1
+                                                                  ?.color)),
+                                                  const SizedBox(height: 45),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 2.0),
+                                                    child: TextField(
+                                                      onChanged: (value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            _deleteUsername =
+                                                                value;
+                                                          });
+                                                        }
+                                                      },
+                                                      cursorColor:
+                                                          const Color.fromARGB(
+                                                              255, 222, 66, 66),
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 25, 25, 25),
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        filled: true,
+                                                        fillColor:
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .headline1
+                                                                ?.color,
+                                                        hintText: _username,
+                                                        hintStyle:
+                                                            const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              146,
+                                                              146,
+                                                              146),
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(10),
+                                                                  .circular(
+                                                                      100.0),
+                                                          borderSide:
+                                                              BorderSide.none,
                                                         ),
-                                                        margin: const EdgeInsets
-                                                                .fromLTRB(
-                                                            20, 0, 20, 22.5),
-                                                        content: const Text(
-                                                          'Nombre de usuario incorrecto',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        closeIconColor:
-                                                            Colors.black,
-                                                        behavior:
-                                                            SnackBarBehavior
-                                                                .floating,
-                                                        duration:
-                                                            const Duration(
-                                                                seconds: 3),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                18.5, 14, 0, 0),
                                                       ),
-                                                    );
-                                                  }
-                                                },
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    const Color.fromARGB(
-                                                        255, 222, 66, 66),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: const Text('Confirmar'),
+                                                ],
                                               ),
-                                            ],
-                                          );
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  style: ButtonStyle(
+                                                    foregroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      const Color.fromARGB(
+                                                          255, 222, 66, 66),
+                                                    ),
+                                                  ),
+                                                  child: const Text('Cancelar'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    if (_username ==
+                                                        _deleteUsername) {
+                                                      deleteUser();
+                                                      auth.signOut();
+                                                      GoogleSignIn().signOut();
+                                                      clearInfo();
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          PageTransition(
+                                                              type: PageTransitionType
+                                                                  .leftToRight,
+                                                              child:
+                                                                  const LoginScreen()));
+                                                    } else {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.amber,
+                                                          showCloseIcon: true,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  20,
+                                                                  0,
+                                                                  20,
+                                                                  22.5),
+                                                          content: const Text(
+                                                            'Nombre de usuario incorrecto',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                          closeIconColor:
+                                                              Colors.black,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 3),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  style: ButtonStyle(
+                                                    foregroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      const Color.fromARGB(
+                                                          255, 222, 66, 66),
+                                                    ),
+                                                  ),
+                                                  child:
+                                                      const Text('Confirmar'),
+                                                ),
+                                              ],
+                                            )
+                                          ]);
                                         },
                                       );
                                     },
@@ -969,7 +994,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 33.5),
+                                const SizedBox(height: 58),
                               ],
                             ),
                           ),
