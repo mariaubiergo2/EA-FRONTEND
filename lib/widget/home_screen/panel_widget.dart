@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/models/challenge.dart';
+import 'package:ea_frontend/models/itinerario.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,7 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
+  List<Itinerario> itinerarioList = <Itinerario>[];
   dynamic controller;
   dynamic panelController;
 
@@ -36,6 +38,7 @@ class _PanelWidgetState extends State<PanelWidget> {
   void initState() {
     super.initState();
     getChallenges();
+    getItinerarios();
   }
 
   Future getChallenges() async {
@@ -56,6 +59,24 @@ class _PanelWidgetState extends State<PanelWidget> {
     });
   }
 
+  Future getItinerarios() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://${dotenv.env['API_URL']}/itinerario/get/all';
+    var response = await Dio().get(path,
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        }));
+    var registros = response.data as List;
+    for (var sub in registros) {
+      itinerarioList.add(Itinerario.fromJson(sub));
+    }
+    setState(() {
+      itinerarioList = itinerarioList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +88,8 @@ class _PanelWidgetState extends State<PanelWidget> {
             buildDragHandle(context),
             const SizedBox(height: 25), //AQUI IRÁ LOS MODOS
             Expanded(
-              child: buildChallenges12(context, challengeList),
+              // child: buildChallenges12(context, challengeList),
+              child: buildChallenges13(context, itinerarioList),
             ),
           ],
         ),
@@ -94,6 +116,32 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
               );
             },
             childCount: challengeList.length,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget buildChallenges13(
+    BuildContext context, List<Itinerario> itinerarioList) {
+  return CustomScrollView(
+    // MediaQuery.of(context).size.height - 100,
+    slivers: [
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              // return MyCard(
+              return MyChallengeCard(
+                index: index,
+                attr1: itinerarioList[index].name,
+                attr2: itinerarioList[index].descr,
+                attr3: "",
+              );
+            },
+            childCount: itinerarioList.length,
           ),
         ),
       ),
