@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
 import 'package:ea_frontend/services/auth_service.dart';
 import 'package:ea_frontend/widget/credential_screen/credential_textfield.dart';
 import 'package:ea_frontend/widget/credential_screen/credential_button.dart';
@@ -16,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() async {
   await dotenv.load();
@@ -79,7 +82,11 @@ class LoginScreen extends StatelessWidget {
                 ),
               );
             }
-            Navigator.pushReplacementNamed(context, '/navbar');
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const NavBar()));
           } else if (response.statusCode == 220) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -339,7 +346,11 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(width: 4),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/register_screen');
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: const RegisterScreen()));
                           },
                           child: Text(
                             AppLocalizations.of(context)!.signin,

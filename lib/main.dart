@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'package:flutter/material.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      home: SplashScreen(),
+      //home: SplashScreen(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -102,6 +104,14 @@ class MyApp extends StatelessWidget {
 
           case '/navbar':
             return MaterialPageRoute(builder: (context) => const NavBar());
+
+          case '/edit_account':
+            return MaterialPageRoute(
+                builder: (context) => const EditInfoScreen());
+
+          case '/edit_password':
+            return MaterialPageRoute(
+                builder: (context) => const EditPasswordScreen());
 
           //-------------------------- W E B --------------------------//
 

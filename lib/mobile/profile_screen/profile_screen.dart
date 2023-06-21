@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/user.dart';
 import '../../models/user.dart' as user_ea;
 import '../../widget/profile_screen/card_user_widget.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 
@@ -190,19 +194,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _token = prefs.getString('token');
-      _idUser = prefs.getString('idUser');
-      _name = prefs.getString('name');
-      _surname = prefs.getString('surname');
-      _username = prefs.getString('username');
-      try {
-        _level = prefs.getInt('level')!;
-      } catch (e) {
-        print(e);
-        _level = 0;
-      }
-    });
+    if (mounted) {
+      setState(() {
+        _token = prefs.getString('token');
+        _idUser = prefs.getString('idUser');
+        _name = prefs.getString('name');
+        _surname = prefs.getString('surname');
+        _username = prefs.getString('username');
+        try {
+          _level = prefs.getInt('level')!;
+        } catch (e) {
+          print(e);
+          _level = 0;
+        }
+      });
+    }
   }
 
   Future getFriendsInfo() async {
@@ -210,17 +216,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var followersCount = await Dio().get(
           'http://${dotenv.env['API_URL']}/user/followers/count/${_idUser!}');
-
-      setState(() {
-        _followers = followersCount.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _followers = followersCount.toString();
+        });
+      }
 
       var followingCount = await Dio().get(
           'http://${dotenv.env['API_URL']}/user/following/count/${_idUser!}');
-
-      setState(() {
-        _following = followingCount.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _following = followingCount.toString();
+        });
+      }
     } catch (e) {
       print('Error in the counting of friends: $e');
     }
@@ -241,10 +249,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       );
       var users = response.data as List;
-      setState(() {
-        followingList =
-            users.map((user) => user_ea.User.fromJson2(user)).toList();
-      });
+      if (mounted) {
+        setState(() {
+          followingList =
+              users.map((user) => user_ea.User.fromJson2(user)).toList();
+        });
+      }
     } catch (e) {
       // ignore: use_build_context_synchronously
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -275,10 +285,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       );
       var users = response.data as List;
-      setState(() {
-        followersList =
-            users.map((user) => user_ea.User.fromJson2(user)).toList();
-      });
+      if (mounted) {
+        setState(() {
+          followersList =
+              users.map((user) => user_ea.User.fromJson2(user)).toList();
+        });
+      }
     } catch (e) {
       // ignore: use_build_context_synchronously
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -473,30 +485,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _seeFollowing = !_seeFollowing;
-                                    if (_seeFollowing) {
-                                      _seeOptions = false;
-                                      _seeFollowers = false;
-                                      _textStyleFollowing = _highlightedText;
-                                      _textStyleFollowers = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    } else {
-                                      _seeOptions = true;
-                                      _textStyleFollowing = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    }
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      _seeFollowing = !_seeFollowing;
+                                      if (_seeFollowing) {
+                                        _seeOptions = false;
+                                        _seeFollowers = false;
+                                        _textStyleFollowing = _highlightedText;
+                                        _textStyleFollowers = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      } else {
+                                        _seeOptions = true;
+                                        _textStyleFollowing = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      }
+                                    });
+                                  }
                                 },
                                 child: Text(
                                   "$_following\n${AppLocalizations.of(context)!.following}",
@@ -508,30 +522,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(width: 100),
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _seeFollowers = !_seeFollowers;
-                                    if (_seeFollowers) {
-                                      _seeOptions = false;
-                                      _seeFollowing = false;
-                                      _textStyleFollowers = _highlightedText;
-                                      _textStyleFollowing = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    } else {
-                                      _seeOptions = true;
-                                      _textStyleFollowers = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    }
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      _seeFollowers = !_seeFollowers;
+                                      if (_seeFollowers) {
+                                        _seeOptions = false;
+                                        _seeFollowing = false;
+                                        _textStyleFollowers = _highlightedText;
+                                        _textStyleFollowing = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      } else {
+                                        _seeOptions = true;
+                                        _textStyleFollowers = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      }
+                                    });
+                                  }
                                 },
                                 child: Text(
                                   "$_followers\n${AppLocalizations.of(context)!.followers}",
@@ -610,50 +626,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      // Acción cuando se presione el contenedor
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: const Icon(
-                                            Icons.menu_book_rounded,
-                                            color: Color.fromARGB(
-                                                255, 222, 66, 66),
-                                            size: 22,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 25),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .information,
-                                          // "Edit account",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 25),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // Acción cuando se presione el contenedor
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child: const EditInfoScreen()));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -677,7 +655,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Text(
                                           AppLocalizations.of(context)!
                                               .edit_account,
-                                          // "Edit account",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 25),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child:
+                                                  const EditPasswordScreen()));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: const Icon(
+                                            Icons.password_rounded,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                            size: 22,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .information,
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme
@@ -730,9 +755,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       horizontal: 2.0),
                                                   child: TextField(
                                                     onChanged: (value) {
-                                                      setState(() {
-                                                        _deleteUsername = value;
-                                                      });
+                                                      if (mounted) {
+                                                        setState(() {
+                                                          _deleteUsername =
+                                                              value;
+                                                        });
+                                                      }
                                                     },
                                                     cursorColor:
                                                         const Color.fromARGB(
@@ -795,10 +823,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     auth.signOut();
                                                     GoogleSignIn().signOut();
                                                     clearInfo();
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context,
-                                                            '/login_screen');
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        PageTransition(
+                                                            type:
+                                                                PageTransitionType
+                                                                    .leftToRight,
+                                                            child:
+                                                                const LoginScreen()));
                                                   } else {
                                                     Navigator.of(context).pop();
                                                     ScaffoldMessenger.of(
@@ -896,8 +928,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       auth.signOut();
                                       GoogleSignIn().signOut();
                                       clearInfo();
-                                      Navigator.pushReplacementNamed(
-                                          context, '/login_screen');
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .leftToRight,
+                                              child: const LoginScreen()));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
