@@ -1,105 +1,184 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import '../../models/challenge.dart';
 
-void main() => runApp(const Chat());
+void main() async {
+  await dotenv.load();
+}
 
-class Chat extends StatelessWidget {
-  const Chat({super.key});
+class ChatWidget extends StatefulWidget {
+  const ChatWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ChatScreen(),
-    );
+  State<ChatWidget> createState() => _ChatWidgetState();
+}
+
+class ChatMessage {
+  ChatMessage(
+      {required this.senderName,
+      required this.messageContent,
+      required this.timeSent});
+
+  final String messageContent;
+  final String senderName;
+  final String timeSent;
+}
+
+class MyAppState extends ChangeNotifier {
+  var current = WordPair.random();
+  IO.Socket? socket;
+  String userName = '';
+
+  void setUserName(String name) {
+    userName = name;
+    notifyListeners();
+  }
+
+  void setUserName2() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userName = prefs.getString('username')!;
+    notifyListeners();
   }
 }
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({
-    super.key,
-  });
+class _ChatWidgetState extends State<ChatWidget> {
+  MyAppState? appState;
+  List<Challenge> challengeList = <Challenge>[];
+  TextEditingController roomNameController = TextEditingController();
+  Map<String, String> roomNames = {};
+  IO.Socket? socket;
 
-  @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
+  String _currentRoom = '';
+  List<ChatMessage> _messages = [];
+  final TextEditingController _textController = TextEditingController();
 
-class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final _channel = WebSocketChannel.connect(
-    // Uri.parse('wss://echo.websocket.events'),
-    Uri.parse('ws://localhost:3000'),
-  );
-  List<String> _messages = [];
+  void createRoom(String roomName) {
+    if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
+      socket!.emit('CREATE_ROOM', {"roomName": roomName});
+      setState(() {
+        roomNameController.clear(); // clear the input field
+        _currentRoom = roomName;
+        socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
+        _messages = [];
+      });
+    }
+  }
+
+  String? getKeyFromValue(Map<String, String> map, String targetValue) {
+    for (var entry in map.entries) {
+      if (entry.value == targetValue) {
+        return entry.key;
+      }
+    }
+    return null;
+  }
+
+  void _handleSubmitted(ChatMessage chatMessage) {
+    if (_currentRoom.isNotEmpty) {
+      socket!.emit("SEND_ROOM_MESSAGE", {
+        "roomId": getKeyFromValue(roomNames, _currentRoom),
+        "message": chatMessage.messageContent,
+        "username": chatMessage.senderName
+      });
+      setState(() {
+        _messages.insert(0, chatMessage);
+        _textController.clear();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        color: const Color.fromARGB(255, 252, 252, 252),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Form(
-            //   child: TextFormField(
-            //     controller: _controller,
-            //     decoration:
-            //         const InputDecoration(labelText: 'Escribe tu mensaje'),
-            //   ),
-            // ),
+            // Chat room header
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                _currentRoom,
+                style: const TextStyle(fontSize: 24.0),
+              ),
+            ),
+            // Messages list
             Expanded(
-              child: StreamBuilder(
-                stream: _channel.stream,
-                builder: (context, snapshot) {
-                  return Text(snapshot.hasData ? '${snapshot.data}' : '');
+              child: ListView.builder(
+                reverse: true,
+                itemCount: _messages.length,
+                itemBuilder: (BuildContext context, int index) {
+                  ChatMessage message = _messages[index];
+                  return Container(
+                    padding: const EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.redAccent)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          message.senderName,
+                          style: const TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          message.messageContent,
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          message.timeSent,
+                          style: const TextStyle(
+                              fontSize: 12.0, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_messages[index]),
-                  );
-                },
+            // Message input field and send button
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _textController,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter a message',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_textController.text.isNotEmpty) {
+                        _handleSubmitted(ChatMessage(
+                          senderName: appState!.userName,
+                          messageContent: _textController.text,
+                          timeSent: DateTime.now().toString(),
+                        ));
+                      }
+                    },
+                    child: const Text('Send'),
+                  ),
+                ],
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _sendMessage,
-        tooltip: 'Enviar message',
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.send),
-      ),
     );
   }
-
-  void _sendMessage() {
-    if (_controller.text.isNotEmpty) {
-      _channel.sink.add(_controller.text);
-      _controller.clear();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _channel.stream.listen((message) {
-      setState(() {
-        _messages.add(message);
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _channel.sink.close();
-    _controller.dispose();
-    super.dispose();
-  }
 }
-
-//------------------------------------------------------------------------

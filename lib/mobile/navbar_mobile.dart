@@ -13,6 +13,8 @@ import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
+import 'chat_screen/list_chat_screen.dart';
+
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
 
@@ -27,7 +29,8 @@ final screens = [
   const HomeScreen(),
   //const HubScreen(),
   // Chat(),
-  const MyApp(),
+  // const MyApp(),
+  const MyChatList(),
   const DiscoverScreen(),
   const ProfileScreen(),
 ];

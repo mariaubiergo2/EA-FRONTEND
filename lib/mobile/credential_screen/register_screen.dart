@@ -172,9 +172,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
-                content: const Row(
+                content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Expanded(
                       child: Text(
                         'Account successfully created',

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:ea_frontend/widget/chat_screen/chat_challenge_widget.dart';
 import 'package:flutter/material.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -102,6 +103,9 @@ class MyApp extends StatelessWidget {
 
           case '/navbar':
             return MaterialPageRoute(builder: (context) => const NavBar());
+          case '/chat':
+            return MaterialPageRoute(
+                builder: (context) => const MyChatChallengeCard());
 
           //-------------------------- W E B --------------------------//
 
@@ -118,7 +122,7 @@ class MyApp extends StatelessWidget {
                 builder: (context) => const ProfileScreenWeb());
 
           default:
-            if (kIsWeb) {
+            if (!kIsWeb) {
               return MaterialPageRoute(
                   builder: (context) => const NavBarWebDefault());
             } else {

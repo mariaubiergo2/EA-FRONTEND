@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:dio/dio.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ import 'dart:convert';
 import '../../models/challenge.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
         // home: MyHomePage(),
-        home: MyChatPage(),
+        home: const MyChatPage(),
       ),
     );
   }
@@ -54,6 +56,8 @@ class MyAppState extends ChangeNotifier {
 class MyHomePage extends StatelessWidget {
   final _nameController = TextEditingController();
 
+  MyHomePage({super.key});
+
   void setIdandconnect(BuildContext context) {
     var appState = context.watch<MyAppState>();
     appState.setUserName2();
@@ -67,7 +71,7 @@ class MyHomePage extends StatelessWidget {
       });
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MyChatPage()),
+      MaterialPageRoute(builder: (context) => const MyChatPage()),
     );
   }
 
@@ -78,10 +82,10 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Text('Welcome to the Flutter Chat Client !'),
-          Text('Add your NAME to start :)'),
+          const Text('Welcome to the Flutter Chat Client !'),
+          const Text('Add your NAME to start :)'),
           TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Enter your name here',
             ),
             controller: _nameController,
@@ -103,12 +107,12 @@ class MyHomePage extends StatelessWidget {
                 });
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyChatPage()),
+                MaterialPageRoute(builder: (context) => const MyChatPage()),
               );
               // if (appState.userName.isNotEmpty) {
               // }
             },
-            child: Text('START'),
+            child: const Text('START'),
           ),
         ],
       ),
@@ -128,6 +132,8 @@ class ChatMessage {
 }
 
 class MyChatPage extends StatefulWidget {
+  const MyChatPage({super.key});
+
   @override
   _MyChatPageState createState() => _MyChatPageState();
 }
@@ -214,17 +220,6 @@ class _MyChatPageState extends State<MyChatPage> {
     setChallengeRooms();
   }
 
-  // void setChallengeRooms() {
-  //   for (var challenge in challengeList) {
-  //     if (challenge.name.isNotEmpty &&
-  //         !roomNames.values.contains(challenge.name) &&
-  //         (challenge.name !=
-  //             roomNames.values.elementAt(challengeList.indexOf(challenge)))) {
-  //       socket!.emit('CREATE_ROOM', {"roomName": challenge.name});
-  //     }
-  //   }
-  // }
-
   void setChallengeRooms() {
     for (var challenge in challengeList) {
       if (challenge.name.isNotEmpty &&
@@ -278,88 +273,46 @@ class _MyChatPageState extends State<MyChatPage> {
           Flexible(
             flex: 1,
             child: Container(
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: const Color.fromARGB(255, 0, 0, 0),
+              // color: const Color.fromARGB(255, 202, 22, 22),
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(12.0),
-                    child: Row(
-                        // children: [
-                        //   Expanded(
-                        //     child: TextField(
-                        //       controller: roomNameController,
-                        //       style: const TextStyle(color: Colors.white),
-                        //       decoration: const InputDecoration(
-                        //         hintText: 'Enter a room name',
-                        //         hintStyle: TextStyle(color: Colors.white),
-                        //       ),
-                        //     ),
-                        //   ),
-                        //   SizedBox(width: 16.0),
-                        //   ElevatedButton(
-                        //     onPressed: () {
-                        //       createRoom(roomNameController.text);
-                        //     },
-                        //     child: Text('Create Room'),
-                        //   ),
-                        // ],
-                        ),
-                  ),
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: roomNames.length,
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       return ElevatedButton(
-                  //         onPressed: () {
-                  //           setState(() {
-                  //             if (_currentRoom !=
-                  //                 roomNames.values.elementAt(index)) {
-                  //               _currentRoom =
-                  //                   roomNames.values.elementAt(index);
-                  //               socket!.emit("JOIN_ROOM",
-                  //                   getKeyFromValue(roomNames, _currentRoom));
-                  //               _messages = [];
-                  //             }
-                  //           });
-                  //         },
-                  //         child: Text(roomNames.values.elementAt(index)),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: roomNames.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(height: 12.0);
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            onPrimary: Colors.white,
-                            textStyle: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.normal),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (_currentRoom !=
-                                  roomNames.values.elementAt(index)) {
-                                _currentRoom =
-                                    roomNames.values.elementAt(index);
-                                socket!.emit(
-                                  "JOIN_ROOM",
-                                  getKeyFromValue(roomNames, _currentRoom),
-                                );
-                                _messages = [];
-                              }
-                            });
-                          },
-                          child: Text(roomNames.values.elementAt(index)),
-                        );
-                      },
+                    padding: const EdgeInsets.all(12.0),
+                    child: Expanded(
+                      child: ListView.separated(
+                        itemCount: roomNames.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(height: 12.0);
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red,
+                              onPrimary: Colors.white,
+                              textStyle: const TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.normal),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                if (_currentRoom !=
+                                    roomNames.values.elementAt(index)) {
+                                  _currentRoom =
+                                      roomNames.values.elementAt(index);
+                                  socket!.emit(
+                                    "JOIN_ROOM",
+                                    getKeyFromValue(roomNames, _currentRoom),
+                                  );
+                                  _messages = [];
+                                }
+                              });
+                            },
+                            child: Text(roomNames.values.elementAt(index)),
+                          );
+                        },
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -367,15 +320,15 @@ class _MyChatPageState extends State<MyChatPage> {
           Flexible(
             flex: 3,
             child: Container(
-              color: Color.fromARGB(255, 252, 252, 252),
+              color: const Color.fromARGB(255, 252, 252, 252),
               child: Column(
                 children: [
                   // Chat room header
                   Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      '$_currentRoom',
-                      style: TextStyle(fontSize: 24.0),
+                      _currentRoom,
+                      style: const TextStyle(fontSize: 24.0),
                     ),
                   ),
                   // Messages list
@@ -386,8 +339,8 @@ class _MyChatPageState extends State<MyChatPage> {
                       itemBuilder: (BuildContext context, int index) {
                         ChatMessage message = _messages[index];
                         return Container(
-                          padding: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.all(16.0),
+                          margin: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 16.0),
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -398,19 +351,19 @@ class _MyChatPageState extends State<MyChatPage> {
                             children: [
                               Text(
                                 message.senderName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               Text(
                                 message.messageContent,
-                                style: TextStyle(fontSize: 16.0),
+                                style: const TextStyle(fontSize: 16.0),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               Text(
                                 message.timeSent,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 12.0, color: Colors.grey),
                               ),
                             ],
@@ -421,18 +374,18 @@ class _MyChatPageState extends State<MyChatPage> {
                   ),
                   // Message input field and send button
                   Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Row(
                       children: [
                         Expanded(
                           child: TextField(
                             controller: _textController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter a message',
                             ),
                           ),
                         ),
-                        SizedBox(width: 16.0),
+                        const SizedBox(width: 16.0),
                         ElevatedButton(
                           onPressed: () {
                             if (_textController.text.isNotEmpty) {
@@ -443,7 +396,7 @@ class _MyChatPageState extends State<MyChatPage> {
                               ));
                             }
                           },
-                          child: Text('Send'),
+                          child: const Text('Send'),
                         ),
                       ],
                     ),
