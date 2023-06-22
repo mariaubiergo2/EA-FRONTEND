@@ -122,7 +122,7 @@ class MyApp extends StatelessWidget {
                 builder: (context) => const ProfileScreenWeb());
 
           default:
-            if (!kIsWeb) {
+            if (kIsWeb) {
               return MaterialPageRoute(
                   builder: (context) => const NavBarWebDefault());
             } else {

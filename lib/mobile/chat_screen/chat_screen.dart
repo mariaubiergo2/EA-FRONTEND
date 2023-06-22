@@ -70,16 +70,31 @@ class _ChatWidgetState extends State<ChatWidget> {
     createRoom(widget.roomNameWidget!);
   }
 
+  // void createRoom(String roomName) {
+  //   if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
+  //     socket!.emit('CREATE_ROOM', {"roomName": roomName});
+  //     print('-------------ESTIC AL IF -----------------');
+  //     print(roomName);
+  //     print("PRIMERA CONDICIÓ: ----------> <---------------");
+  //     print(roomName.isNotEmpty);
+  //     print("SEGONA CONDICIÓ: ----------> <---------------");
+  //     print(roomNames.values.contains(roomName));
+  //     setState(() {
+  //       roomNameController.clear(); // clear the input field
+  //       _currentRoom = roomName;
+  //       socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
+  //       _messages = [];
+  //     });
+  //   }
+  // }
+
   void createRoom(String roomName) {
-    if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
-      socket!.emit('CREATE_ROOM', {"roomName": roomName});
-      setState(() {
-        roomNameController.clear(); // clear the input field
-        _currentRoom = roomName;
-        socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
-        _messages = [];
-      });
-    }
+    setState(() {
+      roomNameController.clear(); // clear the input field
+      _currentRoom = roomName;
+      socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
+      _messages = [];
+    });
   }
 
   String? getKeyFromValue(Map<String, String> map, String targetValue) {
@@ -109,7 +124,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: const Color.fromARGB(255, 252, 252, 252),
+        color: Theme.of(context).backgroundColor,
         child: Column(
           children: [
             // Chat room header
@@ -117,7 +132,7 @@ class _ChatWidgetState extends State<ChatWidget> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 _currentRoom,
-                style: const TextStyle(fontSize: 24.0),
+                style: const TextStyle(fontSize: 24.0, color: Colors.redAccent),
               ),
             ),
             // Messages list
