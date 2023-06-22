@@ -16,11 +16,13 @@ void main() async {
 class ChatWidget extends StatefulWidget {
   final String? roomNameWidget;
   final IO.Socket? socketWidget;
+  final Map<String, String>? roomNamesWidget;
 
   const ChatWidget({
     Key? key,
     this.roomNameWidget,
     this.socketWidget,
+    this.roomNamesWidget,
   }) : super(key: key);
 
   @override
@@ -64,6 +66,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     super.initState();
     print(widget.roomNameWidget);
     socket = widget.socketWidget;
+    roomNames = widget.roomNamesWidget!;
     createRoom(widget.roomNameWidget!);
   }
 

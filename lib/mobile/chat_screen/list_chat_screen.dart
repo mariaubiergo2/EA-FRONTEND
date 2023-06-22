@@ -173,6 +173,7 @@ class _MyChatListState extends State<MyChatList> {
                           builder: (context) => ChatWidget(
                                 roomNameWidget: challengeList[index].name,
                                 socketWidget: socket,
+                                roomNamesWidget: roomNames,
                               )),
                     );
                   },
