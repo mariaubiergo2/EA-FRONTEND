@@ -1,38 +1,36 @@
+import 'dart:io';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../models/challenge.dart';
+import '../../models/message.dart';
 
 void main() async {
   await dotenv.load();
 }
 
 class ChatWidget extends StatefulWidget {
+  final String? roomNameWidget;
+  final IO.Socket? socketWidget;
+
   const ChatWidget({
     Key? key,
+    this.roomNameWidget,
+    this.socketWidget,
   }) : super(key: key);
 
   @override
   State<ChatWidget> createState() => _ChatWidgetState();
 }
 
-class ChatMessage {
-  ChatMessage(
-      {required this.senderName,
-      required this.messageContent,
-      required this.timeSent});
-
-  final String messageContent;
-  final String senderName;
-  final String timeSent;
-}
-
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
   IO.Socket? socket;
-  String userName = '';
+  String? userName;
 
   void setUserName(String name) {
     userName = name;
@@ -40,10 +38,15 @@ class MyAppState extends ChangeNotifier {
   }
 
   void setUserName2() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    userName = prefs.getString('username')!;
+    userName = await getUsername(); // Esperar el resultado del Future<String>
     notifyListeners();
   }
+}
+
+Future<String> getUsername() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userName = prefs.getString('username');
+  return userName ?? '';
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
@@ -52,10 +55,17 @@ class _ChatWidgetState extends State<ChatWidget> {
   TextEditingController roomNameController = TextEditingController();
   Map<String, String> roomNames = {};
   IO.Socket? socket;
-
   String _currentRoom = '';
   List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.roomNameWidget);
+    socket = widget.socketWidget;
+    createRoom(widget.roomNameWidget!);
+  }
 
   void createRoom(String roomName) {
     if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
@@ -162,10 +172,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                   ),
                   const SizedBox(width: 16.0),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_textController.text.isNotEmpty) {
                         _handleSubmitted(ChatMessage(
-                          senderName: appState!.userName,
+                          senderName: await getUsername(),
                           messageContent: _textController.text,
                           timeSent: DateTime.now().toString(),
                         ));

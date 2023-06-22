@@ -2,6 +2,7 @@
 
 import 'package:ea_frontend/widget/chat_screen/chat_challenge_widget.dart';
 import 'package:flutter/material.dart';
+import 'mobile/chat_screen/chat_screen.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -104,8 +105,7 @@ class MyApp extends StatelessWidget {
           case '/navbar':
             return MaterialPageRoute(builder: (context) => const NavBar());
           case '/chat':
-            return MaterialPageRoute(
-                builder: (context) => const MyChatChallengeCard());
+            return MaterialPageRoute(builder: (context) => const ChatWidget());
 
           //-------------------------- W E B --------------------------//
 

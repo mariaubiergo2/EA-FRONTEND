@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/web/about_screen/info_web.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,6 +11,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../models/challenge.dart';
 import '../../widget/chat_screen/chat_challenge_widget.dart';
+import 'chat_screen.dart';
 
 void main() async {
   await dotenv.load();
@@ -59,18 +61,17 @@ class _MyChatListState extends State<MyChatList> {
       });
 
     socket!.on("ROOMS", (rooms) {
-      setState(() {
-        roomNames.clear();
-        final roomsJsonString = jsonEncode(rooms);
-        final roomsJson = jsonDecode(roomsJsonString);
-        roomsJson.forEach((roomId, roomData) {
-          roomNames[roomId] = roomData["name"];
-          print(roomNames);
+      if (mounted) {
+        setState(() {
+          roomNames.clear();
+          final roomsJsonString = jsonEncode(rooms);
+          final roomsJson = jsonDecode(roomsJsonString);
+          roomsJson.forEach((roomId, roomData) {
+            roomNames[roomId] = roomData["name"];
+            print(roomNames);
+          });
         });
-      });
-      // if (mounted) {
-
-      // }
+      }
     });
 
     socket!.on("ROOM_MESSAGE", (data) {
@@ -123,27 +124,6 @@ class _MyChatListState extends State<MyChatList> {
     }
   }
 
-  void createRoom(String roomName) {
-    if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
-      socket!.emit('CREATE_ROOM', {"roomName": roomName});
-      setState(() {
-        roomNameController.clear(); // clear the input field
-        _currentRoom = roomName;
-        socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
-        _messages = [];
-      });
-    }
-  }
-
-  String? getKeyFromValue(Map<String, String> map, String targetValue) {
-    for (var entry in map.entries) {
-      if (entry.value == targetValue) {
-        return entry.key;
-      }
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,17 +154,28 @@ class _MyChatListState extends State<MyChatList> {
               (BuildContext context, int index) {
                 // return MyCard(
                 return GestureDetector(
-                  onTap: () => (setState(() {
-                    if (_currentRoom != roomNames.values.elementAt(index)) {
-                      _currentRoom = roomNames.values.elementAt(index);
-                      socket!.emit(
-                        "JOIN_ROOM",
-                        getKeyFromValue(roomNames, _currentRoom),
-                      );
-                      _messages = [];
-                    }
-                    Navigator.pushNamed(context, '/chat');
-                  })),
+                  onTap: () {
+                    // setState(() {
+                    //   if (_currentRoom != roomNames.values.elementAt(index)) {
+                    //     _currentRoom = roomNames.values.elementAt(index);
+                    //     socket!.emit(
+                    //       "JOIN_ROOM",
+                    //       getKeyFromValue(roomNames, _currentRoom),
+                    //     );
+                    //     _messages = [];
+                    //   }
+                    // });
+                    print(challengeList[index].name);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatWidget(
+                                roomNameWidget: challengeList[index].name,
+                                socketWidget: socket,
+                              )),
+                    );
+                  },
                   child: MyChatChallengeCard(
                     index: index,
                     attr1: challengeList[index].name,

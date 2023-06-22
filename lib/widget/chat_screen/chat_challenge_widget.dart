@@ -31,26 +31,6 @@ class MyChatChallengeCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  (index! + 1).toString(),
-                  style: const TextStyle(
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 222, 66, 66),
-                    fontSize: 35,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 5, 15, 5),
-                child: Container(
-                  width: 1,
-                  height: 75,
-                  color: const Color.fromARGB(255, 222, 66, 66),
-                ),
-              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
