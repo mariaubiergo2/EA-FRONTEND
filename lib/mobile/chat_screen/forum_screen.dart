@@ -1,11 +1,10 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, library_prefixes
 
 import 'package:dio/dio.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
@@ -79,44 +78,44 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    return Scaffold(
-      body: Column(
-        children: [
-          const Text('Welcome to the Flutter Chat Client !'),
-          const Text('Add your NAME to start :)'),
-          TextField(
-            decoration: const InputDecoration(
-              hintText: 'Enter your name here',
-            ),
-            controller: _nameController,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // appState.setUserName(
-              //     _nameController.text); // set the user name in app state
-              appState.setUserName2();
-              // setIdandconnect(context);
-              appState.socket = IO.io('http://${dotenv.env['API_URL_SOCKET']}');
-              appState.socket!.connect()
-                ..onConnectError((data) {
-                  debugPrint('Failed to connect to server: $data');
-                })
-                ..onConnect((data) {
-                  debugPrint('Connected to server');
-                  // Do something now that you know the connection is established
-                });
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyChatPage()),
-              );
-              // if (appState.userName.isNotEmpty) {
-              // }
-            },
-            child: const Text('START'),
-          ),
-        ],
-      ),
-    );
+    return const Scaffold(
+        // body: Column(
+        //   children: [
+        //     const Text('Welcome to the Flutter Chat Client !'),
+        //     const Text('Add your NAME to start :)'),
+        //     TextField(
+        //       decoration: const InputDecoration(
+        //         hintText: 'Enter your name here',
+        //       ),
+        //       controller: _nameController,
+        //     ),
+        //     ElevatedButton(
+        //       onPressed: () {
+        //         // appState.setUserName(
+        //         //     _nameController.text); // set the user name in app state
+        //         appState.setUserName2();
+        //         // setIdandconnect(context);
+        //         appState.socket = IO.io('http://${dotenv.env['API_URL_SOCKET']}');
+        //         appState.socket!.connect()
+        //           ..onConnectError((data) {
+        //             debugPrint('Failed to connect to server: $data');
+        //           })
+        //           ..onConnect((data) {
+        //             debugPrint('Connected to server');
+        //             // Do something now that you know the connection is established
+        //           });
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(builder: (context) => const MyChatPage()),
+        //         );
+        //         // if (appState.userName.isNotEmpty) {
+        //         // }
+        //       },
+        //       child: const Text('START'),
+        //     ),
+        //   ],
+        // ),
+        );
   }
 }
 

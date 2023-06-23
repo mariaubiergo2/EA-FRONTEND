@@ -17,12 +17,14 @@ class ChatWidget extends StatefulWidget {
   final String? roomNameWidget;
   final IO.Socket? socketWidget;
   final Map<String, String>? roomNamesWidget;
+  final List<ChatMessage>? messagesWidget;
 
   const ChatWidget({
     Key? key,
     this.roomNameWidget,
     this.socketWidget,
     this.roomNamesWidget,
+    this.messagesWidget,
   }) : super(key: key);
 
   @override
@@ -67,6 +69,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     print(widget.roomNameWidget);
     socket = widget.socketWidget;
     roomNames = widget.roomNamesWidget!;
+    _messages = widget.messagesWidget!;
     createRoom(widget.roomNameWidget!);
   }
 
@@ -93,7 +96,10 @@ class _ChatWidgetState extends State<ChatWidget> {
       roomNameController.clear(); // clear the input field
       _currentRoom = roomName;
       socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
-      _messages = [];
+      // -------------------------------------------------
+
+      // _messages = widget.messagesWidget!.map((e) => );
+      _messages = widget.messagesWidget!;
     });
   }
 
@@ -196,6 +202,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                           senderName: await getUsername(),
                           messageContent: _textController.text,
                           timeSent: DateTime.now().toString(),
+                          roomId: _currentRoom,
                         ));
                       }
                     },

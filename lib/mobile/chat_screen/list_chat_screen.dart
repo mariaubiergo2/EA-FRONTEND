@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../models/challenge.dart';
+import '../../models/message.dart';
 import '../../widget/chat_screen/chat_challenge_widget.dart';
 import 'chat_screen.dart';
 
@@ -17,17 +18,6 @@ void main() async {
   await dotenv.load();
 }
 // ignore_for_file: library_private_types_in_public_api
-
-class ChatMessage {
-  ChatMessage(
-      {required this.senderName,
-      required this.messageContent,
-      required this.timeSent});
-
-  final String messageContent;
-  final String senderName;
-  final String timeSent;
-}
 
 class MyChatList extends StatefulWidget {
   const MyChatList({super.key});
@@ -42,9 +32,9 @@ class _MyChatListState extends State<MyChatList> {
   TextEditingController roomNameController = TextEditingController();
   Map<String, String> roomNames = {};
   IO.Socket? socket;
+  List<ChatMessage> messages = [];
 
   String _currentRoom = '';
-  List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -70,22 +60,6 @@ class _MyChatListState extends State<MyChatList> {
             roomNames[roomId] = roomData["name"];
             print(roomNames);
           });
-        });
-      }
-    });
-
-    socket!.on("ROOM_MESSAGE", (data) {
-      final roomMessageJsonString = jsonEncode(data);
-      final roomMessageJson = jsonDecode(roomMessageJsonString);
-      ChatMessage chatMessage = ChatMessage(
-        senderName: roomMessageJson['username'],
-        messageContent: roomMessageJson['message'],
-        timeSent: roomMessageJson['time'],
-      );
-      if (mounted) {
-        setState(() {
-          _messages.insert(0, chatMessage);
-          _textController.clear();
         });
       }
     });
@@ -155,18 +129,6 @@ class _MyChatListState extends State<MyChatList> {
                 // return MyCard(
                 return GestureDetector(
                   onTap: () {
-                    // setState(() {
-                    //   if (_currentRoom != roomNames.values.elementAt(index)) {
-                    //     _currentRoom = roomNames.values.elementAt(index);
-                    //     socket!.emit(
-                    //       "JOIN_ROOM",
-                    //       getKeyFromValue(roomNames, _currentRoom),
-                    //     );
-                    //     _messages = [];
-                    //   }
-                    // });
-                    print(challengeList[index].name);
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -174,6 +136,7 @@ class _MyChatListState extends State<MyChatList> {
                                 roomNameWidget: challengeList[index].name,
                                 socketWidget: socket,
                                 roomNamesWidget: roomNames,
+                                messagesWidget: messages,
                               )),
                     );
                   },
