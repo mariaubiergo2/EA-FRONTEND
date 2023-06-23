@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -181,12 +182,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> pickImageFromGallery(ImageSource source) async {
     try {
+      final _storage = FirebaseStorage.instance;
       final imagePicker = ImagePicker();
       final pickedImage = await imagePicker.pickImage(source: source);
       if (pickedImage != null) {
-        // Do something with the picked image
-        final imageTemporary = File(pickedImage.path);
-        print(imageTemporary);
+        var file = File(pickedImage.path);
+        var snapshot =
+            await _storage.ref().child('${_username}/profilePic').putFile(file);
+        var downloadURL = await snapshot.ref.getDownloadURL();
+        print(downloadURL);
       }
     } on PlatformException catch (e) {
       print('Failed to pick the image: $e');
