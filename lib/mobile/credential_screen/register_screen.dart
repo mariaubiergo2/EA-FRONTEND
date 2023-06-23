@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_const_literals_to_create_immutables
 
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
@@ -177,6 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
+                      // ignore: prefer_const_constructors
                       child: Text(
                         'Account successfully created',
                         textAlign: TextAlign.center,

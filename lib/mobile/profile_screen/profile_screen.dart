@@ -43,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<user_ea.User> followingList = [];
   List<user_ea.User> followersList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
+  String imageURL = "";
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
@@ -76,9 +77,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget imageProfile() {
     return Stack(
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 55,
-          backgroundImage: AssetImage('images/default.png'),
+          backgroundImage: imageURL != ""
+              ? Image.network(imageURL).image
+              : AssetImage('images/default.png'),
         ),
         Positioned(
           bottom: 0,
@@ -190,6 +193,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         var snapshot =
             await _storage.ref().child('${_username}/profilePic').putFile(file);
         var downloadURL = await snapshot.ref.getDownloadURL();
+        final prefs = await SharedPreferences.getInstance();
+        final String token = prefs.getString('token') ?? "";
+        String path = 'http://${dotenv.env['API_URL']}/user/update/$_idUser';
+        var response = await Dio().post(path,
+            data: {"imageURL": downloadURL},
+            options: Options(
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              },
+            ));
+        print(response);
+        setState(() {
+          imageURL = downloadURL;
+        });
         print(downloadURL);
       }
     } on PlatformException catch (e) {
@@ -199,6 +217,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(
+        'Valor imageURL en las PREFS PROFILE SCREEN ----> ${prefs.getString('imageURL')}');
     if (mounted) {
       setState(() {
         _token = prefs.getString('token');
@@ -206,6 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _name = prefs.getString('name');
         _surname = prefs.getString('surname');
         _username = prefs.getString('username');
+        imageURL = prefs.getString('imageURL') ?? '';
         try {
           _level = prefs.getInt('level')!;
         } catch (e) {

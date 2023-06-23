@@ -1,21 +1,22 @@
 import 'dart:convert';
 
 class User {
-  User({
-    required this.idUser,
-    required this.name,
-    required this.surname,
-    required this.username,
-    this.email,
-    this.password,
-    this.exp,
-    this.level
-  });
+  User(
+      {required this.idUser,
+      required this.name,
+      required this.surname,
+      required this.username,
+      this.imageURL,
+      this.email,
+      this.password,
+      this.exp,
+      this.level});
 
   final String idUser;
   final String name;
   final String surname;
   final String username;
+  final String? imageURL;
   final String? email;
   final String? password;
   final int? exp;
@@ -26,6 +27,7 @@ class User {
         name: json["name"],
         surname: json["surname"],
         username: json["username"],
+        imageURL: json["imageURL"],
         // exp: json["exp"],
         level: json["level"],
         // email: json["email"],
