@@ -318,9 +318,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           followersList =
               users.map((user) => user_ea.User.fromJson2(user)).toList();
-          print(
-              "2343444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444");
-          print(followingList[0].imageURL.toString());
         });
       }
     } catch (e) {
