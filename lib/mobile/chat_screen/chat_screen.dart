@@ -113,6 +113,12 @@ class _ChatWidgetState extends State<ChatWidget> {
         _textController.clear();
       });
     }
+    print(
+        '//////////////////////////////////////--CURRENT ROOM--/////////////////////////////////');
+    print(_currentRoom);
+    print(
+        '//////////////////////////////////////--CHAT MESSAGE--/////////////////////////////////');
+    print(chatMessage.toMap().toString());
   }
 
   Future<void> sendMessage(ChatMessage chatMessage) async {
