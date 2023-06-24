@@ -194,6 +194,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             await _storage.ref().child('${_username}/profilePic').putFile(file);
         var downloadURL = await snapshot.ref.getDownloadURL();
         final prefs = await SharedPreferences.getInstance();
+        prefs.setString('imageURL', downloadURL);
         final String token = prefs.getString('token') ?? "";
         String path = 'http://${dotenv.env['API_URL']}/user/update/$_idUser';
         var response = await Dio().post(path,

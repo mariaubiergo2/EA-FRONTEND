@@ -22,6 +22,7 @@ import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "Dev Project",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load();

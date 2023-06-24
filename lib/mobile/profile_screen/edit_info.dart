@@ -131,6 +131,9 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           );
 
           if (response.statusCode == 200) {
+            prefs.setString("name", namePlaceHolder);
+            prefs.setString("username", usernamePlaceHolder);
+            prefs.setString("surname", surnamePlaceHolder);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.green,
@@ -161,14 +164,14 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
               ),
             );
 
-            auth.signOut();
-            GoogleSignIn().signOut();
-            clearInfo();
+            // auth.signOut();
+            // GoogleSignIn().signOut();
+            // clearInfo();
             Navigator.pushReplacement(
                 context,
                 PageTransition(
                     type: PageTransitionType.leftToRight,
-                    child: const LoginScreen()));
+                    child: const NavBar()));
           } else if (response.statusCode == 400) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
