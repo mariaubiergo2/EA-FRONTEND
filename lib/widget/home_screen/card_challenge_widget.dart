@@ -8,6 +8,7 @@ class MyChallengeCard extends StatelessWidget {
   final String attr2;
   final String attr3;
   final String attr4;
+  final List<String> attr5;
 
   const MyChallengeCard({
     Key? key,
@@ -16,6 +17,7 @@ class MyChallengeCard extends StatelessWidget {
     required this.attr2, //description of the challenge
     required this.attr3,
     required this.attr4,
+    required this.attr5,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class MyChallengeCard extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => MyQR(
                                   idChallenge: attr4,
+                                  questions: attr5,
                                 )),
                       );
                     },

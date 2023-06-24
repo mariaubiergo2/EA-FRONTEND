@@ -1,16 +1,19 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class MyQR extends StatefulWidget {
   final String idChallenge;
-
+  final List<String> questions;
   const MyQR({
     Key? key,
     required this.idChallenge,
+    required this.questions,
   }) : super(key: key);
 
   @override
@@ -19,9 +22,12 @@ class MyQR extends StatefulWidget {
 
 class _MyQRState extends State<MyQR> {
   Barcode? result;
+  String? answer;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool showFloatingButton = true;
+  int _selectedQuestionIndex = -1;
+  String selectedAnswer = "";
 
   @override
   void reassemble() {
@@ -50,6 +56,17 @@ class _MyQRState extends State<MyQR> {
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
+    void sendAnswer(String answer, String idChallenge) async {
+      try {
+        var response = await Dio().post(
+          'http://${dotenv.env['API_URL']}/challenge/post/solve',
+          data: {"idChallenge": idChallenge, "answer": answer},
+        );
+        print(
+            "DATA DEL RESPONSE DE LA RESPUESTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        print(response.data);
+      } catch (e) {}
+    }
 
     return SafeArea(
       child: Stack(
@@ -168,12 +185,71 @@ class _MyQRState extends State<MyQR> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               if (result != null && result!.code == widget.idChallenge)
+                //AQUI LOGICA DE SI TODO GUCCI
                 Container(
                   height: 485,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 25, 25, 25),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 24),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: widget.questions.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final question = widget.questions[index];
+                        if (index == 0) {
+                          // First item: bold text
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              question,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 26,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        } else {
+                          return ListTile(
+                            title: Text(
+                              question,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            leading: Theme(
+                              data: Theme.of(context).copyWith(
+                                unselectedWidgetColor: Colors
+                                    .white, // Set the unselected (background) color of the radial button
+                              ),
+                              child: Radio(
+                                value: index,
+                                groupValue: _selectedQuestionIndex,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedQuestionIndex = value as int;
+                                    selectedAnswer = question;
+                                    print(
+                                        'RESPUESTA A ENVIAR!!!!!! --------------------------> $selectedAnswer');
+                                  });
+                                },
+                                activeColor: Colors
+                                    .red, // Set the selected (dot) color of the radial button
+                                materialTapTargetSize: MaterialTapTargetSize
+                                    .shrinkWrap, // Adjust the size of the radial button
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 )
               else if (result != null && result!.code != widget.idChallenge)
@@ -198,6 +274,12 @@ class _MyQRState extends State<MyQR> {
                     ),
                   ),
                 ),
+              ElevatedButton(
+                onPressed: () {
+                  sendAnswer(selectedAnswer, widget.idChallenge);
+                },
+                child: Text('Send Petition'),
+              ),
             ],
           ),
         ],

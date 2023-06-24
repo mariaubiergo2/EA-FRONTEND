@@ -11,6 +11,7 @@ class MyChallengePage extends StatefulWidget {
   final String? selectedChallengeId;
   final String? nameChallenge;
   final String? descrChallenge;
+  final List<String>? questions;
   final String? expChallenge;
 
   const MyChallengePage(
@@ -18,7 +19,8 @@ class MyChallengePage extends StatefulWidget {
       this.selectedChallengeId,
       this.nameChallenge,
       this.descrChallenge,
-      this.expChallenge})
+      this.expChallenge,
+      this.questions})
       : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
   Challenge? challenge;
   String? _token = "";
   String? _idChallenge = "";
+  List<String>? _questions = [];
   String? _name = "";
   String? _descr = "";
   String? _expChallenge;
@@ -58,6 +61,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
     setState(() {
       _token = prefs.getString('token');
       _idChallenge = widget.selectedChallengeId;
+      _questions = widget.questions;
       _name = widget.nameChallenge;
       _descr = widget.descrChallenge;
       _expChallenge = widget.expChallenge;
@@ -168,7 +172,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Text(
-                _descr ?? '',
+                _questions![0],
                 style: const TextStyle(color: Colors.white),
                 textAlign: TextAlign.justify,
               ),
@@ -183,12 +187,13 @@ class _MyChallengePageState extends State<MyChallengePage> {
                       setState(() {
                         isButtonPressed = true;
                       });
-
+                      print('Questions: $_questions');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyQR(
                                   idChallenge: _idChallenge ?? '',
+                                  questions: _questions ?? [],
                                 )),
                       );
                       //Navigator.pushNamed(context, '/qr_screen');

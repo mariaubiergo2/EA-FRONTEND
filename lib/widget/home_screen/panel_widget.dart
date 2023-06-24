@@ -92,6 +92,7 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
                 attr2: challengeList[index].descr,
                 attr3: challengeList[index].exp.toString(),
                 attr4: challengeList[index].id.toString(),
+                attr5: challengeList[index].questions,
               );
             },
             childCount: challengeList.length,

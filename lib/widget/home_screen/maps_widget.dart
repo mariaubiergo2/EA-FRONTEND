@@ -33,7 +33,7 @@ class MapsWidget extends State<MapScreen> {
   String? nameChallenge;
   String? descrChallenge;
   int? expChallenge;
-
+  List<String>? questions;
   LocationPermission? permission;
 
   bool serviceEnabled = false;
@@ -85,6 +85,7 @@ class MapsWidget extends State<MapScreen> {
         builder: (context) => GestureDetector(
           onTap: () {
             setState(() {
+              questions = challenge.questions;
               selectedChallengeId = challenge.id;
               nameChallenge = challenge.name;
               descrChallenge = challenge.descr;
@@ -106,6 +107,7 @@ class MapsWidget extends State<MapScreen> {
                         nameChallenge: nameChallenge,
                         descrChallenge: descrChallenge,
                         expChallenge: expChallenge.toString(),
+                        questions: questions,
                       ),
                     ),
                   ),
