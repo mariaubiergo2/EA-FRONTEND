@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MyChatChallengeCard extends StatelessWidget {
   final int? index;
@@ -8,7 +7,7 @@ class MyChatChallengeCard extends StatelessWidget {
   const MyChatChallengeCard({
     Key? key,
     this.index,
-    this.attr1, //name of the challenge
+    this.attr1, 
   }) : super(key: key);
 
   @override

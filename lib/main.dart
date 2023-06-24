@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
-import 'package:ea_frontend/widget/chat_screen/chat_challenge_widget.dart';
 import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
 import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'package:flutter/material.dart';

@@ -26,13 +26,28 @@ class ChatService extends ChangeNotifier {
 
     for (var document in querySnapshot.docs) {
       Map<String, dynamic> data = document.data();
-      ChatMessage chatMessage = ChatMessage(
-        senderName: data['senderName'],
-        messageContent: data['messageContent'],
-        timeSent: data['timeSent'],
-        roomId: data['roomId'],
-      );
-      chatMessages.add(chatMessage);
+      try{
+        String t = data['timeSent'];
+        DateTime time =DateTime.parse(t);
+        
+        ChatMessage chatMessage = ChatMessage(
+          senderName: data['senderName'],
+          messageContent: data['messageContent'],
+          timeSent: Timestamp.fromDate(time),
+          roomId: data['roomId'],
+        );
+        chatMessages.add(chatMessage);
+        
+      } catch (e) {
+        ChatMessage chatMessage = ChatMessage(
+          senderName: data['senderName'],
+          messageContent: data['messageContent'],
+          timeSent: data['timeSent'],
+          roomId: data['roomId'],
+        );
+        chatMessages.add(chatMessage);
+      }
+      
     }
 
     return chatMessages;
