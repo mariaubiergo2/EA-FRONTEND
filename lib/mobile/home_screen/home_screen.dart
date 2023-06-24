@@ -64,12 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.78;
     return Scaffold(
         body: SlidingUpPanel(
-      backdropOpacity: 0.8,
+      backdropOpacity: 0.5,
       controller: panelController,
       maxHeight: panelHeightOpen,
       minHeight: panelHeightClosed,
       parallaxEnabled: true,
       parallaxOffset: .5,
+      backdropEnabled: true,
       panelBuilder: (controller) => ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
