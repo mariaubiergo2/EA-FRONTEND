@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:english_words/english_words.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core_web/firebase_core_web_interop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../models/challenge.dart';
 import '../../models/message.dart';
+import 'chat_service.dart';
 
 void main() async {
   await dotenv.load();
@@ -32,22 +34,6 @@ class ChatWidget extends StatefulWidget {
   State<ChatWidget> createState() => _ChatWidgetState();
 }
 
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  IO.Socket? socket;
-  String? userName;
-
-  void setUserName(String name) {
-    userName = name;
-    notifyListeners();
-  }
-
-  void setUserName2() async {
-    userName = await getUsername(); // Esperar el resultado del Future<String>
-    notifyListeners();
-  }
-}
-
 Future<String> getUsername() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var userName = prefs.getString('username');
@@ -55,7 +41,8 @@ Future<String> getUsername() async {
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
-  MyAppState? appState;
+  ChatService appState = ChatService();
+
   List<Challenge> challengeList = <Challenge>[];
   TextEditingController roomNameController = TextEditingController();
   Map<String, String> roomNames = {};
@@ -64,20 +51,17 @@ class _ChatWidgetState extends State<ChatWidget> {
   List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   @override
   void initState() {
     super.initState();
     socket = widget.socketWidget;
     roomNames = widget.roomNamesWidget!;
     createRoom(widget.roomNameWidget!);
-
     loadMessages();
   }
 
   void loadMessages() async {
-    List<ChatMessage> messages = await getMessages();
+    List<ChatMessage> messages = await appState.getMessages(_currentRoom);
     setState(() {
       _messages = messages;
     });
@@ -102,55 +86,17 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   void _handleSubmitted(ChatMessage chatMessage) {
     if (_currentRoom.isNotEmpty) {
-      socket!.emit("SEND_ROOM_MESSAGE", {
-        "roomId": getKeyFromValue(roomNames, _currentRoom),
-        "message": chatMessage.messageContent,
-        "username": chatMessage.senderName
-      });
-      sendMessage(chatMessage);
+      // socket!.emit("SEND_ROOM_MESSAGE", {
+      //   "roomId": getKeyFromValue(roomNames, _currentRoom),
+      //   "message": chatMessage.messageContent,
+      //   "username": chatMessage.senderName
+      // });
+      appState.sendMessage(chatMessage);
       setState(() {
         loadMessages();
         _textController.clear();
       });
     }
-    print(
-        '//////////////////////////////////////--CURRENT ROOM--/////////////////////////////////');
-    print(_currentRoom);
-    print(
-        '//////////////////////////////////////--CHAT MESSAGE--/////////////////////////////////');
-    print(chatMessage.toMap().toString());
-  }
-
-  Future<void> sendMessage(ChatMessage chatMessage) async {
-    await _firestore
-        .collection('chat_rooms')
-        .doc(_currentRoom)
-        .collection('messages')
-        .add(chatMessage.toMap());
-  }
-
-  Future<List<ChatMessage>> getMessages() async {
-    final querySnapshot = await _firestore
-        .collection('chat_rooms')
-        .doc(_currentRoom)
-        .collection('messages')
-        .orderBy('timeSent', descending: false)
-        .get();
-
-    List<ChatMessage> chatMessages = [];
-
-    for (var document in querySnapshot.docs) {
-      Map<String, dynamic> data = document.data();
-      ChatMessage chatMessage = ChatMessage(
-        senderName: data['senderName'],
-        messageContent: data['messageContent'],
-        timeSent: data['timeSent'],
-        roomId: data['roomId'],
-      );
-      chatMessages.add(chatMessage);
-    }
-
-    return chatMessages;
   }
 
   @override
