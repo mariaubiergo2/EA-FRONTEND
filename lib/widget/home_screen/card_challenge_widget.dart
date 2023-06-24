@@ -1,3 +1,4 @@
+import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -6,6 +7,7 @@ class MyChallengeCard extends StatelessWidget {
   final String attr1;
   final String attr2;
   final String attr3;
+  final String attr4;
 
   const MyChallengeCard({
     Key? key,
@@ -13,6 +15,7 @@ class MyChallengeCard extends StatelessWidget {
     required this.attr1, //name of the challenge
     required this.attr2, //description of the challenge
     required this.attr3,
+    required this.attr4,
   }) : super(key: key);
 
   @override
@@ -33,7 +36,13 @@ class MyChallengeCard extends StatelessWidget {
                 children: [
                   SlidableAction(
                     onPressed: (BuildContext context) {
-                      Navigator.pushNamed(context, '/qr_screen');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyQR(
+                                  idChallenge: attr4,
+                                )),
+                      );
                     },
                     backgroundColor: const Color.fromARGB(255, 222, 66, 66),
                     icon: Icons.camera_alt_rounded,
@@ -125,7 +134,9 @@ class MyChallengeCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 0, 12, 0),
                                 child: Text(
-                                  '${attr2.substring(0, 60)}...',
+                                  attr2.length >= 60
+                                      ? '${attr2.substring(0, 60)}...'
+                                      : attr2,
                                   style: const TextStyle(
                                     fontStyle: FontStyle.normal,
                                     color: Color.fromARGB(255, 25, 25, 25),
