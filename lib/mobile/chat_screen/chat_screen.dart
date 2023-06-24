@@ -137,7 +137,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          message.timeSent.toString(),
+                          message.timeSent.toDate().toString(),
                           style: const TextStyle(
                               fontSize: 12.0, color: Colors.grey),
                         ),

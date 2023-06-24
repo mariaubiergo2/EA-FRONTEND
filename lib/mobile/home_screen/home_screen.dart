@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.78;
     return Scaffold(
         body: SlidingUpPanel(
+      backdropOpacity: 0.8,
       controller: panelController,
       maxHeight: panelHeightOpen,
       minHeight: panelHeightClosed,
