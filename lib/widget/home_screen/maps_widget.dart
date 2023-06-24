@@ -373,10 +373,9 @@ class MapsWidget extends State<MapScreen> {
                 borderRadius: BorderRadius.circular(100),
               ),
               backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+              minimumSize: Size(60, 60), // Establece el ancho y alto del botón
             ),
             child: Ink(
-              width: 65,
-              height: 65,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
               ),
