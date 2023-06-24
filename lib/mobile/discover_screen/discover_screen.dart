@@ -180,7 +180,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                 child: MyUserCard(
                                   idUserSession: _idUser!,
                                   idCardUser: filteredUsers[index].idUser,
-                                  attr1: filteredUsers[index].name,
+                                  attr1: notFriendsList[index]
+                                          .imageURL
+                                          ?.toString() ??
+                                      '',
                                   attr2: filteredUsers[index].username,
                                   attr3: filteredUsers[index].level.toString(),
                                   following: false,

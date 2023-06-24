@@ -2,7 +2,7 @@
   "@---------------- PROFILE ------------------": {
   },
   "@@locale": "es",
-  "information": "Historial",
+  "information": "Cambiar contraseña",
   "edit_account": "Editar cuenta",
   "delete_account": "Eliminar cuenta",
   "log_out": "Cerrar sesión",

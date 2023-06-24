@@ -1,4 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,8 +12,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/user.dart';
 import '../../models/user.dart' as user_ea;
 import '../../widget/profile_screen/card_user_widget.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'dart:ui';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -37,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<user_ea.User> followingList = [];
   List<user_ea.User> followersList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
+  String imageURL = "";
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
@@ -70,9 +77,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget imageProfile() {
     return Stack(
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 55,
-          backgroundImage: AssetImage('images/default.png'),
+          backgroundImage: imageURL != ""
+              ? Image.network(imageURL).image
+              : AssetImage('images/default.png'),
         ),
         Positioned(
           bottom: 0,
@@ -176,12 +185,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> pickImageFromGallery(ImageSource source) async {
     try {
+      final _storage = FirebaseStorage.instance;
       final imagePicker = ImagePicker();
       final pickedImage = await imagePicker.pickImage(source: source);
       if (pickedImage != null) {
-        // Do something with the picked image
-        final imageTemporary = File(pickedImage.path);
-        print(imageTemporary);
+        var file = File(pickedImage.path);
+        var snapshot =
+            await _storage.ref().child('${_username}/profilePic').putFile(file);
+        var downloadURL = await snapshot.ref.getDownloadURL();
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('imageURL', downloadURL);
+        final String token = prefs.getString('token') ?? "";
+        String path = 'http://${dotenv.env['API_URL']}/user/update/$_idUser';
+        var response = await Dio().post(path,
+            data: {"imageURL": downloadURL},
+            options: Options(
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer $token",
+              },
+            ));
+        print(response);
+        if (mounted) {
+          setState(() {
+            imageURL = downloadURL;
+          });
+        }
+        print(downloadURL);
       }
     } on PlatformException catch (e) {
       print('Failed to pick the image: $e');
@@ -190,19 +220,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _token = prefs.getString('token');
-      _idUser = prefs.getString('idUser');
-      _name = prefs.getString('name');
-      _surname = prefs.getString('surname');
-      _username = prefs.getString('username');
-      try {
-        _level = prefs.getInt('level')!;
-      } catch (e) {
-        print(e);
-        _level = 0;
-      }
-    });
+    print(
+        'Valor imageURL en las PREFS PROFILE SCREEN ----> ${prefs.getString('imageURL')}');
+    if (mounted) {
+      setState(() {
+        _token = prefs.getString('token');
+        _idUser = prefs.getString('idUser');
+        _name = prefs.getString('name');
+        _surname = prefs.getString('surname');
+        _username = prefs.getString('username');
+        imageURL = prefs.getString('imageURL') ?? '';
+        try {
+          _level = prefs.getInt('level')!;
+        } catch (e) {
+          print(e);
+          _level = 0;
+        }
+      });
+    }
   }
 
   Future getFriendsInfo() async {
@@ -210,17 +245,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var followersCount = await Dio().get(
           'http://${dotenv.env['API_URL']}/user/followers/count/${_idUser!}');
-
-      setState(() {
-        _followers = followersCount.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _followers = followersCount.toString();
+        });
+      }
 
       var followingCount = await Dio().get(
           'http://${dotenv.env['API_URL']}/user/following/count/${_idUser!}');
-
-      setState(() {
-        _following = followingCount.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _following = followingCount.toString();
+        });
+      }
     } catch (e) {
       print('Error in the counting of friends: $e');
     }
@@ -241,10 +278,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       );
       var users = response.data as List;
-      setState(() {
-        followingList =
-            users.map((user) => user_ea.User.fromJson2(user)).toList();
-      });
+      if (mounted) {
+        setState(() {
+          followingList =
+              users.map((user) => user_ea.User.fromJson2(user)).toList();
+        });
+      }
     } catch (e) {
       // ignore: use_build_context_synchronously
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -275,10 +314,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       );
       var users = response.data as List;
-      setState(() {
-        followersList =
-            users.map((user) => user_ea.User.fromJson2(user)).toList();
-      });
+      if (mounted) {
+        setState(() {
+          followersList =
+              users.map((user) => user_ea.User.fromJson2(user)).toList();
+        });
+      }
     } catch (e) {
       // ignore: use_build_context_synchronously
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -400,6 +441,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
+                          const SizedBox(height: 15),
                           imageProfile(),
                           const SizedBox(height: 25),
                           Text(
@@ -473,30 +515,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _seeFollowing = !_seeFollowing;
-                                    if (_seeFollowing) {
-                                      _seeOptions = false;
-                                      _seeFollowers = false;
-                                      _textStyleFollowing = _highlightedText;
-                                      _textStyleFollowers = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    } else {
-                                      _seeOptions = true;
-                                      _textStyleFollowing = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    }
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      _seeFollowing = !_seeFollowing;
+                                      if (_seeFollowing) {
+                                        _seeOptions = false;
+                                        _seeFollowers = false;
+                                        _textStyleFollowing = _highlightedText;
+                                        _textStyleFollowers = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      } else {
+                                        _seeOptions = true;
+                                        _textStyleFollowing = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      }
+                                    });
+                                  }
                                 },
                                 child: Text(
                                   "$_following\n${AppLocalizations.of(context)!.following}",
@@ -508,30 +552,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(width: 100),
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _seeFollowers = !_seeFollowers;
-                                    if (_seeFollowers) {
-                                      _seeOptions = false;
-                                      _seeFollowing = false;
-                                      _textStyleFollowers = _highlightedText;
-                                      _textStyleFollowing = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    } else {
-                                      _seeOptions = true;
-                                      _textStyleFollowers = TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              ?.color,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 18);
-                                    }
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      _seeFollowers = !_seeFollowers;
+                                      if (_seeFollowers) {
+                                        _seeOptions = false;
+                                        _seeFollowing = false;
+                                        _textStyleFollowers = _highlightedText;
+                                        _textStyleFollowing = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      } else {
+                                        _seeOptions = true;
+                                        _textStyleFollowers = TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18);
+                                      }
+                                    });
+                                  }
                                 },
                                 child: Text(
                                   "$_followers\n${AppLocalizations.of(context)!.followers}",
@@ -547,12 +593,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color.fromARGB(255, 52, 52, 52),
                             height: 0.05,
                           ),
-                          const SizedBox(height: 32.5),
+                          const SizedBox(height: 20),
                           // Following scroll page
                           Visibility(
                             visible: _seeFollowing, // not visible if set false
                             child: SizedBox(
-                              height: 300,
+                              height: 325,
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: followingList.length,
@@ -561,8 +607,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     return MyUserCard(
                                       idUserSession: _idUser!,
                                       idCardUser: followingList[index].idUser,
-                                      attr1:
-                                          '${followingList[index].name} ${followingList[index].surname}',
+                                      attr1: followingList[index]
+                                              .imageURL
+                                              ?.toString() ??
+                                          '',
                                       attr2: followingList[index].username,
                                       attr3:
                                           followingList[index].level.toString(),
@@ -579,7 +627,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Visibility(
                             visible: _seeFollowers, // not visible if set false
                             child: SizedBox(
-                              height: 300,
+                              height: 325,
                               child: ListView.builder(
                                 itemCount: followersList.length,
                                 itemBuilder: (BuildContext context, int index) {
@@ -587,8 +635,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     return MyUserCard(
                                       idUserSession: _idUser!,
                                       idCardUser: followersList[index].idUser,
-                                      attr1:
-                                          '${followersList[index].name} ${followersList[index].surname}',
+                                      attr1: followingList[index]
+                                              .imageURL
+                                              ?.toString() ??
+                                          '',
                                       attr2: followersList[index].username,
                                       attr3:
                                           followersList[index].level.toString(),
@@ -610,50 +660,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      // Acción cuando se presione el contenedor
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: const Icon(
-                                            Icons.menu_book_rounded,
-                                            color: Color.fromARGB(
-                                                255, 222, 66, 66),
-                                            size: 22,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 25),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .information,
-                                          // "Edit account",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 25),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // Acción cuando se presione el contenedor
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child: const EditInfoScreen()));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -677,7 +689,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Text(
                                           AppLocalizations.of(context)!
                                               .edit_account,
-                                          // "Edit account",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 25),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child:
+                                                  const EditPasswordScreen()));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: const Icon(
+                                            Icons.password_rounded,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                            size: 22,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .information,
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme
@@ -704,151 +763,181 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25.0),
-                                            ),
-                                            title:
-                                                const Text('Eliminar cuenta'),
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                    '¿Estás seguro de que quieres eliminar tu cuenta? \n\nAl eliminar tu cuenta, esta quedará inaccesible y no podrás utilizarla. \n\nPara reactivarla, será necesario contactar con nuestro equipo de soporte. \n\nPor favor, considera esta opción con cuidado antes de confirmar la eliminación. \n\n\nEscribe tu nombre de usuario para confirmar:',
-                                                    textAlign:
-                                                        TextAlign.justify,
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1
-                                                            ?.color)),
-                                                const SizedBox(height: 45),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 2.0),
-                                                  child: TextField(
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        _deleteUsername = value;
-                                                      });
-                                                    },
-                                                    cursorColor:
-                                                        const Color.fromARGB(
-                                                            255, 222, 66, 66),
-                                                    style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 25, 25, 25),
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                      filled: true,
-                                                      fillColor:
-                                                          Theme.of(context)
-                                                              .textTheme
-                                                              .headline1
-                                                              ?.color,
-                                                      hintText: _username,
-                                                      hintStyle:
-                                                          const TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 146, 146, 146),
-                                                      ),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    100.0),
-                                                        borderSide:
-                                                            BorderSide.none,
-                                                      ),
-                                                      contentPadding:
-                                                          const EdgeInsets
-                                                                  .fromLTRB(
-                                                              18.5, 14, 0, 0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    const Color.fromARGB(
-                                                        255, 222, 66, 66),
-                                                  ),
-                                                ),
-                                                child: const Text('Cancelar'),
+                                          return Stack(children: [
+                                            Container(
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 4, sigmaY: 4),
+                                                child: Container(),
                                               ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  if (_username ==
-                                                      _deleteUsername) {
-                                                    deleteUser();
-                                                    auth.signOut();
-                                                    GoogleSignIn().signOut();
-                                                    clearInfo();
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context,
-                                                            '/login_screen');
-                                                  } else {
-                                                    Navigator.of(context).pop();
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Colors.amber,
-                                                        showCloseIcon: true,
-                                                        shape:
-                                                            RoundedRectangleBorder(
+                                            ),
+                                            AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              title:
+                                                  const Text('Eliminar cuenta'),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                      '¿Estás seguro de que quieres eliminar tu cuenta? \n\nAl eliminar tu cuenta, esta quedará inaccesible y no podrás utilizarla. \n\nPara reactivarla, será necesario contactar con nuestro equipo de soporte. \n\nPor favor, considera esta opción con cuidado antes de confirmar la eliminación. \n\n\nEscribe tu nombre de usuario para confirmar:',
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1
+                                                                  ?.color)),
+                                                  const SizedBox(height: 45),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 2.0),
+                                                    child: TextField(
+                                                      onChanged: (value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            _deleteUsername =
+                                                                value;
+                                                          });
+                                                        }
+                                                      },
+                                                      cursorColor:
+                                                          const Color.fromARGB(
+                                                              255, 222, 66, 66),
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 25, 25, 25),
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        filled: true,
+                                                        fillColor:
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .headline1
+                                                                ?.color,
+                                                        hintText: _username,
+                                                        hintStyle:
+                                                            const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              146,
+                                                              146,
+                                                              146),
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(10),
+                                                                  .circular(
+                                                                      100.0),
+                                                          borderSide:
+                                                              BorderSide.none,
                                                         ),
-                                                        margin: const EdgeInsets
-                                                                .fromLTRB(
-                                                            20, 0, 20, 22.5),
-                                                        content: const Text(
-                                                          'Nombre de usuario incorrecto',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        closeIconColor:
-                                                            Colors.black,
-                                                        behavior:
-                                                            SnackBarBehavior
-                                                                .floating,
-                                                        duration:
-                                                            const Duration(
-                                                                seconds: 3),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                18.5, 14, 0, 0),
                                                       ),
-                                                    );
-                                                  }
-                                                },
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    const Color.fromARGB(
-                                                        255, 222, 66, 66),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: const Text('Confirmar'),
+                                                ],
                                               ),
-                                            ],
-                                          );
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  style: ButtonStyle(
+                                                    foregroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      const Color.fromARGB(
+                                                          255, 222, 66, 66),
+                                                    ),
+                                                  ),
+                                                  child: const Text('Cancelar'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    if (_username ==
+                                                        _deleteUsername) {
+                                                      deleteUser();
+                                                      auth.signOut();
+                                                      GoogleSignIn().signOut();
+                                                      clearInfo();
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          PageTransition(
+                                                              type: PageTransitionType
+                                                                  .leftToRight,
+                                                              child:
+                                                                  const LoginScreen()));
+                                                    } else {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.amber,
+                                                          showCloseIcon: true,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  20,
+                                                                  0,
+                                                                  20,
+                                                                  22.5),
+                                                          content: const Text(
+                                                            'Nombre de usuario incorrecto',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                          closeIconColor:
+                                                              Colors.black,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 3),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  style: ButtonStyle(
+                                                    foregroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      const Color.fromARGB(
+                                                          255, 222, 66, 66),
+                                                    ),
+                                                  ),
+                                                  child:
+                                                      const Text('Confirmar'),
+                                                ),
+                                              ],
+                                            )
+                                          ]);
                                         },
                                       );
                                     },
@@ -896,8 +985,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       auth.signOut();
                                       GoogleSignIn().signOut();
                                       clearInfo();
-                                      Navigator.pushReplacementNamed(
-                                          context, '/login_screen');
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .leftToRight,
+                                              child: const LoginScreen()));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -933,7 +1026,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 33.5),
+                                const SizedBox(height: 58),
                               ],
                             ),
                           ),

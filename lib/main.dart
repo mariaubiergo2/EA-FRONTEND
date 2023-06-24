@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:ea_frontend/widget/chat_screen/chat_challenge_widget.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
+import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'package:flutter/material.dart';
 import 'mobile/chat_screen/chat_screen.dart';
 import 'services/firebase_service.dart';
@@ -22,6 +24,7 @@ import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "Dev Project",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load();
@@ -78,7 +81,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      home: SplashScreen(),
+      //home: SplashScreen(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -106,6 +109,14 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const NavBar());
           case '/chat':
             return MaterialPageRoute(builder: (context) => const ChatWidget());
+
+          case '/edit_account':
+            return MaterialPageRoute(
+                builder: (context) => const EditInfoScreen());
+
+          case '/edit_password':
+            return MaterialPageRoute(
+                builder: (context) => const EditPasswordScreen());
 
           //-------------------------- W E B --------------------------//
 
