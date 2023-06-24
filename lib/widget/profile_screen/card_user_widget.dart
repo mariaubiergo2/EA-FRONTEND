@@ -144,7 +144,7 @@ class _MyUserCardState extends State<MyUserCard> {
           GestureDetector(
             onTap: () {
               // Lógica a ejecutar al hacer clic en el Container
-              print('Container tapped!');
+              print('${widget.attr1.toString()}');
             },
             child: Container(
               height: 70,
@@ -162,12 +162,19 @@ class _MyUserCardState extends State<MyUserCard> {
                       radius: 20,
                       backgroundColor: const Color.fromARGB(255, 242, 242, 242),
                       child: ClipOval(
-                        child: Image.asset(
-                          'images/default.png',
-                          fit: BoxFit.fill,
-                          width: 40,
-                          height: 40,
-                        ),
+                        child: widget.attr1 == ''
+                            ? Image.asset(
+                                'images/default.png',
+                                fit: BoxFit.fill,
+                                width: 40,
+                                height: 40,
+                              )
+                            : Image.network(
+                                widget.attr1,
+                                fit: BoxFit.fill,
+                                width: 40,
+                                height: 40,
+                              ),
                       ),
                     ),
                   ),

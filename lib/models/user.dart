@@ -39,6 +39,7 @@ class User {
         name: json["name"],
         surname: json["surname"],
         username: json["username"],
+        imageURL: json["imageURL"],
         level: json["level"],
         // email: json["email"],
         // password: json["password"],

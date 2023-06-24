@@ -206,9 +206,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ));
         print(response);
-        setState(() {
-          imageURL = downloadURL;
-        });
+        if (mounted) {
+          setState(() {
+            imageURL = downloadURL;
+          });
+        }
         print(downloadURL);
       }
     } on PlatformException catch (e) {
@@ -316,6 +318,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           followersList =
               users.map((user) => user_ea.User.fromJson2(user)).toList();
+          print(
+              "2343444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444");
+          print(followingList[0].imageURL.toString());
         });
       }
     } catch (e) {
@@ -605,8 +610,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     return MyUserCard(
                                       idUserSession: _idUser!,
                                       idCardUser: followingList[index].idUser,
-                                      attr1:
-                                          '${followingList[index].name} ${followingList[index].surname}',
+                                      attr1: followingList[index]
+                                              .imageURL
+                                              ?.toString() ??
+                                          '',
                                       attr2: followingList[index].username,
                                       attr3:
                                           followingList[index].level.toString(),
@@ -631,8 +638,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     return MyUserCard(
                                       idUserSession: _idUser!,
                                       idCardUser: followersList[index].idUser,
-                                      attr1:
-                                          '${followersList[index].name} ${followersList[index].surname}',
+                                      attr1: followingList[index]
+                                              .imageURL
+                                              ?.toString() ??
+                                          '',
                                       attr2: followersList[index].username,
                                       attr3:
                                           followersList[index].level.toString(),
