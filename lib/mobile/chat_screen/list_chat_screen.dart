@@ -1,16 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:ea_frontend/web/about_screen/info_web.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../models/challenge.dart';
-import '../../models/message.dart';
 import '../../widget/chat_screen/chat_challenge_widget.dart';
 import 'chat_screen.dart';
 
@@ -32,10 +28,6 @@ class _MyChatListState extends State<MyChatList> {
   TextEditingController roomNameController = TextEditingController();
   Map<String, String> roomNames = {};
   IO.Socket? socket;
-  List<ChatMessage> messages = [];
-
-  String _currentRoom = '';
-  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -58,7 +50,6 @@ class _MyChatListState extends State<MyChatList> {
           final roomsJson = jsonDecode(roomsJsonString);
           roomsJson.forEach((roomId, roomData) {
             roomNames[roomId] = roomData["name"];
-            print(roomNames);
           });
         });
       }
@@ -119,7 +110,6 @@ class _MyChatListState extends State<MyChatList> {
 
   Widget buildChats(BuildContext context, List<Challenge> challengeList) {
     return CustomScrollView(
-      // MediaQuery.of(context).size.height - 100,
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -136,7 +126,6 @@ class _MyChatListState extends State<MyChatList> {
                                 roomNameWidget: challengeList[index].name,
                                 socketWidget: socket,
                                 roomNamesWidget: roomNames,
-                                messagesWidget: messages,
                               )),
                     );
                   },

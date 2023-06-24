@@ -80,6 +80,7 @@ dependencies:
   firebase_storage: ^11.2.3
   firebase_core_web: ^2.6.0
   firebase_auth_web: ^5.5.3
+  cloud_firestore: ^4.8.1
   # flutter_secure_storage: ^8.0.0
 
 dev_dependencies:

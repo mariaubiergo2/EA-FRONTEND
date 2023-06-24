@@ -9,4 +9,13 @@ class ChatMessage {
   final String senderName;
   final String timeSent;
   final String roomId;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'senderName': senderName,
+      'messageContent': messageContent,
+      'timeSent': timeSent,
+      'roomId': roomId,
+    };
+  }
 }

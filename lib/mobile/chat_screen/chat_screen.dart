@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:english_words/english_words.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,14 +20,12 @@ class ChatWidget extends StatefulWidget {
   final String? roomNameWidget;
   final IO.Socket? socketWidget;
   final Map<String, String>? roomNamesWidget;
-  final List<ChatMessage>? messagesWidget;
 
   const ChatWidget({
     Key? key,
     this.roomNameWidget,
     this.socketWidget,
     this.roomNamesWidget,
-    this.messagesWidget,
   }) : super(key: key);
 
   @override
@@ -63,43 +64,30 @@ class _ChatWidgetState extends State<ChatWidget> {
   List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   void initState() {
     super.initState();
-    print(widget.roomNameWidget);
     socket = widget.socketWidget;
     roomNames = widget.roomNamesWidget!;
-    _messages = widget.messagesWidget!;
     createRoom(widget.roomNameWidget!);
+
+    loadMessages();
   }
 
-  // void createRoom(String roomName) {
-  //   if (roomName.isNotEmpty && !roomNames.values.contains(roomName)) {
-  //     socket!.emit('CREATE_ROOM', {"roomName": roomName});
-  //     print('-------------ESTIC AL IF -----------------');
-  //     print(roomName);
-  //     print("PRIMERA CONDICIÓ: ----------> <---------------");
-  //     print(roomName.isNotEmpty);
-  //     print("SEGONA CONDICIÓ: ----------> <---------------");
-  //     print(roomNames.values.contains(roomName));
-  //     setState(() {
-  //       roomNameController.clear(); // clear the input field
-  //       _currentRoom = roomName;
-  //       socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
-  //       _messages = [];
-  //     });
-  //   }
-  // }
+  void loadMessages() async {
+    List<ChatMessage> messages = await getMessages();
+    setState(() {
+      _messages = messages;
+    });
+  }
 
   void createRoom(String roomName) {
     setState(() {
       roomNameController.clear(); // clear the input field
       _currentRoom = roomName;
       socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
-      // -------------------------------------------------
-
-      // _messages = widget.messagesWidget!.map((e) => );
-      _messages = widget.messagesWidget!;
     });
   }
 
@@ -119,11 +107,44 @@ class _ChatWidgetState extends State<ChatWidget> {
         "message": chatMessage.messageContent,
         "username": chatMessage.senderName
       });
+      sendMessage(chatMessage);
       setState(() {
-        _messages.insert(0, chatMessage);
+        loadMessages();
         _textController.clear();
       });
     }
+  }
+
+  Future<void> sendMessage(ChatMessage chatMessage) async {
+    await _firestore
+        .collection('chat_rooms')
+        .doc(_currentRoom)
+        .collection('messages')
+        .add(chatMessage.toMap());
+  }
+
+  Future<List<ChatMessage>> getMessages() async {
+    final querySnapshot = await _firestore
+        .collection('chat_rooms')
+        .doc(_currentRoom)
+        .collection('messages')
+        .orderBy('timeSent', descending: false)
+        .get();
+
+    List<ChatMessage> chatMessages = [];
+
+    for (var document in querySnapshot.docs) {
+      Map<String, dynamic> data = document.data();
+      ChatMessage chatMessage = ChatMessage(
+        senderName: data['senderName'],
+        messageContent: data['messageContent'],
+        timeSent: data['timeSent'],
+        roomId: data['roomId'],
+      );
+      chatMessages.add(chatMessage);
+    }
+
+    return chatMessages;
   }
 
   @override

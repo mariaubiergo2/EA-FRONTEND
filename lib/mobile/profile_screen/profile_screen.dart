@@ -142,6 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: InkWell(
                   onTap: () {
                     pickImageFromGallery(ImageSource.camera);
+                    Navigator.pop(context);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
@@ -164,6 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: InkWell(
                   onTap: () {
                     pickImageFromGallery(ImageSource.gallery);
+                    Navigator.pop(context);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
