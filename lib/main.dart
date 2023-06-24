@@ -100,9 +100,6 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (context) => const RegisterScreen());
 
-          case '/qr_screen':
-            return MaterialPageRoute(builder: (context) => const MyQR());
-
           case '/navbar':
             return MaterialPageRoute(builder: (context) => const NavBar());
 

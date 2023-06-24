@@ -32,6 +32,7 @@ class MapsWidget extends State<MapScreen> {
   String? selectedChallengeId;
   String? nameChallenge;
   String? descrChallenge;
+  int? expChallenge;
 
   LocationPermission? permission;
 
@@ -87,6 +88,7 @@ class MapsWidget extends State<MapScreen> {
               selectedChallengeId = challenge.id;
               nameChallenge = challenge.name;
               descrChallenge = challenge.descr;
+              expChallenge = challenge.exp;
             });
             showDialog(
               context: context,
@@ -103,6 +105,7 @@ class MapsWidget extends State<MapScreen> {
                         selectedChallengeId: selectedChallengeId,
                         nameChallenge: nameChallenge,
                         descrChallenge: descrChallenge,
+                        expChallenge: expChallenge.toString(),
                       ),
                     ),
                   ),

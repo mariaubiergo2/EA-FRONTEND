@@ -51,55 +51,8 @@ class MyChallengeCard extends StatelessWidget {
                 ),
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.fromLTRB(30, 8, 8, 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
+                child: Stack(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        (index + 1).toString(),
-                        style: const TextStyle(
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 222, 66, 66),
-                          fontSize: 35,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 5, 15, 5),
-                      child: Container(
-                        width: 1,
-                        height: 75,
-                        color: const Color.fromARGB(255, 222, 66, 66),
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            attr1,
-                            style: const TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 25, 25, 25),
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            attr2,
-                            style: const TextStyle(
-                              fontStyle: FontStyle.normal,
-                              color: Color.fromARGB(255, 25, 25, 25),
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     Positioned(
                       top: 0,
                       right: 0,
@@ -108,7 +61,7 @@ class MyChallengeCard extends StatelessWidget {
                         children: [
                           const CircleAvatar(
                             radius: 5,
-                            backgroundColor: Colors.amber,
+                            backgroundColor: Color.fromARGB(255, 248, 188, 6),
                           ),
                           const SizedBox(
                             width: 10,
@@ -116,15 +69,74 @@ class MyChallengeCard extends StatelessWidget {
                           Text(
                             attr3,
                             style: const TextStyle(
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 25, 25, 25),
                               fontSize: 14,
                             ),
                           ),
                           const SizedBox(
-                            width: 10,
+                            width: 5,
                           ),
                         ],
                       ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            (index + 1).toString(),
+                            style: const TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 222, 66, 66),
+                              fontSize: 35,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(30, 17.5, 15, 17.5),
+                          child: Container(
+                            width: 1.35,
+                            height: 65,
+                            color: const Color.fromARGB(255, 222, 66, 66),
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 2.5, 5, 0),
+                                child: Text(
+                                  attr1,
+                                  style: const TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 25, 25, 25),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 12, 0),
+                                child: Text(
+                                  '${attr2.substring(0, 60)}...',
+                                  style: const TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    color: Color.fromARGB(255, 25, 25, 25),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
