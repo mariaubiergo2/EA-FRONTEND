@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -136,7 +137,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          message.timeSent,
+                          message.timeSent.toString(),
                           style: const TextStyle(
                               fontSize: 12.0, color: Colors.grey),
                         ),
@@ -166,7 +167,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                         _handleSubmitted(ChatMessage(
                           senderName: await getUsername(),
                           messageContent: _textController.text,
-                          timeSent: DateTime.now().toString(),
+                          timeSent: Timestamp.now(),
                           roomId: _currentRoom,
                         ));
                       }

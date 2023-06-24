@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChatMessage {
   ChatMessage(
       {required this.senderName,
@@ -7,7 +9,7 @@ class ChatMessage {
 
   final String messageContent;
   final String senderName;
-  final String timeSent;
+  final Timestamp timeSent;
   final String roomId;
 
   Map<String, dynamic> toMap() {
