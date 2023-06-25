@@ -113,7 +113,7 @@ class _FriendsScreen extends State<FriendsScreen> {
                       username: userList[index].username,
                       foto:
                           "https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png",
-                      exp: userList[index].exp.toString(),
+                      exp: userList[index].experience.toString(),
                     );
                   },
                 ),

@@ -31,7 +31,7 @@ class _PanelWidgetState extends State<PanelWidget> {
   List<Challenge> challengeList = <Challenge>[];
   dynamic controller;
   dynamic panelController;
-
+  String? _idUser;
   @override
   void initState() {
     super.initState();
@@ -41,7 +41,10 @@ class _PanelWidgetState extends State<PanelWidget> {
   Future getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
+    _idUser = prefs.getString('idUser');
+
+    String path =
+        'http://${dotenv.env['API_URL']}/challenge/get/available/$_idUser';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",

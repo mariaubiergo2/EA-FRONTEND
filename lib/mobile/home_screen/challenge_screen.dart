@@ -194,6 +194,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
                             builder: (context) => MyQR(
                                   idChallenge: _idChallenge ?? '',
                                   questions: _questions ?? [],
+                                  expChallenge: _expChallenge ?? '',
                                 )),
                       );
                       //Navigator.pushNamed(context, '/qr_screen');

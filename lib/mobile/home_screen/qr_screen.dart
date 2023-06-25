@@ -1,21 +1,27 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/mobile/navbar_mobile.dart';
+import 'package:ea_frontend/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class MyQR extends StatefulWidget {
   final String idChallenge;
   final List<String> questions;
+  final String expChallenge;
   const MyQR({
     Key? key,
     required this.idChallenge,
     required this.questions,
+    required this.expChallenge,
   }) : super(key: key);
 
   @override
@@ -24,6 +30,8 @@ class MyQR extends StatefulWidget {
 
 class _MyQRState extends State<MyQR> {
   String? _idUser;
+  int? _exp;
+  int? _level;
   Barcode? result;
   String? answer;
   QRViewController? controller;
@@ -59,10 +67,13 @@ class _MyQRState extends State<MyQR> {
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
+
     void sendAnswer(String answer, String idChallenge) async {
       try {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         _idUser = prefs.getString('idUser');
+        _exp = prefs.getInt("experience");
+        _level = prefs.getInt("level");
         var response = await Dio().post(
           'http://${dotenv.env['API_URL']}/challenge/post/solve',
           data: {
@@ -73,9 +84,73 @@ class _MyQRState extends State<MyQR> {
         );
         if (response.data == 'ANSWER_OK') {
           challengeSolved = 1;
+
+          // final String token = prefs.getString('token') ?? "";
+          // String path = 'http://${dotenv.env['API_URL']}/user/get/$_idUser';
+          // try {
+          //   var response = await Dio().get(
+          //     path,
+          //     options: Options(
+          //       headers: {
+          //         "Content-Type": "application/json",
+          //         "Authorization": "Bearer $token",
+          //       },
+          //     ),
+          //   );
+
+          //   User u = User.fromJson(response.data);
+          //   print(
+          //       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+          //   print(u.level);
+          //   prefs.setInt("level", u.level!);
+          //   prefs.setInt("experience", u.experience!);
+          // } catch (e) {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(
+          //       backgroundColor: Colors.amber,
+          //       showCloseIcon: true,
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //       margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+          //       content: const Text(
+          //         'Problem leveling up. Log in again to update.',
+          //         textAlign: TextAlign.center,
+          //         style: TextStyle(
+          //           color: Colors.black,
+          //         ),
+          //       ),
+          //       closeIconColor: Colors.black,
+          //       behavior: SnackBarBehavior.floating,
+          //       duration: const Duration(seconds: 3),
+          //     ),
+          //   );
+          // }
         } else if (response.data == 'ANSWER_NOK') {
           challengeSolved = 2;
-        } else {}
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+              showCloseIcon: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+              content: const Text(
+                'Error verifying the answer. Try again later',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              closeIconColor: Colors.white,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -92,7 +167,7 @@ class _MyQRState extends State<MyQR> {
                 color: Colors.white,
               ),
             ),
-            closeIconColor: Colors.black,
+            closeIconColor: Colors.white,
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 3),
           ),
@@ -400,8 +475,8 @@ class _MyQRState extends State<MyQR> {
                                 ],
                               ),
                               const SizedBox(height: 35),
-                              const Text(
-                                '¡Enhorabuena!\n\nSe te sumarán 100 de experiencia a tu cuenta 🎉',
+                              Text(
+                                '¡Enhorabuena!\n\nSe te sumarán ${widget.expChallenge} de experiencia a tu cuenta 🎉',
                                 style: TextStyle(fontSize: 18),
                                 textAlign: TextAlign.center,
                               ),
@@ -415,8 +490,13 @@ class _MyQRState extends State<MyQR> {
                               alignment: Alignment.center,
                               child: ElevatedButton.icon(
                                 onPressed: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const NavBar()),
+                                    (Route<dynamic> route) => false,
+                                  );
                                 },
                                 icon: const Icon(Icons.arrow_back,
                                     color: Colors.white),

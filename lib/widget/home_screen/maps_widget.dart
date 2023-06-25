@@ -24,6 +24,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapsWidget extends State<MapScreen> {
+  String? _idUser;
+
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
 
@@ -55,7 +57,10 @@ class MapsWidget extends State<MapScreen> {
   void getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
+    _idUser = prefs.getString('idUser');
+
+    String path =
+        'http://${dotenv.env['API_URL']}/challenge/get/available/$_idUser';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",

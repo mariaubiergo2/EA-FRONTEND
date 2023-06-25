@@ -44,6 +44,7 @@ class MyChallengeCard extends StatelessWidget {
                             builder: (context) => MyQR(
                                   idChallenge: attr4,
                                   questions: attr5,
+                                  expChallenge: attr3,
                                 )),
                       );
                     },
