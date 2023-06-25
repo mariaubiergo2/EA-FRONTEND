@@ -82,51 +82,45 @@ class _MyQRState extends State<MyQR> {
             "idUser": _idUser
           },
         );
-        if (response.data == 'ANSWER_OK') {
+
+        List<String> dataList = response.data.split("/");
+        String answerStatus = dataList[0]; // "ANSWER_OK"
+
+        if (answerStatus == 'ANSWER_OK') {
           challengeSolved = 1;
+          try {
+            int level = int.parse(dataList[1]); // "3"
+            int exp = int.parse(dataList[2]);
 
-          // final String token = prefs.getString('token') ?? "";
-          // String path = 'http://${dotenv.env['API_URL']}/user/get/$_idUser';
-          // try {
-          //   var response = await Dio().get(
-          //     path,
-          //     options: Options(
-          //       headers: {
-          //         "Content-Type": "application/json",
-          //         "Authorization": "Bearer $token",
-          //       },
-          //     ),
-          //   );
+            if (exp >= 100) {
+              level = level + 1;
+              exp = exp - 100;
+            }
 
-          //   User u = User.fromJson(response.data);
-          //   print(
-          //       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
-          //   print(u.level);
-          //   prefs.setInt("level", u.level!);
-          //   prefs.setInt("experience", u.experience!);
-          // } catch (e) {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(
-          //       backgroundColor: Colors.amber,
-          //       showCloseIcon: true,
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(10),
-          //       ),
-          //       margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
-          //       content: const Text(
-          //         'Problem leveling up. Log in again to update.',
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(
-          //           color: Colors.black,
-          //         ),
-          //       ),
-          //       closeIconColor: Colors.black,
-          //       behavior: SnackBarBehavior.floating,
-          //       duration: const Duration(seconds: 3),
-          //     ),
-          //   );
-          // }
+            prefs.setInt("level", level);
+            prefs.setInt("experience", exp);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.amber,
+                showCloseIcon: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+                content: const Text(
+                  'Problem leveling up. Log in again to update.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                closeIconColor: Colors.black,
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          }
         } else if (response.data == 'ANSWER_NOK') {
           challengeSolved = 2;
         } else {
