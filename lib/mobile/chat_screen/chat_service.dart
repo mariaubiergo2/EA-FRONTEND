@@ -35,6 +35,7 @@ class ChatService extends ChangeNotifier {
           messageContent: data['messageContent'],
           timeSent: Timestamp.fromDate(time),
           roomId: data['roomId'],
+          photoURL: data['photoURL'],
         );
         chatMessages.add(chatMessage);
         
@@ -44,6 +45,7 @@ class ChatService extends ChangeNotifier {
           messageContent: data['messageContent'],
           timeSent: data['timeSent'],
           roomId: data['roomId'],
+          photoURL: data['photoURL'],
         );
         chatMessages.add(chatMessage);
       }

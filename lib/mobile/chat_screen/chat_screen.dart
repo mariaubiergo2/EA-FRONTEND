@@ -47,6 +47,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   Map<String, String> roomNames = {};
   IO.Socket? socket;
   String _currentRoom = '';
+  String profilePic= " ";
   List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
 
@@ -54,7 +55,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   void initState() {
     super.initState();
     socket = widget.socketWidget;
-    roomNames = widget.roomNamesWidget!;
+    roomNames = widget.roomNamesWidget!;   
     createRoom(widget.roomNameWidget!);
     loadMessages();
   }
@@ -64,6 +65,13 @@ class _ChatWidgetState extends State<ChatWidget> {
     setState(() {
       _messages = messages;
     });
+
+    final prefs = await SharedPreferences.getInstance();
+    profilePic = prefs.getString('imageURL') ?? '';
+
+    print("//////////////////////////////////////// URL: ");
+    print(profilePic);
+      
   }
 
   void createRoom(String roomName) {
@@ -94,32 +102,6 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
 
-  Future<String> getProfilePicture(String username) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString('token') ?? "";
-    String imageURL = prefs.getString('imageURL') ?? '';
-    String path =
-        'http://${dotenv.env['API_URL']}/user/get/$username';
-    try {
-      var response = await Dio().get(
-        path,
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          },
-        ),
-      );
-      User user = response.data as User;
-      if (user.imageURL != null) {
-        return user.imageURL!;
-      } else {
-        return " "; // Return an empty string when imageURL is null
-      }
-    } catch (e){
-      return imageURL;
-    }
-  }
 
 String changeDateTimeFormat (DateTime date){
   final DateFormat formatter = DateFormat('yyyy-MM-dd | hh:mm');
@@ -127,7 +109,9 @@ String changeDateTimeFormat (DateTime date){
   return formatted;
 }
 
-Widget doMessageBubble(ChatMessage message, String username, String profilePic) {
+Widget doMessageBubble(ChatMessage message, String username) {
+  print("//////////////////////////////////////// Url sender: ");
+  print(message.photoURL);
   final isSender = message.senderName == username;
   final visibility = !isSender;
   final alignment = isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start;
@@ -161,9 +145,9 @@ Widget doMessageBubble(ChatMessage message, String username, String profilePic) 
               padding: const EdgeInsets.fromLTRB(9, 20, 0, 0),
               child: CircleAvatar(
                 radius: 20,
-                backgroundImage: profilePic != " "
-                    ? Image.network(profilePic).image
-                    : AssetImage('images/default.png'),
+                backgroundImage: message.photoURL != ""
+                    ? Image.network(message.photoURL).image
+                    : const AssetImage('images/default.png'),
               ),
             ),
           ),
@@ -228,23 +212,11 @@ Widget doMessageBubble(ChatMessage message, String username, String profilePic) 
                         return Text('Error: ${snapshot.error}');
                       }
                       String username = snapshot.data ?? '';
-                      return FutureBuilder<String>(
-                        future: getProfilePicture(message.senderName),
-                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          }
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          }
-                          String profilePic = snapshot.data ?? '';
-                          return doMessageBubble(message, username, profilePic);
+                      return doMessageBubble(message, username);
                         },
                       );
                     },
-                  ); 
-                },
-              ),
+                  )
             ),
             Container(
               padding: const EdgeInsets.all(16.0),
@@ -267,6 +239,7 @@ Widget doMessageBubble(ChatMessage message, String username, String profilePic) 
                           messageContent: _textController.text,
                           timeSent: Timestamp.now(),
                           roomId: _currentRoom,
+                          photoURL: profilePic,
                         ));
                       }
                     },
