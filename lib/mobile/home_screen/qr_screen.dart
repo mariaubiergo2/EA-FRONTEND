@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyQR extends StatefulWidget {
   final String idChallenge;
@@ -22,6 +23,7 @@ class MyQR extends StatefulWidget {
 }
 
 class _MyQRState extends State<MyQR> {
+  String? _idUser;
   Barcode? result;
   String? answer;
   QRViewController? controller;
@@ -59,16 +61,43 @@ class _MyQRState extends State<MyQR> {
         : 300.0;
     void sendAnswer(String answer, String idChallenge) async {
       try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        _idUser = prefs.getString('idUser');
         var response = await Dio().post(
           'http://${dotenv.env['API_URL']}/challenge/post/solve',
-          data: {"idChallenge": idChallenge, "answer": answer},
+          data: {
+            "idChallenge": idChallenge,
+            "answer": answer,
+            "idUser": _idUser
+          },
         );
         if (response.data == 'ANSWER_OK') {
           challengeSolved = 1;
         } else if (response.data == 'ANSWER_NOK') {
           challengeSolved = 2;
         } else {}
-      } catch (e) {}
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+            showCloseIcon: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
+            content: const Text(
+              'Error verifying the answer. Try again later',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            closeIconColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
 
     return SafeArea(
@@ -481,90 +510,6 @@ class _MyQRState extends State<MyQR> {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
                                 },
-                                icon: const Icon(Icons.close,
-                                    color: Colors.white),
-                                label: const Text('Cerrar',
-                                    style: TextStyle(color: Colors.white)),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 222, 66, 66),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        20.0), // Ajusta el valor para controlar el nivel de redondez
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 35),
-                          ],
-                          backgroundColor:
-                              const Color.fromARGB(255, 25, 25, 25),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30.0), // Ajusta el valor para controlar el nivel de redondez
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                else if (result != null && result!.code != widget.idChallenge)
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: Builder(
-                      builder: (context) => Center(
-                        child: AlertDialog(
-                          content: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          '¡ERROR!',
-                                          style: TextStyle(
-                                              fontSize: 35,
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        const SizedBox(width: 15),
-                                        Container(
-                                          width: 32.5,
-                                          height: 32.5,
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 222, 66, 66),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: const Icon(Icons.close,
-                                              color: Colors.white, size: 22.5),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 35),
-                              const Text(
-                                'El reto que has escaneado no coincide con el esperado 😢',
-                                style: TextStyle(fontSize: 18),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                  height:
-                                      5), // Espacio entre el texto y la fila
-                            ],
-                          ),
-                          actions: <Widget>[
-                            Align(
-                              alignment: Alignment.center,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                },
                                 icon: const Icon(Icons.arrow_back,
                                     color: Colors.white),
                                 label: const Text('Volver',
@@ -591,6 +536,88 @@ class _MyQRState extends State<MyQR> {
                       ),
                     ),
                   ),
+              if (result != null && result!.code != widget.idChallenge)
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Builder(
+                    builder: (context) => Center(
+                      child: AlertDialog(
+                        content: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        '¡ERROR!',
+                                        style: TextStyle(
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Container(
+                                        width: 32.5,
+                                        height: 32.5,
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromARGB(255, 222, 66, 66),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.close,
+                                            color: Colors.white, size: 22.5),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 35),
+                            const Text(
+                              'El reto que has escaneado no coincide con el esperado 😢',
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                                height: 5), // Espacio entre el texto y la fila
+                          ],
+                        ),
+                        actions: <Widget>[
+                          Align(
+                            alignment: Alignment.center,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                              icon: const Icon(Icons.arrow_back,
+                                  color: Colors.white),
+                              label: const Text('Volver',
+                                  style: TextStyle(color: Colors.white)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 222, 66, 66),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0), // Ajusta el valor para controlar el nivel de redondez
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 35),
+                        ],
+                        backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              30.0), // Ajusta el valor para controlar el nivel de redondez
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ],
