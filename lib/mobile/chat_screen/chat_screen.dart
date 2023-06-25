@@ -1,10 +1,16 @@
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
+import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:ea_frontend/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../models/challenge.dart';
 import '../../models/message.dart';
+import '../../widget/chat_screen/chat_title_widget.dart';
 import 'chat_service.dart';
 
 void main() async {
@@ -79,11 +85,6 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   void _handleSubmitted(ChatMessage chatMessage) {
     if (_currentRoom.isNotEmpty) {
-      // socket!.emit("SEND_ROOM_MESSAGE", {
-      //   "roomId": getKeyFromValue(roomNames, _currentRoom),
-      //   "message": chatMessage.messageContent,
-      //   "username": chatMessage.senderName
-      // });
       appState.sendMessage(chatMessage);
       setState(() {
         loadMessages();
@@ -92,6 +93,111 @@ class _ChatWidgetState extends State<ChatWidget> {
     }
   }
 
+
+  Future<String> getProfilePicture(String username) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String imageURL = prefs.getString('imageURL') ?? '';
+    String path =
+        'http://${dotenv.env['API_URL']}/user/get/$username';
+    try {
+      var response = await Dio().get(
+        path,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      User user = response.data as User;
+      if (user.imageURL != null) {
+        return user.imageURL!;
+      } else {
+        return " "; // Return an empty string when imageURL is null
+      }
+    } catch (e){
+      return imageURL;
+    }
+  }
+
+String changeDateTimeFormat (DateTime date){
+  final DateFormat formatter = DateFormat('yyyy-MM-dd | hh:mm');
+  final String formatted = formatter.format(date);
+  return formatted;
+}
+
+Widget doMessageBubble(ChatMessage message, String username, String profilePic) {
+  final isSender = message.senderName == username;
+  final visibility = !isSender;
+  final alignment = isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+  final alignment2 = isSender ? MainAxisAlignment.end : MainAxisAlignment.start;
+
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: alignment,
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(70, 0, 4, 0),
+        child: Visibility(
+          visible: visibility,
+          child: Text(
+            message.senderName,
+            style: const TextStyle(
+              fontSize: 16.0,
+              color: Colors.amber,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+      Row(
+        mainAxisAlignment: alignment2,
+        crossAxisAlignment: alignment,
+        children: [
+          Visibility(
+            visible: visibility,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(9, 20, 0, 0),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: profilePic != " "
+                    ? Image.network(profilePic).image
+                    : AssetImage('images/default.png'),
+              ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: alignment2,
+            crossAxisAlignment: alignment,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
+                child: BubbleSpecialThree(
+                  text: message.messageContent,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  tail: true,
+                  isSender: isSender,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(18, 2, 18, 4),
+                child: Text(
+                  changeDateTimeFormat(message.timeSent.toDate()),
+                  style: const TextStyle(
+                    fontSize: 13.0,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),              
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,58 +205,47 @@ class _ChatWidgetState extends State<ChatWidget> {
         color: Theme.of(context).backgroundColor,
         child: Column(
           children: [
-            // Chat room header
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                _currentRoom,
-                style: const TextStyle(fontSize: 24.0, color: Colors.redAccent),
-              ),
+            const SizedBox(
+              height: 14.0,
             ),
-            // Messages list
+            MyChatTitleCard(attr1: _currentRoom),
+            const SizedBox(
+              height: 8.0,
+            ),
             Expanded(
               child: ListView.builder(
                 reverse: true,
                 itemCount: _messages.length,
                 itemBuilder: (BuildContext context, int index) {
                   ChatMessage message = _messages[index];
-                  return Container(
-                    padding: const EdgeInsets.all(16.0),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.redAccent)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          message.senderName,
-                          style: const TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          message.messageContent,
-                          style: const TextStyle(fontSize: 16.0),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          message.timeSent
-                              .toDate()
-                              .millisecondsSinceEpoch
-                              .toString(),
-                          style: const TextStyle(
-                              fontSize: 12.0, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  );
+                  return FutureBuilder<String>(
+                    future: getUsername(),
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+                      String username = snapshot.data ?? '';
+                      return FutureBuilder<String>(
+                        future: getProfilePicture(message.senderName),
+                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          }
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          String profilePic = snapshot.data ?? '';
+                          return doMessageBubble(message, username, profilePic);
+                        },
+                      );
+                    },
+                  ); 
                 },
               ),
             ),
-            // Message input field and send button
             Container(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -175,8 +270,12 @@ class _ChatWidgetState extends State<ChatWidget> {
                         ));
                       }
                     },
-                    child: const Text('Send'),
-                  ),
+                    child: const Icon(
+                      IconData(
+                        0xe571, 
+                        fontFamily: 'MaterialIcons', 
+                        matchTextDirection: true),
+                      )),
                 ],
               ),
             ),
@@ -185,4 +284,5 @@ class _ChatWidgetState extends State<ChatWidget> {
       ),
     );
   }
+
 }

@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../models/challenge.dart';
-import '../../widget/chat_screen/chat_challenge_widget.dart';
+import '../../widget/chat_screen/chat_card_widget.dart';
 import 'chat_screen.dart';
 
 void main() async {
@@ -129,7 +129,7 @@ class _MyChatListState extends State<MyChatList> {
                               )),
                     );
                   },
-                  child: MyChatChallengeCard(
+                  child: MyChatCard(
                     index: index,
                     attr1: challengeList[index].name,
                   ),
