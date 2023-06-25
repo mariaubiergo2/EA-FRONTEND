@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
             Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
             User u = User.fromJson(payload);
             var data = json.decode(response.toString());
-
+            print(u.experience);
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
             prefs.setString('token', data['token']);
@@ -64,6 +64,7 @@ class LoginScreen extends StatelessWidget {
             try {
               // prefs.setInt('exp', u.exp!);
               prefs.setInt('level', u.level!);
+              prefs.setInt('experience', u.experience!);
             } catch (e) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

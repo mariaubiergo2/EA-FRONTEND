@@ -24,6 +24,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapsWidget extends State<MapScreen> {
+  String? _idUser;
+
   Challenge? challenge;
   List<Challenge> challengeList = <Challenge>[];
 
@@ -32,7 +34,8 @@ class MapsWidget extends State<MapScreen> {
   String? selectedChallengeId;
   String? nameChallenge;
   String? descrChallenge;
-
+  int? expChallenge;
+  List<String>? questions;
   LocationPermission? permission;
 
   bool serviceEnabled = false;
@@ -54,7 +57,10 @@ class MapsWidget extends State<MapScreen> {
   void getChallenges() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
-    String path = 'http://${dotenv.env['API_URL']}/challenge/get/all';
+    _idUser = prefs.getString('idUser');
+
+    String path =
+        'http://${dotenv.env['API_URL']}/challenge/get/available/$_idUser';
     var response = await Dio().get(path,
         options: Options(headers: {
           "Content-Type": "application/json",
@@ -84,9 +90,11 @@ class MapsWidget extends State<MapScreen> {
         builder: (context) => GestureDetector(
           onTap: () {
             setState(() {
+              questions = challenge.questions;
               selectedChallengeId = challenge.id;
               nameChallenge = challenge.name;
               descrChallenge = challenge.descr;
+              expChallenge = challenge.exp;
             });
             showDialog(
               context: context,
@@ -103,6 +111,8 @@ class MapsWidget extends State<MapScreen> {
                         selectedChallengeId: selectedChallengeId,
                         nameChallenge: nameChallenge,
                         descrChallenge: descrChallenge,
+                        expChallenge: expChallenge.toString(),
+                        questions: questions,
                       ),
                     ),
                   ),
@@ -370,10 +380,9 @@ class MapsWidget extends State<MapScreen> {
                 borderRadius: BorderRadius.circular(100),
               ),
               backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+              minimumSize: Size(60, 60), // Establece el ancho y alto del botón
             ),
             child: Ink(
-              width: 65,
-              height: 65,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
               ),
@@ -382,7 +391,7 @@ class MapsWidget extends State<MapScreen> {
                     ? Icons.gps_fixed_rounded
                     : Icons.gps_off_rounded,
                 color: Colors.white,
-                size: 30,
+                size: 29,
               ),
             ),
           ),

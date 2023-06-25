@@ -37,6 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _followers = "";
   String? _following = "";
   int _level = 0;
+  int _exp = 0;
   bool _seeFollowing = false;
   bool _seeFollowers = false;
   bool _seeOptions = true;
@@ -234,9 +235,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         imageURL = prefs.getString('imageURL') ?? '';
         try {
           _level = prefs.getInt('level')!;
+          _exp = prefs.getInt('experience')!;
+          print("assadfdsdf");
+          print(_exp);
         } catch (e) {
           print(e);
           _level = 0;
+          _exp = 0;
         }
       });
     }
@@ -498,7 +503,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       5.0), // Establece los bordes redondeados
                                   child: LinearProgressIndicator(
                                     minHeight: 10,
-                                    value: _level.toDouble() / 100,
+                                    value: _exp.toDouble() / 100,
                                     backgroundColor: Colors.white,
                                     color: Colors.amber,
                                   ),

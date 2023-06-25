@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
@@ -10,11 +11,16 @@ class MyChallengePage extends StatefulWidget {
   final String? selectedChallengeId;
   final String? nameChallenge;
   final String? descrChallenge;
+  final List<String>? questions;
+  final String? expChallenge;
+
   const MyChallengePage(
       {Key? key,
       this.selectedChallengeId,
       this.nameChallenge,
-      this.descrChallenge})
+      this.descrChallenge,
+      this.expChallenge,
+      this.questions})
       : super(key: key);
 
   @override
@@ -25,8 +31,10 @@ class _MyChallengePageState extends State<MyChallengePage> {
   Challenge? challenge;
   String? _token = "";
   String? _idChallenge = "";
+  List<String>? _questions = [];
   String? _name = "";
   String? _descr = "";
+  String? _expChallenge;
   String? _exp = "";
   bool isButtonPressed = false;
 
@@ -53,8 +61,10 @@ class _MyChallengePageState extends State<MyChallengePage> {
     setState(() {
       _token = prefs.getString('token');
       _idChallenge = widget.selectedChallengeId;
+      _questions = widget.questions;
       _name = widget.nameChallenge;
       _descr = widget.descrChallenge;
+      _expChallenge = widget.expChallenge;
       _exp = prefs.getString('exp');
     });
   }
@@ -62,7 +72,6 @@ class _MyChallengePageState extends State<MyChallengePage> {
   Future<void> callApi() async {
     String path =
         'http://${dotenv.env['API_URL']}/challenge/get/${widget.selectedChallengeId}';
-    print(path);
     var response = await Dio().get(
       path,
       options: Options(
@@ -86,7 +95,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
     } else {
       // Muestra la información del desafío
       return Container(
-        height: 350,
+        height: 485,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 25, 25, 25),
           shape: BoxShape.rectangle,
@@ -104,16 +113,53 @@ class _MyChallengePageState extends State<MyChallengePage> {
                   topRight: Radius.circular(12),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Image.asset(
-                  'images/marker_advanced.png',
-                  height: 120,
-                  width: 120,
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30, bottom: 30),
+                    child: Image.asset(
+                      'images/marker_advanced.png',
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 3, 8),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 1),
+                            child: CircleAvatar(
+                              radius: 5,
+                              backgroundColor: Color.fromARGB(255, 248, 188, 6),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            _expChallenge ?? '',
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 25, 25, 25),
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 7.5,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 32.5),
             Text(
               _name ?? '',
               style: const TextStyle(
@@ -122,46 +168,50 @@ class _MyChallengePageState extends State<MyChallengePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 32.5),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 _descr ?? '',
                 style: const TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
               ),
             ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(width: 8),
-                if (isButtonPressed)
-                  const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  )
-                else
-                  GestureDetector(
-                    onTap: () {
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 32.5),
+                  child: ElevatedButton(
+                    onPressed: () {
                       setState(() {
                         isButtonPressed = true;
                       });
-                      Navigator.pushNamed(context, '/qr_screen');
+                      print('Questions: $_questions');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyQR(
+                                  idChallenge: _idChallenge ?? '',
+                                  questions: _questions ?? [],
+                                  expChallenge: _expChallenge ?? '',
+                                )),
+                      );
+                      //Navigator.pushNamed(context, '/qr_screen');
                     },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      backgroundColor: const Color.fromARGB(255, 222, 66, 66),
                       padding: const EdgeInsets.all(12),
-                      child: const Icon(
-                        Icons.camera_alt,
-                        color: Colors.white,
-                        size: 24,
-                      ),
+                    ),
+                    child: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                      size: 24,
                     ),
                   ),
-              ],
+                ),
+              ),
             ),
           ],
         ),
