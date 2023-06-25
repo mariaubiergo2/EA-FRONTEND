@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/models/user.dart';
-import 'package:flutter/material.dart';
+import 'package:ea_frontend/widget/loading_circle.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,6 +50,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   String profilePic = " ";
   List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -56,16 +58,23 @@ class _ChatWidgetState extends State<ChatWidget> {
     socket = widget.socketWidget;
     roomNames = widget.roomNamesWidget!;
     createRoom(widget.roomNameWidget!);
-    loadMessages();
+    loadMessages().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
-  void loadMessages() async {
+  Future<void> loadMessages() async {
     List<ChatMessage> messages = await appState.getMessages(_currentRoom);
     setState(() {
       _messages = messages;
     });
     final prefs = await SharedPreferences.getInstance();
     profilePic = prefs.getString('imageURL') ?? '';
+
+    print("//////////////////////////////////////// URL: ");
+    print(profilePic);
   }
 
   void createRoom(String roomName) {
@@ -102,6 +111,8 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   Widget doMessageBubble(ChatMessage message, String username) {
+    print("//////////////////////////////////////// Url sender: ");
+    print(message.photoURL);
     final isSender = message.senderName == username;
     final visibility = !isSender;
     final alignment =
@@ -151,7 +162,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
                   child: BubbleSpecialThree(
                     text: message.messageContent,
-                    color: const Color.fromARGB(255, 255, 255, 255),
+                    color: Color.fromARGB(255, 255, 255, 255),
                     tail: true,
                     isSender: isSender,
                   ),
@@ -176,52 +187,57 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
+    if (_isLoading) {
+      return const LoadingCircle();
+    } else {
+      return Scaffold(
+        body: Container(
           color: Theme.of(context).backgroundColor,
-          child: Column(
-            children: [
-              MyChatTitleCard(attr1: _currentRoom),
-              const SizedBox(
-                height: 8.0,
-              ),
-              Expanded(
+          child: SafeArea(
+            child: Column(
+              children: [
+                MyChatTitleCard(attr1: _currentRoom),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Expanded(
                   child: ListView.builder(
-                reverse: true,
-                itemCount: _messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  ChatMessage message = _messages[index];
-                  return FutureBuilder<String>(
-                    future: getUsername(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      }
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      String username = snapshot.data ?? '';
-                      return doMessageBubble(message, username);
+                    reverse: true,
+                    itemCount: _messages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      ChatMessage message = _messages[index];
+                      return FutureBuilder<String>(
+                        future: getUsername(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          }
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          String username = snapshot.data ?? '';
+                          return doMessageBubble(message, username);
+                        },
+                      );
                     },
-                  );
-                },
-              )),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _textController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter a message',
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _textController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter a message',
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    ElevatedButton(
+                      const SizedBox(width: 16.0),
+                      ElevatedButton(
                         onPressed: () async {
                           if (_textController.text.isNotEmpty) {
                             _handleSubmitted(ChatMessage(
@@ -237,14 +253,16 @@ class _ChatWidgetState extends State<ChatWidget> {
                           IconData(0xe571,
                               fontFamily: 'MaterialIcons',
                               matchTextDirection: true),
-                        )),
-                  ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
