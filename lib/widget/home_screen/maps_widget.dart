@@ -386,7 +386,7 @@ class MapsWidget extends State<MapScreen> {
                     ? Icons.gps_fixed_rounded
                     : Icons.gps_off_rounded,
                 color: Colors.white,
-                size: 30,
+                size: 29,
               ),
             ),
           ),

@@ -172,7 +172,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Text(
-                _questions![0],
+                _descr ?? '',
                 style: const TextStyle(color: Colors.white),
                 textAlign: TextAlign.justify,
               ),

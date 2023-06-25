@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -99,7 +100,7 @@ class _MyQRState extends State<MyQR> {
               ),
             ),
           Positioned(
-            bottom: 50,
+            bottom: 30,
             left: 0,
             right: 0,
             child: Row(
@@ -185,101 +186,227 @@ class _MyQRState extends State<MyQR> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               if (result != null && result!.code == widget.idChallenge)
-                //AQUI LOGICA DE SI TODO GUCCI
-                Container(
-                  height: 485,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 25, 25, 25),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
                   child: Padding(
-                    padding: EdgeInsets.only(top: 24),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: widget.questions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final question = widget.questions[index];
-                        if (index == 0) {
-                          // First item: bold text
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              question,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 26,
-                              ),
-                              textAlign: TextAlign.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 27.5),
+                    child: Container(
+                      height: 475,
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 25, 25, 25),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  'Reto escaneado correctamente',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(
+                                    width:
+                                        8), // Espacio entre el texto y el contenedor
+                                Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.green,
+                                  ),
+                                  child: const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        } else {
-                          return ListTile(
-                            title: Text(
-                              question,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            leading: Theme(
-                              data: Theme.of(context).copyWith(
-                                unselectedWidgetColor: Colors
-                                    .white, // Set the unselected (background) color of the radial button
-                              ),
-                              child: Radio(
-                                value: index,
-                                groupValue: _selectedQuestionIndex,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedQuestionIndex = value as int;
-                                    selectedAnswer = question;
-                                    print(
-                                        'RESPUESTA A ENVIAR!!!!!! --------------------------> $selectedAnswer');
-                                  });
+                            const SizedBox(height: 50),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: widget.questions.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final question = widget.questions[index];
+                                  if (index == 0) {
+                                    // First item: bold text
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 17.5, right: 17.5, bottom: 25),
+                                      child: Text(
+                                        question,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                    );
+                                  } else {
+                                    return ListTile(
+                                      minVerticalPadding: 1,
+                                      title: Text(
+                                        question,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      leading: Theme(
+                                        data: Theme.of(context).copyWith(
+                                          unselectedWidgetColor: Colors
+                                              .white, // Set the unselected (background) color of the radial button
+                                        ),
+                                        child: Radio(
+                                          value: index,
+                                          groupValue: _selectedQuestionIndex,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _selectedQuestionIndex =
+                                                  value as int;
+                                              selectedAnswer = question;
+                                            });
+                                          },
+                                          activeColor: const Color.fromARGB(
+                                              255,
+                                              222,
+                                              66,
+                                              66), // Set the selected (dot) color of the radial button
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize
+                                                  .shrinkWrap, // Adjust the size of the radial button
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 },
-                                activeColor: Colors
-                                    .red, // Set the selected (dot) color of the radial button
-                                materialTapTargetSize: MaterialTapTargetSize
-                                    .shrinkWrap, // Adjust the size of the radial button
                               ),
                             ),
-                          );
-                        }
-                      },
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 32.5),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        sendAnswer(
+                                            selectedAnswer, widget.idChallenge);
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const CircleBorder(),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 222, 66, 66),
+                                      padding: const EdgeInsets.all(12),
+                                    ),
+                                    child: const Icon(
+                                      Icons.send_rounded,
+                                      color: Colors.white,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 )
               else if (result != null && result!.code != widget.idChallenge)
-                Builder(
-                  builder: (context) => Center(
-                    child: AlertDialog(
-                      title: const Text('Error'),
-                      content: const Text(
-                          'El resultado no coincide con el desafío esperado.'),
-                      actions: <Widget>[
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                          child: const Text('Cerrar'),
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Builder(
+                    builder: (context) => Center(
+                      child: AlertDialog(
+                        content: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        '¡ERROR!',
+                                        style: TextStyle(
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Container(
+                                        width: 32.5,
+                                        height: 32.5,
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromARGB(255, 222, 66, 66),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.close,
+                                            color: Colors.white, size: 22.5),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 35),
+                            const Text(
+                              'El reto que has escaneado no coincide con el esperado 😢',
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                                height: 5), // Espacio entre el texto y la fila
+                          ],
                         ),
-                      ],
-                      backgroundColor: const Color.fromARGB(255, 25, 25, 25),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                        actions: <Widget>[
+                          Align(
+                            alignment: Alignment.center,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                              icon: Icon(Icons.arrow_back, color: Colors.white),
+                              label: Text('Volver',
+                                  style: TextStyle(color: Colors.white)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 222, 66, 66),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0), // Ajusta el valor para controlar el nivel de redondez
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 35),
+                        ],
+                        backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              30.0), // Ajusta el valor para controlar el nivel de redondez
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ElevatedButton(
-                onPressed: () {
-                  sendAnswer(selectedAnswer, widget.idChallenge);
-                },
-                child: Text('Send Petition'),
-              ),
             ],
           ),
         ],
