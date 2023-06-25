@@ -82,6 +82,7 @@ dependencies:
   # firebase_auth_web: ^5.5.3
   cloud_firestore: ^4.8.1
   chat_bubbles: ^1.4.0
+  firebase_messaging: ^14.6.3
   # flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
