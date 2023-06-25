@@ -3,6 +3,7 @@
 import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
 import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'package:flutter/material.dart';
+import 'mobile/chat_screen/chat_screen.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,15 +17,18 @@ import 'package:ea_frontend/web/profile_screen/profile_web.dart';
 import 'package:ea_frontend/web/credential_screen/login_web.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
-import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     name: "Dev Project",
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
   await dotenv.load();
   runApp(const MyApp());
 }
@@ -105,6 +109,8 @@ class MyApp extends StatelessWidget {
 
           case '/navbar':
             return MaterialPageRoute(builder: (context) => const NavBar());
+          case '/chat':
+            return MaterialPageRoute(builder: (context) => const ChatWidget());
 
           case '/edit_account':
             return MaterialPageRoute(

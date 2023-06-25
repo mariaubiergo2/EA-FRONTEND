@@ -175,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Expanded(
                       // ignore: prefer_const_constructors
                       child: Text(

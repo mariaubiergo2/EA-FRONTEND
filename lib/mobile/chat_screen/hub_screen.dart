@@ -32,10 +32,10 @@ class _HubScreenState extends State<HubScreen> {
         child: Container(
           color: const Color.fromARGB(255, 25, 25, 25),
           child: Column(
-            children: [
+            children: const [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: CustomScrollView(),
                 ),
               ),

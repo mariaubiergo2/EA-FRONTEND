@@ -142,6 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: InkWell(
                   onTap: () {
                     pickImageFromGallery(ImageSource.camera);
+                    Navigator.pop(context);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
@@ -164,6 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: InkWell(
                   onTap: () {
                     pickImageFromGallery(ImageSource.gallery);
+                    Navigator.pop(context);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
@@ -361,7 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Expanded(
                   child: Text(
                     'Account successfully deleted',
