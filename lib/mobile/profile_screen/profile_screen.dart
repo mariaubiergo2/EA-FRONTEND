@@ -45,17 +45,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<user_ea.User> followersList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
   String imageURL = "";
+  bool _isFollowingHighlighted = false;
+  bool _isFollowersHighlighted = false;
 
   final TextStyle _highlightedText = const TextStyle(
       color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18);
 
   // ignore: prefer_const_constructors
-  final TextStyle _normalText = TextStyle(
-      // ignore: prefer_const_constructors
-      color: Color.fromARGB(255, 242, 242, 242),
-      fontWeight: FontWeight.normal,
-      fontSize: 18);
-
+  late TextStyle _normalText;
   late TextStyle _textStyleFollowers;
   late TextStyle _textStyleFollowing;
 
@@ -66,8 +63,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getFriendsInfo();
     getFollowing();
     getFollowers();
-    _textStyleFollowers = _normalText;
-    _textStyleFollowing = _normalText;
   }
 
   Future clearInfo() async {
@@ -434,6 +429,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _normalText = TextStyle(
+      color: MediaQuery.of(context).platformBrightness == Brightness.light
+          ? Colors.black
+          : Colors.white,
+      fontWeight: FontWeight.normal,
+      fontSize: 18,
+    );
+
+    _textStyleFollowers = _normalText;
+    _textStyleFollowing =
+        _isFollowingHighlighted ? _highlightedText : _normalText;
+    _textStyleFollowers =
+        _isFollowersHighlighted ? _highlightedText : _normalText;
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
@@ -527,24 +536,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       _seeFollowing = !_seeFollowing;
                                       if (_seeFollowing) {
                                         _seeOptions = false;
+                                        _isFollowingHighlighted = true;
                                         _seeFollowers = false;
-                                        _textStyleFollowing = _highlightedText;
-                                        _textStyleFollowers = TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18);
                                       } else {
                                         _seeOptions = true;
-                                        _textStyleFollowing = TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18);
+                                        _isFollowingHighlighted = false;
                                       }
                                     });
                                   }
@@ -564,24 +560,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       _seeFollowers = !_seeFollowers;
                                       if (_seeFollowers) {
                                         _seeOptions = false;
+                                        _isFollowersHighlighted = true;
                                         _seeFollowing = false;
-                                        _textStyleFollowers = _highlightedText;
-                                        _textStyleFollowing = TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18);
                                       } else {
                                         _seeOptions = true;
-                                        _textStyleFollowers = TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18);
+                                        _isFollowersHighlighted = false;
                                       }
                                     });
                                   }

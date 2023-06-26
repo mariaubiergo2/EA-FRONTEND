@@ -15,14 +15,13 @@ class MyChatTitleCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          decoration:
-              BoxDecoration(color: const Color.fromARGB(255, 25, 25, 25)),
+          decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
           padding: const EdgeInsets.fromLTRB(17.5, 18.5, 17.5, 18.5),
           child: Container(
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.fromLTRB(0, 8, 0, 11),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 25, 25, 25),
+              color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -53,10 +52,10 @@ class MyChatTitleCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     attr1.length > 40 ? '${attr1.substring(0, 40)}...' : attr1,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: Theme.of(context).textTheme.bodyText1?.color,
                       fontSize: 23,
                     ),
                   ),
