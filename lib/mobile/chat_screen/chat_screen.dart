@@ -1,6 +1,8 @@
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -249,8 +251,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                             cursorColor: const Color.fromARGB(255, 222, 66, 66),
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 25, 25, 25)),
-                            decoration: const InputDecoration(
-                              hintText: 'Send a message...',
+                            decoration: InputDecoration(
+                              hintText: AppLocalizations.of(context)!.send_msg,
                               hintStyle: TextStyle(
                                   color: Color.fromARGB(255, 146, 146, 146)),
                               border: InputBorder.none,

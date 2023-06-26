@@ -10,13 +10,48 @@
   "following": "Following",
   "followers": "Followers",
   "level": "Level",
+  "edit_warning": "Once the account updates, you will have to log in again",
+  "empty_fields": "Check that the fields are not empty",
+  
+  "@---------------- SNACKBARS ------------------": {
+  },
+  "problem_lvlUp": "Problem leveling up. Log in again to update",
+  "problem_answer": "Problem when checking your answer. Try again later",
+  "problem_permission": "Permission error",
 
+  "@---------------- QR_SCREEN ------------------": {
+  },
+  "scan_OK": "Successfully scanned challenge",
+  "challenge_OK": "CHALLENGE PASSED!",
+  "add_exp": "Congratulations!\n\nYou will be awarded an experience of",
+  "go_back": "Go back",
+  "almost": "WOA, ALMOST! 😔",
+  "answer": "Answer",
+  "wrong": "WRONG",
+  "block_app": "The application will proceed to lock for 5 minutes.\n\nTry again later...",
+  "error": "¡ERROR!",
+  "wrong_QR": "The challenge you have scanned does not match the expected one 😢",
+  
   "@---------------- NAVBAR ------------------": {
   },
   "home": "Home",
   "chat": "Chat",
   "discover": "Discover",
   "profile": "Profile",
+
+  "@---------------- DISCOVER ------------------": {
+  },
+  "filter_box": "Search for a user...",
+
+  "@---------------- CHAT ------------------": {
+  },
+  "send_msg": "Send a message...",
+
+  "@---------------- LABELS ------------------": {
+  },
+  "pass_label": "Write your password",
+  "new_pass_label": "Write your new password",
+  "repeat_pass_label": "Write again your new password",
 
   "@---------------- LOGIN ------------------": {
   },

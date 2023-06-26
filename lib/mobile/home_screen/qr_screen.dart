@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors, duplicate_ignore
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:dio/dio.dart';
 import 'package:ea_frontend/mobile/navbar_mobile.dart';
@@ -108,8 +111,8 @@ class _MyQRState extends State<MyQR> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
-                content: const Text(
-                  'Problem leveling up. Log in again to update.',
+                content: Text(
+                  AppLocalizations.of(context)!.problem_lvlUp,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -132,8 +135,8 @@ class _MyQRState extends State<MyQR> {
                 borderRadius: BorderRadius.circular(10),
               ),
               margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
-              content: const Text(
-                'Error verifying the answer. Try again later',
+              content: Text(
+                AppLocalizations.of(context)!.problem_answer,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -154,8 +157,8 @@ class _MyQRState extends State<MyQR> {
               borderRadius: BorderRadius.circular(10),
             ),
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
-            content: const Text(
-              'Error verifying the answer. Try again later',
+            content: Text(
+              AppLocalizations.of(context)!.problem_answer,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
@@ -304,8 +307,8 @@ class _MyQRState extends State<MyQR> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text(
-                                    'Reto escaneado correctamente',
+                                  Text(
+                                    AppLocalizations.of(context)!.scan_OK,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
@@ -445,8 +448,9 @@ class _MyQRState extends State<MyQR> {
                                     padding: const EdgeInsets.only(top: 15),
                                     child: Row(
                                       children: [
-                                        const Text(
-                                          '¡RETO SUPERADO!',
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .challenge_OK,
                                           style: TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold),
@@ -469,8 +473,15 @@ class _MyQRState extends State<MyQR> {
                                 ],
                               ),
                               const SizedBox(height: 35),
+                              // ignore: prefer_const_constructors
                               Text(
-                                '¡Enhorabuena!\n\nSe te sumarán ${widget.expChallenge} de experiencia a tu cuenta 🎉',
+                                AppLocalizations.of(context)!.add_exp,
+                                style: TextStyle(fontSize: 18),
+                                textAlign: TextAlign.center,
+                              ),
+                              //const SizedBox(width: 7),
+                              Text(
+                                '${widget.expChallenge} 🎉',
                                 style: TextStyle(fontSize: 18),
                                 textAlign: TextAlign.center,
                               ),
@@ -494,7 +505,8 @@ class _MyQRState extends State<MyQR> {
                                 },
                                 icon: const Icon(Icons.arrow_back,
                                     color: Colors.white),
-                                label: const Text('Volver',
+                                label: Text(
+                                    AppLocalizations.of(context)!.go_back,
                                     style: TextStyle(color: Colors.white)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
@@ -523,7 +535,7 @@ class _MyQRState extends State<MyQR> {
                     child: Builder(
                       builder: (context) => Center(
                         child: AlertDialog(
-                          content: const Column(
+                          content: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -533,7 +545,7 @@ class _MyQRState extends State<MyQR> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          '¡UY, CASI! 😔',
+                                          AppLocalizations.of(context)!.almost,
                                           style: TextStyle(
                                               fontSize: 35,
                                               fontWeight: FontWeight.bold),
@@ -550,12 +562,12 @@ class _MyQRState extends State<MyQR> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Respuesta',
+                                      AppLocalizations.of(context)!.answer,
                                       style: TextStyle(fontSize: 18),
                                     ),
                                     SizedBox(width: 7),
                                     Text(
-                                      'INCORRECTA',
+                                      AppLocalizations.of(context)!.wrong,
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -567,7 +579,7 @@ class _MyQRState extends State<MyQR> {
                               ),
                               SizedBox(height: 35),
                               Text(
-                                'La aplicación procederá a bloquearse durante 5 minutos.\n\nVuelve a intentarlo más tarde...',
+                                AppLocalizations.of(context)!.block_app,
                                 style: TextStyle(fontSize: 18),
                                 textAlign: TextAlign.center,
                               ),
@@ -625,8 +637,8 @@ class _MyQRState extends State<MyQR> {
                                   padding: const EdgeInsets.only(top: 15),
                                   child: Row(
                                     children: [
-                                      const Text(
-                                        '¡ERROR!',
+                                      Text(
+                                        AppLocalizations.of(context)!.error,
                                         style: TextStyle(
                                             fontSize: 35,
                                             fontWeight: FontWeight.bold),
@@ -650,8 +662,8 @@ class _MyQRState extends State<MyQR> {
                               ],
                             ),
                             const SizedBox(height: 35),
-                            const Text(
-                              'El reto que has escaneado no coincide con el esperado 😢',
+                            Text(
+                              AppLocalizations.of(context)!.wrong_QR,
                               style: TextStyle(fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
@@ -714,7 +726,10 @@ class _MyQRState extends State<MyQR> {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
+        SnackBar(
+            content: Text(
+          AppLocalizations.of(context)!.problem_permission,
+        )),
       );
     }
   }

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 //import 'dart:html';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
@@ -148,8 +149,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           cursorColor: const Color.fromARGB(255, 222, 66, 66),
                           style: const TextStyle(
                               color: Color.fromARGB(255, 25, 25, 25)),
-                          decoration: const InputDecoration(
-                            hintText: 'Search for a user...',
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.filter_box,
                             hintStyle: TextStyle(
                                 color: Color.fromARGB(255, 146, 146, 146)),
                             border: InputBorder.none,

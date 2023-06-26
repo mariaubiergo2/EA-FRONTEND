@@ -9,6 +9,33 @@
   "following": "Seguidos",
   "followers": "Seguidores",
   "level": "Nivel",
+  "edit_warning": "Una vez haya realizado los cambios, deberá iniciar sesión de nuevo",
+  "empty_fields": "Revisa que los campos no esten vacios",
+  
+  "@---------------- SNACKBARS ------------------": {
+  },
+  "problem_lvlUp": "Problema subiendo de lvl. Log in de nuevo para actualizar",
+  "problem_answer": "Problema al verificar tu respuesta. Prueba mas tarde",
+  "problem_permission": "Error con los permisos",
+
+  "@---------------- QR_SCREEN ------------------": {
+  },
+  "scan_OK": "Reto escaneado correctamente",
+  "challenge_OK": "¡RETO SUPERADO!",
+  "add_exp": "¡Enhorabuena!\n\nSe te sumará una experiencia a tu cuenta de",
+  "go_back": "Volver",
+  "almost": "¡UY, CASI! 😔",
+  "answer": "Respuesta",
+  "wrong": "INCORRECTA",
+  "block_app": "La aplicación procederá a bloquearse durante 5 minutos.\n\nVuelve a intentarlo más tarde...",
+  "error": "¡ERROR!",
+  "wrong_QR": "El reto que has escaneado no coincide con el esperado 😢",
+
+
+
+
+
+
 
   "@---------------- NAVBAR ------------------": {
   },
@@ -16,6 +43,21 @@
   "chat": "Chat",
   "discover": "Descubre",
   "profile": "Perfil",
+
+  "@---------------- DISCOVER ------------------": {
+  },
+  "filter_box": "Busca un usuario...",
+
+  "@---------------- CHAT ------------------": {
+  },
+  "send_msg": "Envia un mensaje...",
+
+  "@---------------- LABELS ------------------": {
+  },
+  "pass_label": "Escribe tu contraseña",
+  "new_pass_label": "Escribe la nueva contraseña",
+  "repeat_pass_label": "Repite la nueva contraseña",
+
 
   "@---------------- LOGIN ------------------": {
   },

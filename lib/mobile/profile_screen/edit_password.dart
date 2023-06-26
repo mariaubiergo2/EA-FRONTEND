@@ -85,7 +85,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                   borderRadius: BorderRadius.circular(10)),
               margin: const EdgeInsets.fromLTRB(20, 0, 20, 22.5),
               content: const Text(
-                'Check that there are no empty fields',
+                'Revisa que los campos no esten vacíos',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -296,7 +296,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: const Color.fromARGB(255, 25, 25, 25),
+          color: Theme.of(context).backgroundColor,
           child: Column(
             children: [
               Row(
@@ -334,7 +334,8 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                     //Previous password textfield
                                     PasswordTextField(
                                         controller: previouspassController,
-                                        labelText: "Escriba su contraseña",
+                                        labelText: AppLocalizations.of(context)!
+                                            .pass_label,
                                         obscureText: false),
 
                                     const SizedBox(height: 10),
@@ -393,7 +394,8 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                                 Radius.circular(20)),
                                           ),
                                           labelText:
-                                              "Escriba la nueva contraseña",
+                                              AppLocalizations.of(context)!
+                                                  .new_pass_label,
                                           labelStyle: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 146, 146, 146),
@@ -447,7 +449,8 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                     //Password textfield
                                     PasswordTextField(
                                         controller: passControllerVerify,
-                                        labelText: "Repita la nueva contraseña",
+                                        labelText: AppLocalizations.of(context)!
+                                            .repeat_pass_label,
                                         obscureText: true),
 
                                     const SizedBox(height: 30),
@@ -460,13 +463,17 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
 
                                     const SizedBox(height: 5),
 
-                                    const Padding(
+                                    Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 20),
                                       child: Text(
-                                        "Una vez haya realizado los cambios, deberá iniciar sesión de nuevo",
+                                        text = AppLocalizations.of(context)!
+                                            .edit_warning,
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
                                           fontSize: 11,
                                         ),
                                       ),

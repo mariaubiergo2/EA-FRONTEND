@@ -9,6 +9,27 @@
   "following": "Seguits",
   "followers": "Seguidors",
   "level": "Nivell",
+  "edit_warning": "Una vegada hagi fet els canvis, haurà d'iniciar sessió de nou",
+  "empty_fields": "Revisa que els camps no estiguin buits",
+  
+  "@---------------- SNACKBARS ------------------": {
+  },
+  "problem_lvlUp": "Problema pujant de lvl. Fes log in de nou per a actualitzar",
+  "problem_answer": "Problema en verificar la teva resposta. Prova mes tarda",
+  "problem_permission": "Error amb els permisos",
+
+  "@---------------- QR_SCREEN ------------------": {
+  },
+  "scan_OK": "Repte escanejat correctament",
+  "challenge_OK": "REPTE SUPERAT!",
+  "add_exp": "Enhorabona!\n\nSe't sumarà una experiència al teu compte de",
+  "go_back": "Tornar",
+  "almost": "UY, GAIREBÉ! 😔",
+  "answer": "Resposta",
+  "wrong": "INCORRECTA",
+  "block_app": "L'aplicació procedirà a bloquejar-se durant 5 minuts.\n\nTorna a intentar-ho més tard...",
+  "error": "ERROR!",
+  "wrong_QR": "El repte que has escanejat no coincideix amb l'esperat 😢", 
 
   "@---------------- NAVBAR ------------------": {
   },
@@ -16,6 +37,22 @@
   "chat": "Xat",
   "discover": "Descobreix",
   "profile": "Perfil",
+  
+  "@---------------- DISCOVER ------------------": {
+  },
+  "filter_box": "Cerca un usuari...",
+
+  "@---------------- CHAT ------------------": {
+  },
+  "send_msg": "Envia un missatge...",
+
+  "@---------------- LABELS ------------------": {
+  },
+  "pass_label": "Escriu la teva contrasenya",
+  "new_pass_label": "Escriu la nova contrasenya",
+  "repeat_pass_label": "Torna a escriure la contrasenya",
+
+
 
   "@---------------- LOGIN ------------------": {
   },
@@ -41,7 +78,7 @@
   "login2": "INICIA SESSIÓ",
   "@--- CHECK PASS ---": {
   },
-  "enterpass": "Si us play, introduïu una contrasenya",
+  "enterpass": "Si us plau, introduïu una contrasenya",
   "shortpass": "La contrasenya és massa curta",
   "charpass": "La contrasenya hauria de tenir almenys 6 caràcters",
   "numpass": "La contrasenya hauria de contenir almenys un número",

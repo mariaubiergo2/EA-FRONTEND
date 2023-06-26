@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:dio/dio.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
 import 'package:ea_frontend/mobile/navbar_mobile.dart';
 import 'package:flutter/material.dart';
@@ -218,7 +220,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: const Color.fromARGB(255, 25, 25, 25),
+          color: Theme.of(context).backgroundColor,
           child: Column(
             children: [
               Row(
@@ -285,13 +287,17 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
 
                                     const SizedBox(height: 5),
 
-                                    const Padding(
+                                    Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 20),
                                       child: Text(
-                                        "Una vez haya realizado los cambios, deberá iniciar sesión de nuevo",
+                                        text = AppLocalizations.of(context)!
+                                            .edit_warning,
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
                                           fontSize: 11,
                                         ),
                                       ),
