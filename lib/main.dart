@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
             color: Color.fromARGB(255, 242, 242, 242),
           ),
           headline2: TextStyle(
-            color: Color.fromARGB(255, 25, 25, 25),
+            color: Color.fromARGB(255, 222, 66, 66),
           ),
           headline3: TextStyle(
             color: Color.fromARGB(255, 242, 242, 242),

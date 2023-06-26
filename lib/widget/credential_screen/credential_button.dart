@@ -13,7 +13,7 @@ class CredentialButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(22),
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
             border: Border.all(
                 color: Theme.of(context).textTheme.headline2?.color ??
