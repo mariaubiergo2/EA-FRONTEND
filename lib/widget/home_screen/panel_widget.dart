@@ -1,5 +1,7 @@
 //import 'dart:js';
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ea_frontend/models/challenge.dart';
@@ -61,6 +63,27 @@ class _PanelWidgetState extends State<PanelWidget> {
       challengeList = challengeList;
     });
   }
+
+//   Future getChallengeInfo(String idchallenge) async {
+//   final prefs = await SharedPreferences.getInstance();
+//   final String token = prefs.getString('token') ?? "";
+//   _idUser = prefs.getString('idUser');
+
+//   String path = 'http://${dotenv.env['API_URL']}/challenge/get/$idchallenge';
+
+//   Completer completer = Completer(); // Crea un objeto Completer
+
+//   Dio().get(path, options: Options(headers: {
+//     "Content-Type": "application/json",
+//     "Authorization": "Bearer $token",
+//   })).then((response) {
+//     completer.complete(response.data); // Completa el objeto con el resultado de la llamada
+//   }).catchError((error) {
+//     completer.completeError(error); // Completa el objeto con el error si ocurre alguno
+//   });
+
+//   return completer.future; // Devuelve el objeto future del Completer
+// }
 
   Future getItinerarios() async {
     final prefs = await SharedPreferences.getInstance();
@@ -159,6 +182,7 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
 //   );
 // }
 
+@override
 Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
   return CustomScrollView(
     // MediaQuery.of(context).size.height - 100,
@@ -177,13 +201,16 @@ Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
                         title: Text(itinerarioList[index].name),
                         content: Column(
                           children: [
-                            // Aquí puedes iterar sobre el array y mostrar su contenido en la pantalla emergente
-                            // for (var item in itinerarioList[index].challenges)
-                            //   Text(item),
-                            for (int i = 0;
-                                i < itinerarioList[index].challenges.length;
-                                i++)
-                              Text(itinerarioList[index].challenges[i])
+                            for (var item in itinerarioList[index].challenges)
+                              // Text(getChallenge(item)),
+                              Text(
+                                item,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            // () {
+                            //   print(item);
+                            //   return Text(getChallengeInfo(item) as String);
+                            // }(),
                           ],
                         ),
                       );
@@ -207,6 +234,32 @@ Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
     ],
   );
 }
+
+getChallengeInfo(String idChallenge) async {
+  final prefs = await SharedPreferences.getInstance();
+  final String token = prefs.getString('token') ?? "";
+
+  String path = 'http://${dotenv.env['API_URL']}/challenge/get/$idChallenge';
+  var response = await Dio().get(path,
+      options: Options(headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      }));
+  return response.data;
+}
+
+// Future getChallengeInfo(String idchallenge) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     final String token = prefs.getString('token') ?? "";
+
+//     String path = 'http://${dotenv.env['API_URL']}/challenge/get/$idchallenge';
+//     var response = await Dio().get(path,
+//         options: Options(headers: {
+//           "Content-Type": "application/json",
+//           "Authorization": "Bearer $token",
+//         }));
+//     return response.data;
+//   }
 
 Widget buildDragHandle(context) => GestureDetector(
       onTap: togglePanel,
