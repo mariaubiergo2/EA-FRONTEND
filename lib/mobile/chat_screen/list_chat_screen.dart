@@ -135,11 +135,12 @@ class _MyChatListState extends State<MyChatList> {
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
-                    //       builder: (context) => ChatWidget(
-                    //             roomNameWidget: challengeList[index].name,
-                    //             socketWidget: socket,
-                    //             roomNamesWidget: roomNames,
-                    //           )),
+                    //     builder: (context) => ChatWidget(
+                    //       roomNameWidget: challengeList[index].name,
+                    //       socketWidget: socket,
+                    //       roomNamesWidget: roomNames,
+                    //     ),
+                    //   ),
                     // );
                   },
                   child: MyChatCard(
