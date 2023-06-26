@@ -236,7 +236,7 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           // Logo
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 47.0),
+                            padding: const EdgeInsets.symmetric(vertical: 41.0),
                             child: Column(
                               children: [
                                 Image.asset(
@@ -369,6 +369,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 55),
                   ],
                 ),
               ),

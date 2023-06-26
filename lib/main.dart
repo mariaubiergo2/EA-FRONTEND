@@ -58,14 +58,17 @@ class MyApp extends StatelessWidget {
           headline1: TextStyle(
             color: Color.fromARGB(255, 217, 217, 217),
           ),
-          // headline3: TextStyle(
-          //   color: Color.fromARGB(255, 25, 25, 25),
-          // ),
+          headline2: TextStyle(
+            color: Color.fromARGB(255, 222, 66, 66),
+          ),
+          headline3: TextStyle(
+            color: Color.fromARGB(255, 226, 226, 226),
+          ),
           headline4: TextStyle(
             color: Color.fromARGB(255, 222, 66, 66),
           ),
           headline5: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: Colors.white,
           ),
           headline6: TextStyle(
             color: Color.fromARGB(255, 222, 66, 66),
@@ -86,14 +89,17 @@ class MyApp extends StatelessWidget {
           headline1: TextStyle(
             color: Color.fromARGB(255, 242, 242, 242),
           ),
-          // headline3: TextStyle(
-          //   color: Color.fromARGB(255, 255, 255, 255),
-          // ),
+          headline2: TextStyle(
+            color: Color.fromARGB(255, 25, 25, 25),
+          ),
+          headline3: TextStyle(
+            color: Color.fromARGB(255, 242, 242, 242),
+          ),
           headline4: TextStyle(
             color: Color.fromARGB(255, 252, 197, 31),
           ),
           headline5: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: Color.fromARGB(255, 25, 25, 25),
           ),
           headline6: TextStyle(
             color: Colors.red,

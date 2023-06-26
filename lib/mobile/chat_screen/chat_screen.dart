@@ -249,7 +249,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                         child: Container(
                           height: 49.5,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).textTheme.headline5?.color,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(100.0),
                           ),
                           child: TextFormField(

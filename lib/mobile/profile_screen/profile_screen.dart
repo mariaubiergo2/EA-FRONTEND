@@ -537,6 +537,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       if (_seeFollowing) {
                                         _seeOptions = false;
                                         _isFollowingHighlighted = true;
+                                        _isFollowersHighlighted = false;
                                         _seeFollowers = false;
                                       } else {
                                         _seeOptions = true;
@@ -561,6 +562,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       if (_seeFollowers) {
                                         _seeOptions = false;
                                         _isFollowersHighlighted = true;
+                                        _isFollowingHighlighted = false;
                                         _seeFollowing = false;
                                       } else {
                                         _seeOptions = true;
