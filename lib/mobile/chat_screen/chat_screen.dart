@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:ea_frontend/models/user.dart';
 import 'package:ea_frontend/widget/loading_circle.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../models/challenge.dart';
@@ -38,7 +41,7 @@ class ChatWidget extends StatefulWidget {
 
 Future<String> getUsername() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  var userName = prefs.getString('username');
+  var userName = prefs.getString('idUser');
   return userName ?? '';
 }
 
@@ -67,6 +70,36 @@ class _ChatWidgetState extends State<ChatWidget> {
     });
   }
 
+  Future<List<String?>> getSenderInfo(ChatMessage message) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+    String idUser = message.senderName;
+    print('Usernnannmeee peticio: $idUser');
+      try {
+        var path = 'http://${dotenv.env['API_URL']}/user/get/$idUser';
+        var response = await Dio().get(
+          path,
+          options: Options(
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token",
+            },
+          ),
+        );
+        print(response.statusCode);
+        if (response.statusCode == 200) { 
+          Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
+          User u = User.fromJson(payload);
+          print('Ha anat bé');
+          return [u.imageURL, u.username];
+        }
+        return [];
+      } catch(e){
+        print('Error');
+        return [];
+      }
+  }
+
   Future<void> loadMessages() async {
     List<ChatMessage> messages = await appState.getMessages(_currentRoom);
     setState(() {
@@ -75,8 +108,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     final prefs = await SharedPreferences.getInstance();
     profilePic = prefs.getString('imageURL') ?? '';
 
-    print("//////////////////////////////////////// URL: ");
-    print(profilePic);
+    
   }
 
   void createRoom(String roomName) {
@@ -114,15 +146,17 @@ class _ChatWidgetState extends State<ChatWidget> {
     return formatted;
   }
 
-  Widget doMessageBubble(ChatMessage message, String username) {
-    print("//////////////////////////////////////// Url sender: ");
-    print(message.photoURL);
+  Widget doMessageBubble(ChatMessage message, String username, String profilePicture, String userVisibleName) {
     final isSender = message.senderName == username;
     final visibility = !isSender;
     final alignment =
         isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final alignment2 =
         isSender ? MainAxisAlignment.end : MainAxisAlignment.start;
+    
+    print("USERNNANANNNNN");
+    print (message.senderName);
+
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 11),
@@ -135,7 +169,7 @@ class _ChatWidgetState extends State<ChatWidget> {
             child: Visibility(
               visible: visibility,
               child: Text(
-                message.senderName,
+                userVisibleName,
                 style: const TextStyle(
                   fontSize: 16.0,
                   color: Color.fromARGB(255, 252, 197, 31),
@@ -155,8 +189,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                   padding: const EdgeInsets.fromLTRB(17.5, 6, 5, 17.5),
                   child: CircleAvatar(
                     radius: 17.5,
-                    backgroundImage: message.photoURL != ""
-                        ? Image.network(message.photoURL).image
+                    backgroundImage: profilePicture != ""
+                        ? Image.network(profilePicture).image
                         : const AssetImage('images/default.png'),
                   ),
                 ),
@@ -223,7 +257,21 @@ class _ChatWidgetState extends State<ChatWidget> {
                             return Text('Error: ${snapshot.error}');
                           }
                           String username = snapshot.data ?? '';
-                          return doMessageBubble(message, username);
+                          return FutureBuilder<Future<List<String?>>>(
+                            future: getSenderInfo(message),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<Future<List<String?>>> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              }
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                            
+                              return doMessageBubble(message, username, u);
+                            },
+                          );
                         },
                       );
                     },
