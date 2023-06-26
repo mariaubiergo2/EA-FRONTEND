@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../models/user.dart';
 import '../../models/user.dart' as user_ea;
 import '../../widget/profile_screen/card_user_widget.dart';
 import 'package:page_transition/page_transition.dart';
@@ -43,6 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _seeOptions = true;
   List<user_ea.User> followingList = [];
   List<user_ea.User> followersList = [];
+  List<dynamic> insigniasList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
   String imageURL = "";
 
@@ -66,6 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getFriendsInfo();
     getFollowing();
     getFollowers();
+    // getInsignias();
     _textStyleFollowers = _normalText;
     _textStyleFollowing = _normalText;
   }
@@ -270,6 +271,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future getInsignias() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token') ?? "";
+    String path = 'http://${dotenv.env['API_URL']}/user/get/insignia/$_idUser';
+    try {
+      var response = await Dio().get(
+        path,
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      var insignias = response.data as List;
+      setState(() {
+        insigniasList = insignias;
+      });
+    } catch (e) {
+      print('Error in insignias: $e');
+    }
+  }
+
   Future getFollowing() async {
     final prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token') ?? "";
@@ -432,6 +456,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Widget insigniasPodium() {
+  if (insigniasList.isEmpty){
+    return SizedBox(
+      height: 10,
+    );
+  } else {
+    return SizedBox(
+        height: 40,
+        width: insigniasList.length*45.0,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: false,
+          itemCount: insigniasList.length,
+          itemBuilder: (BuildContext context, int index) {
+            try {
+              return Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage('images/'+insigniasList[index]+'.png'),
+                  ),
+                  SizedBox(width: 5),
+                ],
+              );
+            } catch (e) {
+              return SizedBox();
+            }
+          },
+        ),
+    );
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -445,12 +502,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          const SizedBox(height: 15),
                           imageProfile(),
-                          const SizedBox(height: 25),
+                          const SizedBox(height: 10),
+                          Center(child: insigniasPodium(),),                          
+                          const SizedBox(height: 15),
                           Text(
                             '$_name $_surname',
                             style: TextStyle(
