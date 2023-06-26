@@ -128,6 +128,37 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   );
 }
 
+// Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
+//   return CustomScrollView(
+//     // MediaQuery.of(context).size.height - 100,
+//     slivers: [
+//       SliverPadding(
+//         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+//         sliver: SliverList(
+//           delegate: SliverChildBuilderDelegate(
+//             (BuildContext context, int index) {
+//               return GestureDetector(
+//                 onTap: () {
+//                   print("jhaoisdhcvoasidhvoashdv");
+//                 },
+//                 child: MyChallengeCard(
+//                   index: index,
+//                   attr1: itinerarioList[index].name,
+//                   attr2: itinerarioList[index].descr,
+//                   attr3: "",
+//                   attr4: "",
+//                   attr5: [],
+//                 ),
+//               );
+//             },
+//             childCount: itinerarioList.length,
+//           ),
+//         ),
+//       ),
+//     ],
+//   );
+// }
+
 Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
   return CustomScrollView(
     // MediaQuery.of(context).size.height - 100,
@@ -137,14 +168,37 @@ Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              // return MyCard(
-              return MyChallengeCard(
+              return GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(itinerarioList[index].name),
+                        content: Column(
+                          children: [
+                            // Aquí puedes iterar sobre el array y mostrar su contenido en la pantalla emergente
+                            // for (var item in itinerarioList[index].challenges)
+                            //   Text(item),
+                            for (int i = 0;
+                                i < itinerarioList[index].challenges.length;
+                                i++)
+                              Text(itinerarioList[index].challenges[i])
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: MyChallengeCard(
                   index: index,
                   attr1: itinerarioList[index].name,
                   attr2: itinerarioList[index].descr,
                   attr3: "",
                   attr4: "",
-                  attr5: []);
+                  attr5: [],
+                ),
+              );
             },
             childCount: itinerarioList.length,
           ),
