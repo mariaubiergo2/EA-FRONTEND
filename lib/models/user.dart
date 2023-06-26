@@ -47,6 +47,15 @@ class User {
         // password: json["password"],
       );
 
+      factory User.fromJson3(Map<String, dynamic> json) => User(
+        idUser: json["_id"],
+        name: json["name"],
+        surname: json["surname"],
+        username: json["username"],
+        // email: json["email"],
+        // password: json["password"],
+      );
+
   get foto => null;
 
   Map<String, dynamic> toJson() => {

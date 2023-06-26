@@ -72,31 +72,19 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   Future<List<String?>> getSenderInfo(ChatMessage message) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString("token");
     String idUser = message.senderName;
-    print('Usernnannmeee peticio: $idUser');
       try {
         var path = 'http://${dotenv.env['API_URL']}/user/get/$idUser';
         var response = await Dio().get(
           path,
-          options: Options(
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $token",
-            },
-          ),
         );
-        print(response.statusCode);
         if (response.statusCode == 200) { 
-          Map<String, dynamic> payload = Jwt.parseJwt(response.toString());
-          User u = User.fromJson(payload);
-          print('Ha anat bé');
+          User u = User.fromJson2(response.data);
           return [u.imageURL, u.username];
         }
-        return [];
+        return ['', ''];
       } catch(e){
-        print('Error');
-        return [];
+        return ['', ''];
       }
   }
 
@@ -153,9 +141,6 @@ class _ChatWidgetState extends State<ChatWidget> {
         isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final alignment2 =
         isSender ? MainAxisAlignment.end : MainAxisAlignment.start;
-    
-    print("USERNNANANNNNN");
-    print (message.senderName);
 
 
     return Padding(
@@ -257,10 +242,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                             return Text('Error: ${snapshot.error}');
                           }
                           String username = snapshot.data ?? '';
-                          return FutureBuilder<Future<List<String?>>>(
+                          return FutureBuilder<List<String?>>(
                             future: getSenderInfo(message),
                             builder: (BuildContext context,
-                                AsyncSnapshot<Future<List<String?>>> snapshot) {
+                                AsyncSnapshot<List<String?>> snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return CircularProgressIndicator();
@@ -268,8 +253,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                               if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
                               }
-                            
-                              return doMessageBubble(message, username, u);
+                              List<String?> u = snapshot.data ?? [];
+                              return doMessageBubble(message, username, u[0] ?? '', u[1] ?? '' );
                             },
                           );
                         },
