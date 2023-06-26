@@ -52,6 +52,8 @@
   "pass_label": "Write your password",
   "new_pass_label": "Write your new password",
   "repeat_pass_label": "Write again your new password",
+  "edit_button": "EDIT",
+
 
   "@---------------- LOGIN ------------------": {
   },

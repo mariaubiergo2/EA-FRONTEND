@@ -52,6 +52,8 @@
   "pass_label": "输入你的密码",
   "new_pass_label": "输入新的密码",
   "repeat_pass_label": "重复新的密码",
+  "edit_button": "编辑",
+
 
 
   "@---------------- LOGIN ------------------": {
