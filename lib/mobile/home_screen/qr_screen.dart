@@ -523,7 +523,7 @@ class _MyQRState extends State<MyQR> {
                     child: Builder(
                       builder: (context) => Center(
                         child: AlertDialog(
-                          content: const Column(
+                          content: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
