@@ -115,7 +115,7 @@ class _MyQRState extends State<MyQR> {
 
             prefs.setInt("level", level);
             prefs.setInt("experience", exp);
-            getNewInsignia(idChallenge);
+            // getNewInsignia(idChallenge);
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getFriendsInfo();
     getFollowing();
     getFollowers();
-    // getInsignias();
+    getInsignias();
     _textStyleFollowers = _normalText;
     _textStyleFollowing = _normalText;
   }
@@ -292,6 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       print('Error in insignias: $e');
     }
+    print("He fet les insignies");
   }
 
   Future getFollowing() async {
@@ -457,14 +458,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget insigniasPodium() {
-  if (insigniasList.isEmpty){
-    return SizedBox(
-      height: 10,
-    );
-  } else {
-    return SizedBox(
+    print("Estic al podium");
+    if (insigniasList.isEmpty) {
+      return SizedBox(
+        height: 10,
+      );
+    } else {
+      return SizedBox(
         height: 40,
-        width: insigniasList.length*45.0,
+        width: insigniasList.length * 45.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: false,
@@ -475,7 +477,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage('images/'+insigniasList[index]+'.png'),
+                    backgroundImage:
+                        AssetImage('images/' + insigniasList[index] + '.png'),
                   ),
                   SizedBox(width: 5),
                 ],
@@ -485,9 +488,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }
           },
         ),
-    );
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -507,7 +510,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           imageProfile(),
                           const SizedBox(height: 10),
-                          Center(child: insigniasPodium(),),                          
+                          Center(
+                            child: insigniasPodium(),
+                          ),
                           const SizedBox(height: 15),
                           Text(
                             '$_name $_surname',
