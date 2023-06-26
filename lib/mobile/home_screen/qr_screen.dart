@@ -295,8 +295,8 @@ class _MyQRState extends State<MyQR> {
                       padding: const EdgeInsets.symmetric(horizontal: 27.5),
                       child: Container(
                         height: 475,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 25, 25, 25),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
@@ -311,7 +311,7 @@ class _MyQRState extends State<MyQR> {
                                     AppLocalizations.of(context)!.scan_OK,
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.white,
+                                      color: Theme.of(context).dividerColor,
                                     ),
                                   ),
                                   const SizedBox(
@@ -351,8 +351,9 @@ class _MyQRState extends State<MyQR> {
                                             bottom: 25),
                                         child: Text(
                                           question,
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).dividerColor,
                                             fontSize: 18,
                                           ),
                                           textAlign: TextAlign.justify,
@@ -363,16 +364,18 @@ class _MyQRState extends State<MyQR> {
                                         minVerticalPadding: 1,
                                         title: Text(
                                           question,
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).dividerColor,
                                             fontSize: 16,
                                           ),
                                           textAlign: TextAlign.start,
                                         ),
                                         leading: Theme(
                                           data: Theme.of(context).copyWith(
-                                            unselectedWidgetColor: Colors
-                                                .white, // Set the unselected (background) color of the radial button
+                                            unselectedWidgetColor:
+                                                Theme.of(context).dividerColor,
+                                            // Set the unselected (background) color of the radial button
                                           ),
                                           child: Radio(
                                             value: index,
@@ -452,37 +455,50 @@ class _MyQRState extends State<MyQR> {
                                           AppLocalizations.of(context)!
                                               .challenge_OK,
                                           style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold),
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Theme.of(context).dividerColor,
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
-                                        const SizedBox(width: 15),
-                                        Container(
-                                          width: 32.5,
-                                          height: 32.5,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.green,
-                                            shape: BoxShape.circle,
+                                        const SizedBox(height: 5),
+                                        Align(
+                                          alignment: Alignment
+                                              .center, // Alinea el icono en el centro verticalmente
+                                          child: Container(
+                                            width: 32.5,
+                                            height: 32.5,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.green,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(Icons.check,
+                                                color: Colors.white,
+                                                size: 22.5),
                                           ),
-                                          child: const Icon(Icons.check,
-                                              color: Colors.white, size: 22.5),
                                         ),
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
+
                               const SizedBox(height: 35),
                               // ignore: prefer_const_constructors
                               Text(
                                 AppLocalizations.of(context)!.add_exp,
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Theme.of(context).dividerColor),
                                 textAlign: TextAlign.center,
                               ),
                               //const SizedBox(width: 7),
                               Text(
                                 '${widget.expChallenge} 🎉',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Theme.of(context).dividerColor),
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(
@@ -519,8 +535,7 @@ class _MyQRState extends State<MyQR> {
                             ),
                             const SizedBox(height: 35),
                           ],
-                          backgroundColor:
-                              const Color.fromARGB(255, 25, 25, 25),
+                          backgroundColor: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 30.0), // Ajusta el valor para controlar el nivel de redondez
@@ -548,7 +563,9 @@ class _MyQRState extends State<MyQR> {
                                           AppLocalizations.of(context)!.almost,
                                           style: TextStyle(
                                               fontSize: 35,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context)
+                                                  .dividerColor),
                                           textAlign: TextAlign.center,
                                         ),
                                       ],
@@ -563,7 +580,10 @@ class _MyQRState extends State<MyQR> {
                                   children: [
                                     Text(
                                       AppLocalizations.of(context)!.answer,
-                                      style: TextStyle(fontSize: 18),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color:
+                                              Theme.of(context).dividerColor),
                                     ),
                                     SizedBox(width: 7),
                                     Text(
@@ -577,15 +597,7 @@ class _MyQRState extends State<MyQR> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 35),
-                              Text(
-                                AppLocalizations.of(context)!.block_app,
-                                style: TextStyle(fontSize: 18),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(
-                                  height:
-                                      5), // Espacio entre el texto y la fila
+                              SizedBox(height: 5),
                             ],
                           ),
                           actions: <Widget>[
@@ -612,8 +624,7 @@ class _MyQRState extends State<MyQR> {
                             ),
                             const SizedBox(height: 35),
                           ],
-                          backgroundColor:
-                              const Color.fromARGB(255, 25, 25, 25),
+                          backgroundColor: Theme.of(context).backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 30.0), // Ajusta el valor para controlar el nivel de redondez
@@ -640,8 +651,10 @@ class _MyQRState extends State<MyQR> {
                                       Text(
                                         AppLocalizations.of(context)!.error,
                                         style: TextStyle(
-                                            fontSize: 35,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 35,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context).dividerColor,
+                                        ),
                                         textAlign: TextAlign.center,
                                       ),
                                       const SizedBox(width: 15),
@@ -664,7 +677,9 @@ class _MyQRState extends State<MyQR> {
                             const SizedBox(height: 35),
                             Text(
                               AppLocalizations.of(context)!.wrong_QR,
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Theme.of(context).dividerColor),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(
@@ -695,7 +710,7 @@ class _MyQRState extends State<MyQR> {
                           ),
                           const SizedBox(height: 35),
                         ],
-                        backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+                        backgroundColor: Theme.of(context).backgroundColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               30.0), // Ajusta el valor para controlar el nivel de redondez

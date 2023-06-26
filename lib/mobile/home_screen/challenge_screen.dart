@@ -96,21 +96,21 @@ class _MyChallengePageState extends State<MyChallengePage> {
       // Muestra la información del desafío
       return Container(
         height: 485,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 25, 25, 25),
+        decoration: BoxDecoration(
+          color: Theme.of(context).textTheme.headline5?.color,
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
           children: <Widget>[
             Container(
               width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: Theme.of(context).textTheme.headline3?.color,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
               ),
               child: Stack(
@@ -125,8 +125,8 @@ class _MyChallengePageState extends State<MyChallengePage> {
                     ),
                   ),
                   Positioned(
-                    top: 0,
-                    right: 0,
+                    top: 5,
+                    right: 5,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(8, 8, 3, 8),
                       child: Row(
@@ -144,7 +144,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
                           ),
                           Text(
                             _expChallenge ?? '',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Color.fromARGB(255, 25, 25, 25),
                               fontSize: 14,
                             ),
@@ -162,9 +162,9 @@ class _MyChallengePageState extends State<MyChallengePage> {
             const SizedBox(height: 32.5),
             Text(
               _name ?? '',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
-                color: Colors.white,
+                color: Theme.of(context).textTheme.bodyText1?.color,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -173,7 +173,8 @@ class _MyChallengePageState extends State<MyChallengePage> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 _descr ?? '',
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1?.color),
                 textAlign: TextAlign.justify,
               ),
             ),

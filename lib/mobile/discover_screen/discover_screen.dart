@@ -131,7 +131,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: const Color.fromARGB(255, 25, 25, 25),
+          color: Theme.of(context).backgroundColor,
           child: Column(
             children: [
               Padding(
@@ -141,7 +141,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 242, 242, 242),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           borderRadius: BorderRadius.circular(100.0),
                         ),
                         child: TextFormField(

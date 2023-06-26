@@ -16,7 +16,9 @@ class CredentialButton extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             border: Border.all(
-                color: const Color.fromARGB(255, 242, 242, 242), width: 3),
+                color: Theme.of(context).textTheme.headline2?.color ??
+                    const Color.fromARGB(255, 242, 242, 242),
+                width: 3),
             color: const Color.fromARGB(255, 222, 66, 66),
             borderRadius: BorderRadius.circular(20)),
         child: Center(

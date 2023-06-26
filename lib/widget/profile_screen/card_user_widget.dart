@@ -148,7 +148,7 @@ class _MyUserCardState extends State<MyUserCard> {
             child: Container(
               height: 70,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 242, 242, 242),
+                color: Color.fromARGB(255, 255, 255, 255),
                 borderRadius: BorderRadius.circular(16),
               ),
               width: MediaQuery.of(context).size.width,

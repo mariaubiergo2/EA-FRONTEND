@@ -63,17 +63,21 @@ class _ChatWidgetState extends State<ChatWidget> {
     roomNames = widget.roomNamesWidget!;
     createRoom(widget.roomNameWidget!);
     loadMessages().then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
   }
 
   Future<void> loadMessages() async {
     List<ChatMessage> messages = await appState.getMessages(_currentRoom);
-    setState(() {
-      _messages = messages;
-    });
+    if (mounted) {
+      setState(() {
+        _messages = messages;
+      });
+    }
     final prefs = await SharedPreferences.getInstance();
     profilePic = prefs.getString('imageURL') ?? '';
 
@@ -82,11 +86,13 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   void createRoom(String roomName) {
-    setState(() {
-      roomNameController.clear(); // clear the input field
-      _currentRoom = roomName;
-      socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
-    });
+    if (mounted) {
+      setState(() {
+        roomNameController.clear(); // clear the input field
+        _currentRoom = roomName;
+        socket!.emit("JOIN_ROOM", getKeyFromValue(roomNames, _currentRoom));
+      });
+    }
   }
 
   String? getKeyFromValue(Map<String, String> map, String targetValue) {
@@ -101,10 +107,12 @@ class _ChatWidgetState extends State<ChatWidget> {
   void _handleSubmitted(ChatMessage chatMessage) {
     if (_currentRoom.isNotEmpty) {
       appState.sendMessage(chatMessage);
-      setState(() {
-        loadMessages();
-        _textController.clear();
-      });
+      if (mounted) {
+        setState(() {
+          loadMessages();
+          _textController.clear();
+        });
+      }
     }
   }
 
@@ -138,10 +146,10 @@ class _ChatWidgetState extends State<ChatWidget> {
               visible: visibility,
               child: Text(
                 message.senderName,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16.0,
-                  color: Color.fromARGB(255, 252, 197, 31),
-                  fontWeight: FontWeight.w400,
+                  color: Theme.of(context).textTheme.headline4?.color,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -243,7 +251,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                         child: Container(
                           height: 49.5,
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 242, 242, 242),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(100.0),
                           ),
                           child: TextFormField(

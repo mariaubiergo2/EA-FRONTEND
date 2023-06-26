@@ -22,7 +22,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp(
     name: "Dev Project",
     options: DefaultFirebaseOptions.currentPlatform,
@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
       title: 'EETAC Go',
       theme: ThemeData.light().copyWith(
         brightness: Brightness.light,
-        backgroundColor: Color.fromARGB(255, 242, 242, 242),
-        dividerColor: Color.fromARGB(255, 25, 25, 25),
+        backgroundColor: Color.fromARGB(255, 235, 235, 235),
+        dividerColor: Color.fromARGB(255, 37, 37, 37),
         buttonTheme: ButtonThemeData(
             buttonColor: Color.fromARGB(255, 222, 66, 66),
             textTheme: ButtonTextTheme.primary),
@@ -57,6 +57,18 @@ class MyApp extends StatelessWidget {
           ),
           headline1: TextStyle(
             color: Color.fromARGB(255, 217, 217, 217),
+          ),
+          headline2: TextStyle(
+            color: Color.fromARGB(255, 222, 66, 66),
+          ),
+          headline3: TextStyle(
+            color: Color.fromARGB(255, 226, 226, 226),
+          ),
+          headline4: TextStyle(
+            color: Color.fromARGB(255, 222, 66, 66),
+          ),
+          headline5: TextStyle(
+            color: Colors.white,
           ),
           headline6: TextStyle(
             color: Color.fromARGB(255, 222, 66, 66),
@@ -76,6 +88,18 @@ class MyApp extends StatelessWidget {
           ),
           headline1: TextStyle(
             color: Color.fromARGB(255, 242, 242, 242),
+          ),
+          headline2: TextStyle(
+            color: Color.fromARGB(255, 25, 25, 25),
+          ),
+          headline3: TextStyle(
+            color: Color.fromARGB(255, 242, 242, 242),
+          ),
+          headline4: TextStyle(
+            color: Color.fromARGB(255, 252, 197, 31),
+          ),
+          headline5: TextStyle(
+            color: Color.fromARGB(255, 25, 25, 25),
           ),
           headline6: TextStyle(
             color: Colors.red,

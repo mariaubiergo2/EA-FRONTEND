@@ -236,7 +236,7 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           // Logo
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 47.0),
+                            padding: const EdgeInsets.symmetric(vertical: 41.0),
                             child: Column(
                               children: [
                                 Image.asset(
@@ -326,7 +326,9 @@ class LoginScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () => AuthService().signInWithGoogle(context),
                           child: Image.asset(
-                            'images/google.png',
+                            Theme.of(context).brightness == Brightness.light
+                                ? 'images/google_2.png'
+                                : 'images/google.png',
                             height: 65,
                           ),
                         ),
@@ -367,6 +369,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 55),
                   ],
                 ),
               ),
