@@ -3,15 +3,12 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 //Screens
 import 'package:ea_frontend/mobile/home_screen/home_screen.dart';
-// import 'package:ea_frontend/pages/chat_screen/chat_screen.dart';
-import 'package:ea_frontend/mobile/chat_screen/hub_screen.dart';
-import 'package:ea_frontend/mobile/chat_screen/forum_screen.dart';
-// import 'package:ea_frontend/pages/chat_screen/prueba_chats.dart';
-import 'package:ea_frontend/mobile/chat_screen/chat_screen.dart';
 import 'package:ea_frontend/mobile/profile_screen/profile_screen.dart';
 import 'package:ea_frontend/mobile/discover_screen/discover_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+
+import 'chat_screen/list_chat_screen.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -27,7 +24,8 @@ final screens = [
   const HomeScreen(),
   //const HubScreen(),
   // Chat(),
-  const MyApp(),
+  // const MyApp(),
+  const MyChatList(),
   const DiscoverScreen(),
   const ProfileScreen(),
 ];
@@ -57,7 +55,7 @@ class _NavBarState extends State<NavBar> {
             gap: 15,
             backgroundColor: Theme.of(context).backgroundColor,
             color: Theme.of(context).dividerColor,
-            activeColor: Color.fromARGB(255, 242, 242, 242),
+            activeColor: const Color.fromARGB(255, 242, 242, 242),
             tabBackgroundColor: const Color.fromARGB(255, 222, 66, 66),
             selectedIndex: _currentIndex,
             onTabChange: (index) => {setState(() => _currentIndex = index)},

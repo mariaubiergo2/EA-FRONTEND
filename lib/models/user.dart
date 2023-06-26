@@ -9,7 +9,7 @@ class User {
       this.imageURL,
       this.email,
       this.password,
-      this.exp,
+      this.experience,
       this.level});
 
   final String idUser;
@@ -19,7 +19,7 @@ class User {
   final String? imageURL;
   final String? email;
   final String? password;
-  final int? exp;
+  final int? experience;
   final int? level;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -28,8 +28,9 @@ class User {
         surname: json["surname"],
         username: json["username"],
         imageURL: json["imageURL"],
-        // exp: json["exp"],
         level: json["level"],
+        experience: json["experience"],
+
         // email: json["email"],
         // password: json["password"],
       );
@@ -41,6 +42,7 @@ class User {
         username: json["username"],
         imageURL: json["imageURL"],
         level: json["level"],
+        experience: json["experience"],
         // email: json["email"],
         // password: json["password"],
       );
@@ -51,7 +53,7 @@ class User {
         "_id": idUser,
         "name": name,
         "surname": surname,
-        "exp": exp,
+        "experience": experience,
         // "username": username,
         // "email": email,
         // "password": password,

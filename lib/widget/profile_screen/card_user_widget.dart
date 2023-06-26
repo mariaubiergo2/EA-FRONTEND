@@ -144,7 +144,6 @@ class _MyUserCardState extends State<MyUserCard> {
           GestureDetector(
             onTap: () {
               // Lógica a ejecutar al hacer clic en el Container
-              print('${widget.attr1.toString()}');
             },
             child: Container(
               height: 70,
