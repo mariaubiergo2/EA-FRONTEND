@@ -332,7 +332,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                 child: Column(
                                   children: [
                                     //Previous password textfield
-                                    CredentialTextField(
+                                    PasswordTextField(
                                         controller: previouspassController,
                                         labelText: "Escriba su contraseña",
                                         obscureText: false),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:page_transition/page_transition.dart';
 
 import '../../models/challenge.dart';
 import '../../widget/chat_screen/chat_card_widget.dart';
@@ -92,17 +93,16 @@ class _MyChatListState extends State<MyChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 10),
-
-            const SizedBox(height: 25), //AQUI IRÁ LOS MODOS
-            Expanded(
-              child: buildChats(context, challengeList),
-            ),
-          ],
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: buildChats(context, challengeList),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -112,7 +112,7 @@ class _MyChatListState extends State<MyChatList> {
     return CustomScrollView(
       slivers: [
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -121,13 +121,26 @@ class _MyChatListState extends State<MyChatList> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => ChatWidget(
-                                roomNameWidget: challengeList[index].name,
-                                socketWidget: socket,
-                                roomNamesWidget: roomNames,
-                              )),
+                      PageTransition(
+                        type: PageTransitionType
+                            .rightToLeft, // Tipo de transición deseada
+                        child: ChatWidget(
+                          roomNameWidget: challengeList[index].name,
+                          socketWidget: socket,
+                          roomNamesWidget: roomNames,
+                        ),
+                      ),
                     );
+
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => ChatWidget(
+                    //             roomNameWidget: challengeList[index].name,
+                    //             socketWidget: socket,
+                    //             roomNamesWidget: roomNames,
+                    //           )),
+                    // );
                   },
                   child: MyChatCard(
                     index: index,

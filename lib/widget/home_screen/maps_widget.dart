@@ -105,15 +105,12 @@ class MapsWidget extends State<MapScreen> {
                   },
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: Container(
-                      color: Colors.black.withOpacity(0.5),
-                      child: MyChallengePage(
-                        selectedChallengeId: selectedChallengeId,
-                        nameChallenge: nameChallenge,
-                        descrChallenge: descrChallenge,
-                        expChallenge: expChallenge.toString(),
-                        questions: questions,
-                      ),
+                    child: MyChallengePage(
+                      selectedChallengeId: selectedChallengeId,
+                      nameChallenge: nameChallenge,
+                      descrChallenge: descrChallenge,
+                      expChallenge: expChallenge.toString(),
+                      questions: questions,
                     ),
                   ),
                 );

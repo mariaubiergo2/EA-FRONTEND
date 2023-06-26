@@ -771,14 +771,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return Stack(children: [
-                                            Container(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                    sigmaX: 4, sigmaY: 4),
-                                                child: Container(),
-                                              ),
+                                            BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaX: 4, sigmaY: 4),
+                                              child: Container(),
                                             ),
                                             AlertDialog(
                                               shape: RoundedRectangleBorder(
