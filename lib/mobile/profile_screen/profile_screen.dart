@@ -64,8 +64,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getFollowing();
     getFollowers();
     getInsignias();
-    _textStyleFollowers = _normalText;
-    _textStyleFollowing = _normalText;
   }
 
   Future clearInfo() async {
@@ -522,8 +520,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 17.5, top: 20),
+                                padding: const EdgeInsets.only(left: 17.5),
                                 child: imageProfile(),
                               ),
                               const SizedBox(width: 17.5),
@@ -532,7 +529,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 13.5, top: 20.0),
+                                        left: 13.5, top: 2),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -567,7 +564,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
 
-                          const SizedBox(height: 12.5),
+                          const SizedBox(height: 20),
 
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -621,12 +618,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 25),
+                              const SizedBox(height: 35),
                               const Divider(
                                 color: Color.fromARGB(255, 52, 52, 52),
                                 height: 0.05,
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 30),
                             ],
                           ),
                           Row(
@@ -683,12 +680,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 30),
                           const Divider(
                             color: Color.fromARGB(255, 52, 52, 52),
                             height: 0.05,
                           ),
-                          const SizedBox(height: 25),
+                          const SizedBox(height: 20),
                           // Following scroll page
                           Visibility(
                             visible: _seeFollowing, // not visible if set false
@@ -751,52 +748,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             visible: _seeOptions,
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          PageTransition(
-                                              type: PageTransitionType
-                                                  .rightToLeft,
-                                              child: const EditInfoScreen()));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: const Icon(
-                                            Icons.menu_book_rounded,
-                                            color: Color.fromARGB(
-                                                255, 222, 66, 66),
-                                            size: 22,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 25),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .information,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                ?.color,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(height: 17.5),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
@@ -844,7 +795,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 17.5),
+                                const SizedBox(height: 20),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -891,12 +842,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 35),
                                 const Divider(
                                   color: Color.fromARGB(255, 52, 52, 52),
                                   height: 0.05,
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 35),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -1113,7 +1064,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 17.5),
+                                const SizedBox(height: 20),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -1163,7 +1114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 23),
+                                const SizedBox(height: 38),
                               ],
                             ),
                           ),
