@@ -63,6 +63,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getFriendsInfo();
     getFollowing();
     getFollowers();
+    getInsignias();
+    _textStyleFollowers = _normalText;
+    _textStyleFollowing = _normalText;
   }
 
   Future clearInfo() async {
@@ -74,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Stack(
       children: [
         CircleAvatar(
-          radius: 55,
+          radius: 40,
           backgroundImage: imageURL != ""
               ? Image.network(imageURL).image
               : AssetImage('images/default.png'),
@@ -95,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 shape: BoxShape.circle,
               ),
               child: const Padding(
-                padding: EdgeInsets.all(9.0),
+                padding: EdgeInsets.all(6),
                 child: Icon(
                   Icons.camera_enhance_rounded,
                   color: Colors.white,
@@ -286,6 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       print('Error in insignias: $e');
     }
+    print("He fet les insignies");
   }
 
   Future getFollowing() async {
@@ -451,13 +455,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget insigniasPodium() {
+    print("Estic al podium");
     if (insigniasList.isEmpty) {
       return SizedBox(
         height: 10,
       );
     } else {
       return SizedBox(
-        height: 40,
+        height: 37.5,
         width: insigniasList.length * 45.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -468,7 +473,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return Row(
                 children: [
                   CircleAvatar(
-                    radius: 20,
+                    radius: 17.5,
                     backgroundImage:
                         AssetImage('images/' + insigniasList[index] + '.png'),
                   ),
@@ -514,54 +519,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          imageProfile(),
-                          const SizedBox(height: 10),
-                          Center(
-                            child: insigniasPodium(),
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 17.5, top: 20),
+                                child: imageProfile(),
+                              ),
+                              const SizedBox(width: 17.5),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 13.5, top: 20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '$_name $_surname',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 23,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          '$_username',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 15),
-                          Text(
-                            '$_name $_surname',
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.color,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 25),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            '$_username',
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.color,
-                                fontSize: 20),
-                          ),
-                          const SizedBox(height: 10),
+
+                          const SizedBox(height: 12.5),
 
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment
-                                    .centerLeft, // Alinea el contenido a la izquierda
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 17.0),
-                                  child: Text(
-                                    '${AppLocalizations.of(context)!.level} $_level',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.color,
-                                      fontSize: 14,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 21.5),
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 17.0),
+                                          child: Text(
+                                            '${AppLocalizations.of(context)!.level} $_level',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1
+                                                  ?.color,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 2.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: insigniasPodium(),
+                                    ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 5),
                               Padding(
@@ -578,7 +621,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 30),
+                              const SizedBox(height: 25),
                               const Divider(
                                 color: Color.fromARGB(255, 52, 52, 52),
                                 height: 0.05,
@@ -645,7 +688,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Color.fromARGB(255, 52, 52, 52),
                             height: 0.05,
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 25),
                           // Following scroll page
                           Visibility(
                             visible: _seeFollowing, // not visible if set false
@@ -731,6 +774,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color: Colors.white,
                                           ),
                                           child: const Icon(
+                                            Icons.menu_book_rounded,
+                                            color: Color.fromARGB(
+                                                255, 222, 66, 66),
+                                            size: 22,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .information,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                ?.color,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 17.5),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child: const EditInfoScreen()));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: const Icon(
                                             Icons.edit_rounded,
                                             color: Color.fromARGB(
                                                 255, 222, 66, 66),
@@ -754,7 +844,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 17.5),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -787,8 +877,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         const SizedBox(width: 25),
                                         Text(
-                                          AppLocalizations.of(context)!
-                                              .information,
+                                          "Change password",
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme
@@ -802,12 +891,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 28.5),
+                                const SizedBox(height: 25),
                                 const Divider(
                                   color: Color.fromARGB(255, 52, 52, 52),
                                   height: 0.05,
                                 ),
-                                const SizedBox(height: 28.5),
+                                const SizedBox(height: 25),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -1024,7 +1113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 17.5),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: GestureDetector(
@@ -1074,7 +1163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 58),
+                                const SizedBox(height: 23),
                               ],
                             ),
                           ),

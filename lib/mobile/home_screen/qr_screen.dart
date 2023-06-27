@@ -15,6 +15,22 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+Future<void> getNewInsignia(String? idChallenge) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? idUser = prefs.getString("idUser");
+  final String token = prefs.getString('token') ?? "";
+  String path =
+      'http://${dotenv.env['API_URL']}/user/challenges/addinsignia/$idUser/$idChallenge';
+  var response = await Dio().get(path,
+      options: Options(headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      }));
+}
 
 class MyQR extends StatefulWidget {
   final String idChallenge;
@@ -102,6 +118,7 @@ class _MyQRState extends State<MyQR> {
 
             prefs.setInt("level", level);
             prefs.setInt("experience", exp);
+            // getNewInsignia(idChallenge);
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -409,7 +426,7 @@ class _MyQRState extends State<MyQR> {
                                     padding:
                                         const EdgeInsets.only(bottom: 32.5),
                                     child: ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         setState(() {
                                           sendAnswer(selectedAnswer,
                                               widget.idChallenge);

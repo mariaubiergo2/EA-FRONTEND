@@ -72,6 +72,7 @@ class _MyChallengePageState extends State<MyChallengePage> {
   Future<void> callApi() async {
     String path =
         'http://${dotenv.env['API_URL']}/challenge/get/${widget.selectedChallengeId}';
+    
     var response = await Dio().get(
       path,
       options: Options(
