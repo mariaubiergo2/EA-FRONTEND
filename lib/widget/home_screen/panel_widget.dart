@@ -1,6 +1,7 @@
 //import 'dart:js';
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:ea_frontend/models/itinerario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ea_frontend/widget/home_screen/card_challenge_widget.dart';
+
+import 'card_challenge_list_widget.dart';
 
 void main() async {
   await dotenv.load();
@@ -151,37 +154,6 @@ Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
   );
 }
 
-// Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
-//   return CustomScrollView(
-//     // MediaQuery.of(context).size.height - 100,
-//     slivers: [
-//       SliverPadding(
-//         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-//         sliver: SliverList(
-//           delegate: SliverChildBuilderDelegate(
-//             (BuildContext context, int index) {
-//               return GestureDetector(
-//                 onTap: () {
-//                   print("jhaoisdhcvoasidhvoashdv");
-//                 },
-//                 child: MyChallengeCard(
-//                   index: index,
-//                   attr1: itinerarioList[index].name,
-//                   attr2: itinerarioList[index].descr,
-//                   attr3: "",
-//                   attr4: "",
-//                   attr5: [],
-//                 ),
-//               );
-//             },
-//             childCount: itinerarioList.length,
-//           ),
-//         ),
-//       ),
-//     ],
-//   );
-// }
-
 @override
 Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
   return CustomScrollView(
@@ -192,6 +164,7 @@ Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
+              // print(jsonDecode(itinerarioList[index].challenges).name);
               return GestureDetector(
                 onTap: () {
                   showDialog(
@@ -202,15 +175,12 @@ Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
                         content: Column(
                           children: [
                             for (var item in itinerarioList[index].challenges)
-                              // Text(getChallenge(item)),
-                              Text(
-                                item,
-                                style: TextStyle(color: Colors.red),
+                              MyChallengeListCard(
+                                index: index,
+                                attr1: item.name,
+                                attr2: item.descr,
+                                attr3: item.exp.toString(),
                               ),
-                            // () {
-                            //   print(item);
-                            //   return Text(getChallengeInfo(item) as String);
-                            // }(),
                           ],
                         ),
                       );

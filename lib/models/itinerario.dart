@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ea_frontend/models/challenge.dart';
+import 'package:ea_frontend/models/challengeextract.dart';
 
 List<Itinerario> subjectFromJson(String str) =>
     List<Itinerario>.from(json.decode(str).map((x) => Itinerario.fromJson(x)));
@@ -19,22 +20,22 @@ class Itinerario {
   final String name;
   final String descr;
   // final List<Challenge> challenges;
-  final List<String> challenges;
+  final List<ChallengeExtract> challenges;
 
   factory Itinerario.fromJson(Map<String, dynamic> json) => Itinerario(
       id: json["_id"],
       name: json["name"],
       descr: json["descr"],
-      // challenges: List<Challenge>.from(
-      //     json["challenges"].map((x) => Challenge.fromJson(x))));
-      challenges:
-          List<String>.from(json["challenges"].map((x) => x.toString())));
+      challenges: List<ChallengeExtract>.from(
+          json["challenges"].map((x) => ChallengeExtract.fromJson(x))));
+  // challenges:
+  //     List<String>.from(json["challenges"].map((x) => x.toString())));
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "descr": descr,
-        // "challenges": List<dynamic>.from(challenges.map((x) => x.toJson())),
-        "challenges": List<dynamic>.from(challenges.map((x) => x)),
+        "challenges": List<dynamic>.from(challenges.map((x) => x.toJson())),
+        // "challenges": List<dynamic>.from(challenges.map((x) => x)),
       };
 }
