@@ -1,16 +1,18 @@
 import 'dart:convert';
 
 class User {
-  User(
-      {required this.idUser,
-      required this.name,
-      required this.surname,
-      required this.username,
-      this.imageURL,
-      this.email,
-      this.password,
-      this.experience,
-      this.level});
+  User({
+    required this.idUser,
+    required this.name,
+    required this.surname,
+    required this.username,
+    this.imageURL,
+    this.email,
+    this.password,
+    this.experience,
+    this.level,
+    this.active,
+  });
 
   final String idUser;
   final String name;
@@ -21,6 +23,7 @@ class User {
   final String? password;
   final int? experience;
   final int? level;
+  final bool? active;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         idUser: json["idUser"],
@@ -30,7 +33,7 @@ class User {
         imageURL: json["imageURL"],
         level: json["level"],
         experience: json["experience"],
-
+        active: json["active"],
         // email: json["email"],
         // password: json["password"],
       );
@@ -43,6 +46,7 @@ class User {
         imageURL: json["imageURL"],
         level: json["level"],
         experience: json["experience"],
+        active: json["active"],
         // email: json["email"],
         // password: json["password"],
       );
