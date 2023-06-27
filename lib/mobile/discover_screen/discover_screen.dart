@@ -100,6 +100,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
       setState(() {
         notFriendsList = users.map((user) => User.fromJson2(user)).toList();
+        notFriendsList =
+            notFriendsList.where((user) => user.active == true).toList();
         filteredUsers = notFriendsList;
       });
     } catch (e) {
@@ -120,7 +122,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     setState(() {
       filteredUsers = notFriendsList.where((user) {
         final lowerCaseKeyword = enteredKeyword.toLowerCase();
-        return user.username.toLowerCase().startsWith(lowerCaseKeyword);
+        return user.username.toLowerCase().startsWith(lowerCaseKeyword) &&
+            user.active == true;
       }).toList();
     });
   }

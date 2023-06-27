@@ -420,7 +420,7 @@ class _MyQRState extends State<MyQR> {
                                     padding:
                                         const EdgeInsets.only(bottom: 32.5),
                                     child: ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         setState(() {
                                           sendAnswer(selectedAnswer,
                                               widget.idChallenge);
