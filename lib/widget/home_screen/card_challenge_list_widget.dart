@@ -1,28 +1,53 @@
-import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyChallengeListCard extends StatelessWidget {
   final int index;
   final String attr1;
   final String attr2;
   final String attr3;
+  
 
   const MyChallengeListCard({
     Key? key,
     required this.index,
-    required this.attr1, //name of the challenge
-    required this.attr2, //description of the challenge
+    required this.attr1, 
+    required this.attr2, 
     required this.attr3,
   }) : super(key: key);
 
+  Future<bool> challengeCompleted() async {
+
+    final prefs = await SharedPreferences.getInstance();
+    var _idUser = prefs.getString('idUser');
+
+    String path = 'http://${dotenv.env['API_URL']}/challenge/get';
+    String requestBody = '{"idUser": "$_idUser", "nameChallenge": "$attr1"}';
+
+    var response = await Dio().get(path, data: requestBody);
+    var completed = response.data;
+    return completed;
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    var color = Color.fromARGB(255, 255, 255, 255);
+    return FutureBuilder<bool>(
+      future: challengeCompleted(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var completed = snapshot.data;
+          if (completed == true) {
+            color = Color.fromARGB(122, 255, 7, 7);
+          }}
+            return Padding(
       padding: const EdgeInsets.fromLTRB(9, 20, 9, 4),
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: color,
           borderRadius: BorderRadius.circular(16), // Agregar bordes redondeados
           border: Border.all(
             color: Color.fromARGB(255, 255, 0, 0),
@@ -33,7 +58,7 @@ class MyChallengeListCard extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: color,
                 borderRadius: BorderRadius.circular(16),
               ),
               width: MediaQuery.of(context).size.width,
@@ -112,5 +137,8 @@ class MyChallengeListCard extends StatelessWidget {
         ),
       ),
     );
+  
+  }
+  );
   }
 }
