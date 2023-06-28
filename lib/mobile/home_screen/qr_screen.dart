@@ -81,6 +81,274 @@ class _MyQRState extends State<MyQR> {
     );
   }
 
+  Widget challengeSolvedFunction() {
+    if (challengeSolved == 1)
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+        child: Builder(
+          builder: (context) => Center(
+            child: AlertDialog(
+              content: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.challenge_OK,
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).dividerColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 5),
+                            Align(
+                              alignment: Alignment
+                                  .center, // Alinea el icono en el centro verticalmente
+                              child: Container(
+                                width: 32.5,
+                                height: 32.5,
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.check,
+                                    color: Colors.white, size: 22.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 35),
+                  // ignore: prefer_const_constructors
+                  Text(
+                    AppLocalizations.of(context)!.add_exp,
+                    style: TextStyle(
+                        fontSize: 18, color: Theme.of(context).dividerColor),
+                    textAlign: TextAlign.center,
+                  ),
+                  //const SizedBox(width: 7),
+                  Text(
+                    '${widget.expChallenge} 🎉',
+                    style: TextStyle(
+                        fontSize: 18, color: Theme.of(context).dividerColor),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 5), // Espacio entre el texto y la fila
+                ],
+              ),
+              actions: <Widget>[
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => const NavBar()),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    label: Text(AppLocalizations.of(context)!.go_back,
+                        style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            20.0), // Ajusta el valor para controlar el nivel de redondez
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 35),
+              ],
+              backgroundColor: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    30.0), // Ajusta el valor para controlar el nivel de redondez
+              ),
+            ),
+          ),
+        ),
+      );
+    else if (challengeSolved == 2)
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+        child: Builder(
+          builder: (context) => Center(
+            child: AlertDialog(
+              content: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.almost,
+                              style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).dividerColor),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 35),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.answer,
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Theme.of(context).dividerColor),
+                        ),
+                        SizedBox(width: 7),
+                        Text(
+                          AppLocalizations.of(context)!.wrong,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 209, 55, 55)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                ],
+              ),
+              actions: <Widget>[
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    label: const Text('Volver',
+                        style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            20.0), // Ajusta el valor para controlar el nivel de redondez
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 35),
+              ],
+              backgroundColor: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    30.0), // Ajusta el valor para controlar el nivel de redondez
+              ),
+            ),
+          ),
+        ),
+      );
+    else if (result != null && result!.code != widget.idChallenge) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+        child: Builder(
+          builder: (context) => Center(
+            child: AlertDialog(
+              content: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.error,
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).dividerColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(width: 15),
+                            Container(
+                              width: 32.5,
+                              height: 32.5,
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 222, 66, 66),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.close,
+                                  color: Colors.white, size: 22.5),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 35),
+                  Text(
+                    AppLocalizations.of(context)!.wrong_QR,
+                    style: TextStyle(
+                        fontSize: 18, color: Theme.of(context).dividerColor),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 5), // Espacio entre el texto y la fila
+                ],
+              ),
+              actions: <Widget>[
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    label: const Text('Volver',
+                        style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 222, 66, 66),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            20.0), // Ajusta el valor para controlar el nivel de redondez
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 35),
+              ],
+              backgroundColor: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    30.0), // Ajusta el valor para controlar el nivel de redondez
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox();
+    }
+    // if (result != null && result!.code != widget.idChallenge)
+  }
+
   Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
@@ -89,6 +357,7 @@ class _MyQRState extends State<MyQR> {
 
     void sendAnswer(String answer, String idChallenge) async {
       try {
+        print('PROVANDO-------------------------');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         _idUser = prefs.getString('idUser');
         _exp = prefs.getInt("experience");
@@ -104,6 +373,7 @@ class _MyQRState extends State<MyQR> {
 
         List<String> dataList = response.data.split("/");
         String answerStatus = dataList[0]; // "ANSWER_OK"
+        print('VANDO-----------------------$answerStatus--');
 
         if (answerStatus == 'ANSWER_OK') {
           challengeSolved = 1;
@@ -118,6 +388,7 @@ class _MyQRState extends State<MyQR> {
 
             prefs.setInt("level", level);
             prefs.setInt("experience", exp);
+            challengeSolvedFunction();
             // getNewInsignia(idChallenge);
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -426,7 +697,7 @@ class _MyQRState extends State<MyQR> {
                                     padding:
                                         const EdgeInsets.only(bottom: 32.5),
                                     child: ElevatedButton(
-                                      onPressed: () async {
+                                      onPressed: () {
                                         setState(() {
                                           sendAnswer(selectedAnswer,
                                               widget.idChallenge);
@@ -447,295 +718,292 @@ class _MyQRState extends State<MyQR> {
                                   ),
                                 ),
                               ),
+                              challengeSolvedFunction(),
                             ],
                           ),
                         ),
                       ),
                     ),
-                  )
-                else if (challengeSolved == 1)
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: Builder(
-                      builder: (context) => Center(
-                        child: AlertDialog(
-                          content: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .challenge_OK,
-                                          style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            color:
-                                                Theme.of(context).dividerColor,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Align(
-                                          alignment: Alignment
-                                              .center, // Alinea el icono en el centro verticalmente
-                                          child: Container(
-                                            width: 32.5,
-                                            height: 32.5,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.green,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: const Icon(Icons.check,
-                                                color: Colors.white,
-                                                size: 22.5),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                  ),
+              challengeSolvedFunction(),
+              // if (challengeSolved == 1)
+              //   BackdropFilter(
+              //     filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              //     child: Builder(
+              //       builder: (context) => Center(
+              //         child: AlertDialog(
+              //           content: Column(
+              //             children: [
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Padding(
+              //                     padding: const EdgeInsets.only(top: 15),
+              //                     child: Row(
+              //                       children: [
+              //                         Text(
+              //                           AppLocalizations.of(context)!
+              //                               .challenge_OK,
+              //                           style: TextStyle(
+              //                             fontSize: 25,
+              //                             fontWeight: FontWeight.bold,
+              //                             color: Theme.of(context).dividerColor,
+              //                           ),
+              //                           textAlign: TextAlign.center,
+              //                         ),
+              //                         const SizedBox(height: 5),
+              //                         Align(
+              //                           alignment: Alignment
+              //                               .center, // Alinea el icono en el centro verticalmente
+              //                           child: Container(
+              //                             width: 32.5,
+              //                             height: 32.5,
+              //                             decoration: const BoxDecoration(
+              //                               color: Colors.green,
+              //                               shape: BoxShape.circle,
+              //                             ),
+              //                             child: const Icon(Icons.check,
+              //                                 color: Colors.white, size: 22.5),
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
 
-                              const SizedBox(height: 35),
-                              // ignore: prefer_const_constructors
-                              Text(
-                                AppLocalizations.of(context)!.add_exp,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Theme.of(context).dividerColor),
-                                textAlign: TextAlign.center,
-                              ),
-                              //const SizedBox(width: 7),
-                              Text(
-                                '${widget.expChallenge} 🎉',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Theme.of(context).dividerColor),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                  height:
-                                      5), // Espacio entre el texto y la fila
-                            ],
-                          ),
-                          actions: <Widget>[
-                            Align(
-                              alignment: Alignment.center,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            const NavBar()),
-                                    (Route<dynamic> route) => false,
-                                  );
-                                },
-                                icon: const Icon(Icons.arrow_back,
-                                    color: Colors.white),
-                                label: Text(
-                                    AppLocalizations.of(context)!.go_back,
-                                    style: TextStyle(color: Colors.white)),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        20.0), // Ajusta el valor para controlar el nivel de redondez
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 35),
-                          ],
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30.0), // Ajusta el valor para controlar el nivel de redondez
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                else if (challengeSolved == 2)
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: Builder(
-                      builder: (context) => Center(
-                        child: AlertDialog(
-                          content: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 15),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!.almost,
-                                          style: TextStyle(
-                                              fontSize: 35,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .dividerColor),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 35),
-                              Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.answer,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color:
-                                              Theme.of(context).dividerColor),
-                                    ),
-                                    SizedBox(width: 7),
-                                    Text(
-                                      AppLocalizations.of(context)!.wrong,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color:
-                                              Color.fromARGB(255, 209, 55, 55)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                            ],
-                          ),
-                          actions: <Widget>[
-                            Align(
-                              alignment: Alignment.center,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                },
-                                icon: const Icon(Icons.arrow_back,
-                                    color: Colors.white),
-                                label: const Text('Volver',
-                                    style: TextStyle(color: Colors.white)),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 222, 66, 66),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        20.0), // Ajusta el valor para controlar el nivel de redondez
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 35),
-                          ],
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30.0), // Ajusta el valor para controlar el nivel de redondez
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              if (result != null && result!.code != widget.idChallenge)
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                  child: Builder(
-                    builder: (context) => Center(
-                      child: AlertDialog(
-                        content: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!.error,
-                                        style: TextStyle(
-                                          fontSize: 35,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context).dividerColor,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(width: 15),
-                                      Container(
-                                        width: 32.5,
-                                        height: 32.5,
-                                        decoration: const BoxDecoration(
-                                          color:
-                                              Color.fromARGB(255, 222, 66, 66),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(Icons.close,
-                                            color: Colors.white, size: 22.5),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 35),
-                            Text(
-                              AppLocalizations.of(context)!.wrong_QR,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Theme.of(context).dividerColor),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                                height: 5), // Espacio entre el texto y la fila
-                          ],
-                        ),
-                        actions: <Widget>[
-                          Align(
-                            alignment: Alignment.center,
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
-                              },
-                              icon: const Icon(Icons.arrow_back,
-                                  color: Colors.white),
-                              label: const Text('Volver',
-                                  style: TextStyle(color: Colors.white)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 222, 66, 66),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      20.0), // Ajusta el valor para controlar el nivel de redondez
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 35),
-                        ],
-                        backgroundColor: Theme.of(context).backgroundColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Ajusta el valor para controlar el nivel de redondez
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              //               const SizedBox(height: 35),
+              //               // ignore: prefer_const_constructors
+              //               Text(
+              //                 AppLocalizations.of(context)!.add_exp,
+              //                 style: TextStyle(
+              //                     fontSize: 18,
+              //                     color: Theme.of(context).dividerColor),
+              //                 textAlign: TextAlign.center,
+              //               ),
+              //               //const SizedBox(width: 7),
+              //               Text(
+              //                 '${widget.expChallenge} 🎉',
+              //                 style: TextStyle(
+              //                     fontSize: 18,
+              //                     color: Theme.of(context).dividerColor),
+              //                 textAlign: TextAlign.center,
+              //               ),
+              //               const SizedBox(
+              //                   height: 5), // Espacio entre el texto y la fila
+              //             ],
+              //           ),
+              //           actions: <Widget>[
+              //             Align(
+              //               alignment: Alignment.center,
+              //               child: ElevatedButton.icon(
+              //                 onPressed: () {
+              //                   Navigator.pushAndRemoveUntil(
+              //                     context,
+              //                     MaterialPageRoute(
+              //                         builder: (BuildContext context) =>
+              //                             const NavBar()),
+              //                     (Route<dynamic> route) => false,
+              //                   );
+              //                 },
+              //                 icon: const Icon(Icons.arrow_back,
+              //                     color: Colors.white),
+              //                 label: Text(AppLocalizations.of(context)!.go_back,
+              //                     style: TextStyle(color: Colors.white)),
+              //                 style: ElevatedButton.styleFrom(
+              //                   backgroundColor: Colors.green,
+              //                   shape: RoundedRectangleBorder(
+              //                     borderRadius: BorderRadius.circular(
+              //                         20.0), // Ajusta el valor para controlar el nivel de redondez
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //             const SizedBox(height: 35),
+              //           ],
+              //           backgroundColor: Theme.of(context).backgroundColor,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(
+              //                 30.0), // Ajusta el valor para controlar el nivel de redondez
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // if (challengeSolved == 2)
+              //   BackdropFilter(
+              //     filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              //     child: Builder(
+              //       builder: (context) => Center(
+              //         child: AlertDialog(
+              //           content: Column(
+              //             children: [
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Padding(
+              //                     padding: EdgeInsets.only(top: 15),
+              //                     child: Row(
+              //                       children: [
+              //                         Text(
+              //                           AppLocalizations.of(context)!.almost,
+              //                           style: TextStyle(
+              //                               fontSize: 35,
+              //                               fontWeight: FontWeight.bold,
+              //                               color:
+              //                                   Theme.of(context).dividerColor),
+              //                           textAlign: TextAlign.center,
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //               SizedBox(height: 35),
+              //               Center(
+              //                 child: Row(
+              //                   mainAxisAlignment: MainAxisAlignment.center,
+              //                   children: [
+              //                     Text(
+              //                       AppLocalizations.of(context)!.answer,
+              //                       style: TextStyle(
+              //                           fontSize: 18,
+              //                           color: Theme.of(context).dividerColor),
+              //                     ),
+              //                     SizedBox(width: 7),
+              //                     Text(
+              //                       AppLocalizations.of(context)!.wrong,
+              //                       style: TextStyle(
+              //                           fontSize: 18,
+              //                           fontWeight: FontWeight.bold,
+              //                           color:
+              //                               Color.fromARGB(255, 209, 55, 55)),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //               SizedBox(height: 5),
+              //             ],
+              //           ),
+              //           actions: <Widget>[
+              //             Align(
+              //               alignment: Alignment.center,
+              //               child: ElevatedButton.icon(
+              //                 onPressed: () {
+              //                   Navigator.of(context, rootNavigator: true)
+              //                       .pop();
+              //                 },
+              //                 icon: const Icon(Icons.arrow_back,
+              //                     color: Colors.white),
+              //                 label: const Text('Volver',
+              //                     style: TextStyle(color: Colors.white)),
+              //                 style: ElevatedButton.styleFrom(
+              //                   backgroundColor:
+              //                       const Color.fromARGB(255, 222, 66, 66),
+              //                   shape: RoundedRectangleBorder(
+              //                     borderRadius: BorderRadius.circular(
+              //                         20.0), // Ajusta el valor para controlar el nivel de redondez
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //             const SizedBox(height: 35),
+              //           ],
+              //           backgroundColor: Theme.of(context).backgroundColor,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(
+              //                 30.0), // Ajusta el valor para controlar el nivel de redondez
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // if (result != null && result!.code != widget.idChallenge)
+              //   BackdropFilter(
+              //     filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              //     child: Builder(
+              //       builder: (context) => Center(
+              //         child: AlertDialog(
+              //           content: Column(
+              //             children: [
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Padding(
+              //                     padding: const EdgeInsets.only(top: 15),
+              //                     child: Row(
+              //                       children: [
+              //                         Text(
+              //                           AppLocalizations.of(context)!.error,
+              //                           style: TextStyle(
+              //                             fontSize: 35,
+              //                             fontWeight: FontWeight.bold,
+              //                             color: Theme.of(context).dividerColor,
+              //                           ),
+              //                           textAlign: TextAlign.center,
+              //                         ),
+              //                         const SizedBox(width: 15),
+              //                         Container(
+              //                           width: 32.5,
+              //                           height: 32.5,
+              //                           decoration: const BoxDecoration(
+              //                             color:
+              //                                 Color.fromARGB(255, 222, 66, 66),
+              //                             shape: BoxShape.circle,
+              //                           ),
+              //                           child: const Icon(Icons.close,
+              //                               color: Colors.white, size: 22.5),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //               const SizedBox(height: 35),
+              //               Text(
+              //                 AppLocalizations.of(context)!.wrong_QR,
+              //                 style: TextStyle(
+              //                     fontSize: 18,
+              //                     color: Theme.of(context).dividerColor),
+              //                 textAlign: TextAlign.center,
+              //               ),
+              //               const SizedBox(
+              //                   height: 5), // Espacio entre el texto y la fila
+              //             ],
+              //           ),
+              //           actions: <Widget>[
+              //             Align(
+              //               alignment: Alignment.center,
+              //               child: ElevatedButton.icon(
+              //                 onPressed: () {
+              //                   Navigator.of(context, rootNavigator: true)
+              //                       .pop();
+              //                 },
+              //                 icon: const Icon(Icons.arrow_back,
+              //                     color: Colors.white),
+              //                 label: const Text('Volver',
+              //                     style: TextStyle(color: Colors.white)),
+              //                 style: ElevatedButton.styleFrom(
+              //                   backgroundColor:
+              //                       const Color.fromARGB(255, 222, 66, 66),
+              //                   shape: RoundedRectangleBorder(
+              //                     borderRadius: BorderRadius.circular(
+              //                         20.0), // Ajusta el valor para controlar el nivel de redondez
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //             const SizedBox(height: 35),
+              //           ],
+              //           backgroundColor: Theme.of(context).backgroundColor,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(
+              //                 30.0), // Ajusta el valor para controlar el nivel de redondez
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
             ],
           ),
         ],

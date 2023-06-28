@@ -454,6 +454,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget insigniasPodium() {
     print("Estic al podium");
+
     if (insigniasList.isEmpty) {
       return SizedBox(
         height: 10,
@@ -828,7 +829,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         const SizedBox(width: 25),
                                         Text(
-                                          "Change password",
+                                          AppLocalizations.of(context)!
+                                              .information,
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme

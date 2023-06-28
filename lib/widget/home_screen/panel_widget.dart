@@ -127,33 +127,6 @@ class _PanelWidgetState extends State<PanelWidget> {
   }
 }
 
-Widget buildChallenges12(BuildContext context, List<Challenge> challengeList) {
-  return CustomScrollView(
-    // MediaQuery.of(context).size.height - 100,
-    slivers: [
-      SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              // return MyCard(
-              return MyChallengeCard(
-                index: index,
-                attr1: challengeList[index].name,
-                attr2: challengeList[index].descr,
-                attr3: challengeList[index].exp.toString(),
-                attr4: challengeList[index].id.toString(),
-                attr5: challengeList[index].questions,
-              );
-            },
-            childCount: challengeList.length,
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
 @override
 Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
   return CustomScrollView(
@@ -171,6 +144,9 @@ Widget buildItinerario(BuildContext context, List<Itinerario> itinerarioList) {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                         title: Text(itinerarioList[index].name),
                         content: Column(
                           children: [
