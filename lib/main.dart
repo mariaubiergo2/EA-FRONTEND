@@ -19,6 +19,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
 import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -107,7 +108,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      //home: SplashScreen(),
+      home: SplashScreen(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
