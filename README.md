@@ -1,11 +1,11 @@
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/2b9292be-2ae1-4d6d-8628-62c4fddc61ee" width="1000">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/2739037a-a7d2-4c8b-a378-bf5e5a93d19c" width="1000">
 </p>
 
 <p align="justify"> This is the official GitHub for the EETAC Go mobile app. An app designed for CBL students to discover, explore and enjoy the campus 😊 </p>
 
-App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/feba34bc-f465-40ab-a9f6-fc96e33f1be5" width="12.5">
+App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/a0f19575-1154-479a-a4af-d09f41165b36" width="12.5">
 
 <br>
 
@@ -50,7 +50,7 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/d07661ec-fd83-4555-b8d5-ecef16a8dd6d" width="750">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/d43233c1-b404-485e-8bb3-fd7d1d38398d" width="750">
 </p>
 
 <br>
@@ -68,9 +68,9 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/af52b0d4-8e71-4901-8161-5eb3a46bab19" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/f8790239-f585-4079-b4b9-fcf4b2587a9c" width="250">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/63a1a094-0316-411c-8ed6-ad2a6e24f432" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/bc3aca96-e082-4ec0-92d3-7ba043e6770a" width="250">
 </p>
 
 <br>
@@ -88,7 +88,7 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/c30cc73b-b18b-46db-8af8-f2bf359930a8" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/3f663bda-a6e7-43e2-9bdb-670d75d35fed" width="250">
 </p>
 
 <br>
@@ -98,11 +98,11 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/d28ca00f-f129-4c8a-bf60-d77de0143ce5" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/8c676a8d-940a-4bf6-907a-160e9b2ae1e0" width="250">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/45dc35e5-9169-4ed6-ad8d-c76550334903" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/93a58829-3269-4141-9c9c-d4e8a99d1744" width="250">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/19a0de3e-27c3-4126-83d4-84d4bf318019" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/40d4cc41-1fa0-4053-ada0-3451076261d6" width="250">
 </p>
 
 <br>
@@ -112,9 +112,9 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/f6e421cd-a192-4326-9c80-2d28de71e2b3" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/a43e9ff2-4871-4cde-824c-9b715fa555ed" width="250">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/1b9af4c5-1747-4328-a3ab-ea74beb52775" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/99120607-f569-4d5f-9d8e-cfc1b641b764" width="250">
 </p>
 
 <br>
@@ -124,7 +124,7 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/a790cabd-7bbf-473a-b8c5-65176c7afde2" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/df11b564-0251-4dc3-8a19-1d4ca79969f6" width="250">
 </p>
 
 <br>
@@ -134,7 +134,7 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/bf4a9237-0d60-4ee0-a3cd-6c1845f8320d" width="250">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/3f3d5ff0-1c6c-4d9a-95f3-1073fe1d88c5" width="250">
 </p>
 
 <br>
@@ -146,7 +146,7 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 <br>
 
 <p align="center">
-    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/e68bd40a-365c-4dfa-be20-bde4d96be22b" width="500">
+    <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/7f999255-7281-4496-8861-66fd8009ccd8" width="500">
 </p>
 
 <br>
@@ -155,12 +155,12 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
 
 <br>
 
-<a href="https://github.com/PabloGarciaCaldero" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/bbe8a267-b69a-4f8a-8ca9-2431a56f1fce" width="50" hspace="5"></a>
+<a href="https://github.com/PabloGarciaCaldero" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/770e28c7-b387-46e5-b369-942bf9347a31" width="50" hspace="5"></a>
   &nbsp;&nbsp;
-<a href="https://github.com/mariaubiergo2" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/9664c0fc-ced0-4b0e-a3c4-d6dbf33ec20f" width="50" hspace="5"></a>
+<a href="https://github.com/mariaubiergo2" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/9142d5c6-c0ee-4251-9b78-729e9f7bf54a" width="50" hspace="5"></a>
   &nbsp;&nbsp;
-<a href="https://github.com/marioRelajao" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/573c7f3f-b49c-4aef-8a9a-2085ef543801" width="50" hspace="5"></a>
+<a href="https://github.com/marioRelajao" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/30f4d96c-76ea-4184-9458-cf785ab83149" width="50" hspace="5"></a>
   &nbsp;&nbsp;
-<a href="https://github.com/MarcelMarco" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/62e2c641-d505-490c-8827-17462fb2b010" width="50" hspace="5"></a>
+<a href="https://github.com/MarcelMarco" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/ba8b7c47-2116-4766-a81e-4b1b45ff6297" width="50" hspace="5"></a>
   &nbsp;&nbsp;
-<a href="https://github.com/ad-qu" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/1a79cb1a-8970-47fa-b633-4c0f84c58756" width="50"></a>
+<a href="https://github.com/ad-qu" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/55ebbae7-8e89-41c9-8122-9e2d78ea7bed" width="50"></a>
