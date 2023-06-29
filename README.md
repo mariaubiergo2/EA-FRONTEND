@@ -3,9 +3,9 @@
     <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/2b9292be-2ae1-4d6d-8628-62c4fddc61ee" width="1000">
 </p>
 
-<p align="center"> This is the official GitHub for the EETAC Go mobile app. An app designed for CBL students to discover, explore and enjoy the campus 😊 </p>
+<p align="justify"> This is the official GitHub for the EETAC Go mobile app. An app designed for CBL students to discover, explore and enjoy the campus 😊 </p>
 
-&nbsp; &nbsp; &nbsp; App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/feba34bc-f465-40ab-a9f6-fc96e33f1be5" width="12.5">
+App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/feba34bc-f465-40ab-a9f6-fc96e33f1be5" width="12.5">
 
 <br>
 
