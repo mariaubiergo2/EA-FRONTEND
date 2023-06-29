@@ -1,4 +1,3 @@
-
 <p align="center">
     <img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/2739037a-a7d2-4c8b-a378-bf5e5a93d19c" width="1000">
 </p>
