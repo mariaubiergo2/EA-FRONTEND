@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:ea_frontend/models/user.dart';
-
 List<ChallengeExtract> subjectFromJson(String str) =>
     List<ChallengeExtract>.from(
         json.decode(str).map((x) => ChallengeExtract.fromJson(x)));

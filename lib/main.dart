@@ -1,25 +1,19 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
-import 'package:ea_frontend/mobile/profile_screen/edit_info.dart';
-import 'package:ea_frontend/mobile/profile_screen/edit_password.dart';
 import 'package:flutter/material.dart';
-import 'mobile/chat_screen/chat_screen.dart';
+import 'screens/chat_screen/chat_screen.dart';
 import 'services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:ea_frontend/mobile/navbar_mobile.dart';
-import 'package:ea_frontend/web/navbar_web_logged.dart';
-import 'package:ea_frontend/web/navbar_web_default.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:ea_frontend/mobile/home_screen/qr_screen.dart';
-import 'package:ea_frontend/web/profile_screen/profile_web.dart';
-import 'package:ea_frontend/web/credential_screen/login_web.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ea_frontend/mobile/credential_screen/login_screen.dart';
-import 'package:ea_frontend/mobile/credential_screen/register_screen.dart';
+import 'package:ea_frontend/screens/navbar_mobile.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:ea_frontend/mobile/credential_screen/splash_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ea_frontend/screens/profile_screen/edit_info.dart';
+import 'package:ea_frontend/screens/profile_screen/edit_password.dart';
+import 'package:ea_frontend/screens/credential_screen/login_screen.dart';
+import 'package:ea_frontend/screens/credential_screen/register_screen.dart';
+import 'package:ea_frontend/screens/credential_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,14 +23,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final fcmToken = await FirebaseMessaging.instance.getToken();
-  print(fcmToken);
+  debugPrint(fcmToken);
   await dotenv.load();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  //supportedLocales: L10n.all,
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -123,8 +116,6 @@ class MyApp extends StatelessWidget {
       ],
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
-          //----------------------- M O B I L E -----------------------//
-
           case '/register_screen':
             return MaterialPageRoute(
                 builder: (context) => const RegisterScreen());
@@ -142,28 +133,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (context) => const EditPasswordScreen());
 
-          //-------------------------- W E B --------------------------//
-
-          case '/navbar_web_logged':
-            return MaterialPageRoute(
-                builder: (context) => const NavBarWebLogged());
-
-          case '/login_web':
-            return MaterialPageRoute(
-                builder: (context) => const LoginScreenWeb());
-
-          case '/profile_web':
-            return MaterialPageRoute(
-                builder: (context) => const ProfileScreenWeb());
-
           default:
-            if (kIsWeb) {
-              return MaterialPageRoute(
-                  builder: (context) => const NavBarWebDefault());
-            } else {
-              return MaterialPageRoute(
-                  builder: (context) => const LoginScreen());
-            }
+            return MaterialPageRoute(builder: (context) => const LoginScreen());
         }
       },
     );

@@ -1,16 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-import 'package:ea_frontend/mobile/navbar_mobile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import '../models/user.dart' as user_ea;
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decode/jwt_decode.dart';

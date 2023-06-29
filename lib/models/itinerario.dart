@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:ea_frontend/models/challenge.dart';
 import 'package:ea_frontend/models/challengeextract.dart';
 
 List<Itinerario> subjectFromJson(String str) =>
