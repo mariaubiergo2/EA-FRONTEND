@@ -158,7 +158,7 @@ App built with **Flutter** &nbsp; <img src="https://github.com/mariaubiergo2/EA-
   &nbsp;&nbsp;
 <a href="https://github.com/mariaubiergo2" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/9142d5c6-c0ee-4251-9b78-729e9f7bf54a" width="50" hspace="5"></a>
   &nbsp;&nbsp;
-<a href="https://github.com/marioRelajao" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/30f4d96c-76ea-4184-9458-cf785ab83149" width="50" hspace="5"></a>
+<a href="https://github.com/marioRelajao" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/9346f64c-72fd-4ade-8b73-21c75d93b7c0" width="50" hspace="5"></a>
   &nbsp;&nbsp;
 <a href="https://github.com/MarcelMarco" target="_blank"><img src="https://github.com/mariaubiergo2/EA-FRONTEND/assets/50048787/ba8b7c47-2116-4766-a81e-4b1b45ff6297" width="50" hspace="5"></a>
   &nbsp;&nbsp;
