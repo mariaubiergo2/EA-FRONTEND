@@ -1,0 +1,89 @@
+
+{
+ "@---------------- PROFILE ------------------": {
+  },
+  "@@locale": "en",
+  "information": "History",
+  "edit_account": "Edit account",
+  "delete_account": "Delete account",
+  "log_out": "Log out",
+  "following": "Following",
+  "followers": "Followers",
+  "level": "Level",
+  "edit_warning": "Once the account updates, you will have to log in again",
+  "empty_fields": "Check that the fields are not empty",
+  
+  "@---------------- SNACKBARS ------------------": {
+  },
+  "problem_lvlUp": "Problem leveling up. Log in again to update",
+  "problem_answer": "Problem when checking your answer. Try again later",
+  "problem_permission": "Permission error",
+
+  "@---------------- QR_SCREEN ------------------": {
+  },
+  "scan_OK": "Successfully scanned challenge",
+  "challenge_OK": "CHALLENGE PASSED!",
+  "add_exp": "Congratulations!\n\nYou will be awarded an experience of",
+  "go_back": "Go back",
+  "almost": "WOA, ALMOST! 😔",
+  "answer": "Answer",
+  "wrong": "WRONG",
+  "block_app": "The application will proceed to lock for 5 minutes.\n\nTry again later...",
+  "error": "¡ERROR!",
+  "wrong_QR": "The challenge you have scanned does not match the expected one 😢",
+  
+  "@---------------- NAVBAR ------------------": {
+  },
+  "home": "Home",
+  "chat": "Chat",
+  "discover": "Discover",
+  "profile": "Profile",
+
+  "@---------------- DISCOVER ------------------": {
+  },
+  "filter_box": "Search for a user...",
+
+  "@---------------- CHAT ------------------": {
+  },
+  "send_msg": "Send a message...",
+
+  "@---------------- LABELS ------------------": {
+  },
+  "pass_label": "Write your password",
+  "new_pass_label": "Write your new password",
+  "repeat_pass_label": "Write again your new password",
+  "edit_button": "EDIT",
+
+
+  "@---------------- LOGIN ------------------": {
+  },
+  "email": "Email Address",
+  "pass": "Password",
+  "login": "LOG IN",
+  "continuewith": "Or continue with",
+  "dont_have_account": "Don't have an account?",
+  "signin": "Sign Up",
+
+  "@---------------- REGISTER ------------------": {
+  },
+  "name": "Name",
+  "surname": "Surname",
+  "username": "Username",
+  "email2": "Email Address",
+  "pass2": "Password",
+  "pass22": "Repeat your password",
+  "i_accept": "I accept the ",
+  "terms": "Terms of use and Privacy Policy",
+  "signup": "SIGN UP",
+  "have_account": "Already have an account?",
+  "login2": "Log In",
+  "@--- CHECK PASS ---": {
+  },
+  "enterpass": "Please enter a password",
+  "shortpass": "Your password is too short",
+  "charpass": "Your password should have at least 6 characters",
+  "numpass": "Your password should contain at least one number",
+  "greatpass": "Your password is great!",
+  "gigaterms": "Acceptance of Terms: By accessing and using this app/service, you agree to be bound by these Terms of Use.\n\nUser Responsibilities: You are responsible for the proper use of the app/service and complying with any applicable laws and regulations.\n\nIntellectual Property: All content and materials provided by the app/service are protected by intellectual property laws and remain the property of the app/service owner.\n\nLimitation of Liability: The app/service owner is not liable for any damages or losses incurred while using the app/service.\n\nTermination: The app/service owner reserves the right to terminate or suspend your access to the app/service at any time without prior notice.\n\nInformation Collection: We may collect personal information, such as name and email address, for the purpose of providing and improving the app/service.\n\nInformation Usage: We use the collected information to personalize your experience, send updates, and analyze app/service usage patterns.\n\nData Sharing: We do not sell or disclose your personal information to third parties, except in cases required by law or with your consent.\n\nData Security: We implement reasonable security measures to protect your personal information from unauthorized access, alteration, or disclosure.\n\nCookies: The app/service may use cookies or similar technologies to enhance user experience and collect usage data.\n\nThird-Party Links: The app/service may contain links to third-party websites or services, which have their own privacy practices. We are not responsible for the privacy practices or content of these third parties.\n\nUpdates to Privacy Policy: We may update the Privacy Policy from time to time, and it is your responsibility to review it periodically.",
+  "close": "Close"
+}
